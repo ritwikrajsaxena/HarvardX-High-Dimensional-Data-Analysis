@@ -1,0 +1,115 @@
+
+RAFAEL IRIZARRY: In this module, we're going to start showing you
+how you can model data that has batch effects in it.
+And that'll eventually take us to solutions
+to estimating differences of interest in data that has batches.
+So to do that, we're going to construct a data set.
+This is real data.
+But it was constructed in a somewhat artificial way.
+We took the data set from the previous module, where
+we had the two ethnicities.
+We stuck to one ethnicity, but took two batches.
+June, 2005, October, 2005.
+And then for each one, we picked males and females in a way
+that they were confounded with date, but not completely confounded with date.
+So you can see that on the table on the left.
+So June had more males.
+October had more females.
+This is something we don't recommend doing
+if you're designing an experiment.
+But sometimes you just get data this way and you have to deal with it.
+So you can see an image of a subset of the genes.
+So the first 12 are the females.
+The second 12 are the males.
+The first few genes are genes from the Y chromosome, where
+we know that there are some differences between males and females.
+So there is some real signal there.
+And you can already kind of see it.
+You see some red as high expressed versus
+blue, low expressed, males versus females.
+Then we took a set, shown down here, where
+the genes were associated with batch.
+So they changed from June to October.
+And you can see here this must be June, the orange, and this is June.
+And the blue is October.
+And vice versa down here.
+So you know within the females there's three in June and nine in October.
+In the men three in October and nine in June.
+And then we selected some random genes as well.
+So this is just an illustration.
+This is not-- we actually analyzed the entire data set.
+But for many of the pictures in this module,
+we're actually showing just these genes.
+So how do we begin to model this?
+Well, let's start with a naive model.
+So in the naive model, we write something like this.
+We have a matrix that has features-- genes, SNPs, DNA methylation, loci.
+And on the columns, we have samples.
+So we have the 12 females and the 12 males.
+So that's represented here with this Y. There's m features and n samples.
+In most statistics textbooks, you're going
+to see the transpose of this matrix used.
+So don't be confused by that.
+We use it in this form here because that's
+how we usually handle the data on the computer.
+And we don't want to get confused between what we do in the computer
+and what we show in class.
+But when you go read a textbook, you might see it the other way.
+You might see why Y n m.
+And the data matrix will be transposed.
+All right.
+So now that's the data.
+So in the naive model, we're going to say, well, there's a sex effect.
+And that would be modeled with a matrix that
+has 0s for the females and 1s for the males.
+And then each gene will have a male effect.
+So that would be in a matrix like this one
+that would have the betas, the parameters of interest.
+And then we have another matrix that has the covariates.
+And then we have some noise.
+So that's also an m by n matrix.
+So X is a simple matrix.
+It's easy to understand.
+X is basically denoting who's a male and who's a female.
+It's going to be a 2 by n by 24 in this case matrix.
+And the first row is going to have just 1s that
+will denote the gene mean level.
+And in the second row, it's going to have either a 0 or 1,
+depending if you're a male or a female.
+So you'll have 0, 0, 0, 12 0s, followed by 12 1s.
+Very simple matrix.
+There's two betas for each gene.
+The first one is the mean level.
+The second one is the effect of being male.
+So what we're after here if we're thinking of imitating a real analysis,
+we're looking for genes for which beta 1 is not 0.
+Those will be the interesting ones.
+Those will be genes where males and females are different.
+In this particular data set, we expect this to only
+be happening on the Y chromosome and maybe the X,
+because some genes escape X inactivation.
+All right.
+So this model, we've seen it before.
+It's the one we've used in the linear model modules.
+But in this case, it's missing something.
+This model is going to explain this variability up here,
+because when beta 1 is different from 0, you
+will get differences between the females and the males.
+But this down here is not explained by that.
+So we need a way to explain this.
+So basically, if we fit the model we just showed,
+which is equivalent to running a t-test on each gene,
+we get many genes with small p values, more than expected,
+for the autosome genes.
+And we suspect that that's wrong.
+Then on chromosome Y genes, we get most of the genes differentially expressed,
+which is something we expect.
+On this histogram on the right, we want to see
+a lot of genes that are differentially expressed.
+But we suspect that the histogram on the left should just be flat.
+We just picked randomly the males and the females.
+There shouldn't be many differences outside of these chromosomes.
+So we suspect that these genes here are actually due to the batch effect.
+So in the next modules, we're going to show you
+two different approaches, ComBat and SVA, that adjust for batch effects
+and hopefully improve the results.

@@ -1,0 +1,70 @@
+RAFAEL IRIZARRY: Now we're going to continue the previous analysis,
+but now instead of hierarchical clustering,
+we're going to perform k means clustering.
+The function kmeans clustering takes a matrix.
+It computes the distance on its own.
+So we can actually feed it the expression matrix.
+We do have to send the transpose because it will compute distances between rows.
+All right, the way we use that with a function is also in base,
+called kmeans.
+And it takes as input, the original matrix.
+And again, it's going to compute distance between rows.
+So we have to transpose it.
+And now, as we discussed, we have to tell how many clusters we
+want it to find.
+So let's say that we have-- to remind ourselves how many tissues we have-- 7,
+so we're going to say 7 centers.
+So centers
+is equal to 7.
+And we don't know-- we're going to let kmeans choose
+the location of the starting value.
+So now that runs kmeans, It's computing distance,
+so it takes a little bit of time, but now it's done.
+And now we can, for example, make again, a table where we see the tissues.
+The actual tissues, and the clusters that we got.
+So let's call that clusters, and it's in the-- the km
+object has this component called cluster,
+that gives it the different numbers.
+Actually look at that, you can see it gives us
+a cluster number for each sample.
+You can see there how that worked.
+So here it is, and we can see it did a pretty good job.
+You have cluster number 2.
+It's all colon and placenta, but endometrium got its own.
+No mistakes there.
+Hippocampus, as well, kidney.
+So it worked pretty well at clustering the tissues by group.
+Another thing I want to show you is, you can visualize this.
+If we're going to visualize this, we're going to plot,
+so we can use MDS, multi-dimensional scalings,
+to be able to plot in two dimensions.
+So we're going to do that, real quick.
+That works on d, which we already calculated in the previous video.
+If you want to remind yourself why we did that, we just did this.
+So that's how that would work.
+We compute that.
+We can plot them, and we can see that we can add color
+to see the different colors that were clustered here.
+So that's km cluster.
+And there you go .
+So you can see how these different points got clustered, again.
+But these are just two dimensions and there's more dimensions of that.
+So you can see that these are all on top of each other.
+It's hard to see how it would cluster them,
+but it's because there's other dimensions it's using
+work for this distance calculation.
+So that's how you use the kmeans cluster.
+Now one thing I want to show you, is that if you run it again,
+you get a different answer.
+That's because it chooses the starting values differently.
+You see that one didn't work as well as the first one.
+You get cluster one is-- those are the brains, actually,
+but it's-- you have liver is split now, kidney is split.
+So every time you run it-- you can keep running it over and over again
+you're going to see-- you're going to get different answers every time.
+So that's something important to keep in mind about this function.
+That because the starting values are random
+it gives you a different answer every time.
+You can choose the starting values to avoid that,
+but that requires a bit more work on how to decide what starting values to use.
+But this is the general idea of how to use kmeans in R.

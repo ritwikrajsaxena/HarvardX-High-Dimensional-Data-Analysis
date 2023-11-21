@@ -1,0 +1,118 @@
+RAFAEL IRIZARRY: In this video, we're going
+to demonstrate how to implement hierarchical clustering in R.
+So we're going to demonstrate it using the tissue gene expression data.
+And we're going to start right away.
+The first thing we have to do is get a distance between each column.
+For that, we can use the dist function.
+We've already covered that.
+And because I want it on the columns of the expression matrix,
+I have to transpose that matrix.
+Because by default, distance computes distance between rows.
+So now I have the distance.
+And the next step is to apply hierarchical clustering
+using these distances.
+For that, I have a function in base-- you
+don't have to load any new package-- called hclust.
+And that, it's that simple.
+Now we have applied hierarchical clustering to these samples
+through the distance matrix d.
+This is an object of class hclust.
+And functions like plot know what to do with this object right away.
+It knows it's a hierarchical clustering object, and it makes a dendrogram.
+Right now, that dendrogram isn't very informative for a couple reasons.
+One is that instead of tissue-- not names.
+We're showing the column names, which are very hard to interpret.
+Second, the font is too big, and they're riding on top of each other.
+Both those things are relatively easy to fix.
+First, we'll change the font to a smaller one, so we can see something,
+and second, we're going to use as labels the tissue.
+Now remember this vector tissue is in the correct order, and so they match.
+The entries of tissue match the columns of the original e-matrix.
+And this function plot, when applied to hierarchical clustering object,
+it keeps track of that.
+So it'll put the right label here according
+to the position of that label in this vector and what sample this is.
+So if I do that, you can now see that we have clustered the different tissues.
+You can see we see liver here, so you already see some clustering
+based on the tissue column.
+It's not that easy to read, but you can see a kidney.
+And there's hippocampus here, et cetera.
+So that's how easy it is.
+I'm going to show you a quick way to add colors
+to this-- the rafalib package-- we've included
+a function that lets you add that.
+Make the same plot adding color.
+It's called the-- what is it called-- it's called-- hard
+to pronounce name-- it's the myplclust.
+That's because plclust is the original one built for hierarchical clustering
+objects.
+Myplclust.
+And now I can add-- I'll use these same parameters-- now
+I can add color to the labels using the lab.col.
+And now I have to give a number, so that each tissue
+has its own number thus color.
+So there's a function also in rafalib that turns characters
+into factors and then into numbers.
+And we've named that as fumeric().
+So if you send tissue to that, it'll turn each tissue
+into a different number.
+So now I should be ready to-- label there-- I should be ready to run this,
+and we should see colors now.
+Whoops.
+I have to load the package.
+All right.
+So there they are.
+And you can now see that these livers here are together,
+and then the colons are together, kidneys, and another tissue here--
+a hippocampus cerebellum.
+Now the brains are a little bit mixed up.
+And we also have a couple of kidneys in here,
+and cerebellum, and liver, and this strange little cluster.
+But now, one thing we discussed in the previous videos
+is that hierarchical clustering groups samples.
+It doesn't really give us clusters.
+It just tells us how far things are through a dendrogram.
+We actually want to split them into discrete clusters.
+We have to cut the tree.
+So for example, I could cut the tree at a specific height, for example, 120.
+If I add a line there, you can see that what I'm doing now
+is-- I'll say anything that splits below that line
+is going to be in the same group.
+So all these here will be the same group.
+All these here, they split up here.
+All the other splits happen down here.
+They'll all be in the same group.
+So we can apply that to the hierarchical clustering object using the cutree()
+function.
+It does it automatically.
+And my height is going to be 120.
+This function, by the way, you can also send it
+the number of clusters you want, and it figures out the height for you.
+So I'll put this into clusters.
+And now I have-- for each sample, I have a cluster, a number.
+You see all these numbers.
+So let's see how that would have worked if we did not know these were tissues,
+and we just wanted to cluster and see if there's any discovery, any biology.
+Would we discover the different tissues?
+This does a pretty good job of doing that.
+Show you that with a table that shows us that, for example, let's
+look at the good ones first.
+Almost all the livers are in the cluster 8.
+And there's no other tissue type in cluster 8.
+It's all livers.
+Now there's a couple of weirdos here.
+Another one that works well is colon.
+See colon.
+There we make no mistakes.
+We would have discovered all the colons at its own cluster.
+And there's other examples where they're in two clusters--
+so the hippocampus and the kidneys-- not to the kidneys
+are-- and the kidneys are in separate clusters,
+but there's no other tissues in those clusters, so that worked OK.
+The places where we are don't do that well are things like kidney that
+are spread across different ones.
+And cerebellum are also split across different clusters.
+So that's how you use that hierarchical clustering function.
+It's very simple, very quick.
+And most of it is in the base packages, so you don't really
+even have to load new packages to perform this analysis.

@@ -1,0 +1,82 @@
+RAFAEL IRIZARRY: Once we understand the singular value decomposition,
+we're ready to explain what principal component analysis is.
+We're going to use this example that we've used before with twin heights.
+Each point represents the height of a twin 1 versus the height of twin 2.
+And it's represented as a matrix that has n rows and two columns.
+And the task that is related to principal component analysis
+is to find a projection.
+We're going to find a vector that defines that projection.
+Here we're going to call it V1.
+That is orthogonal, so the cross product of V1 is 1.
+And it maximizes the sum of squares of that projection, which
+can be written as shown in this last equation here-- y projected to V1.
+You take the cross product of that.
+That gives you the sum of squares.
+We want to find a vector that maximizes that variability.
+What we're going to see-- we're going to try out
+different Vs to motivate why it is that we end up with the optimal solution.
+And it turns out that the optimal solution can be obtained
+using the singular value decomposition.
+So let's just try out some V's so you get an idea what's happening here.
+So the first V we're going to try is simply 1, 0.
+So that's the vector.
+And when you project the data onto that vector,
+you basically get back the height of twin 1.
+You multiply y by v. The first dimension is kept,
+and the second one is multiplied by 0.
+It goes away.
+And we can easily compute the sum of squares for the first dimension,
+and we get the number you can see at the top of the figure here.
+Now, can we do better than that?
+So let's just try something else.
+Let's try the vector 1 minus 1.
+Can we even use that one?
+Well, we can't, because the cross product is not 1.
+So we can easily fix that by dividing by the square root 2.
+Now it does have that property.
+And we're going to try this vector v. That
+is basically giving us the difference, but standardized
+to have an orthogonal transformation.
+So if we use this, now what we're doing is projecting each point
+to the space that is spanned by v, which is shown
+with a diagonal line you see there.
+Now we project each point, and we get the orange dots on that line.
+Those are the projections.
+So that's y multiplied by v. And we can take the sum of squares.
+That's easy to do.
+We just take the cross product.
+And in this case, we get a much smaller value than we did before.
+So this is definitely not a solution.
+So we can mathematically show that the solution to this problem, the v that
+maximizes this, is 1 divided by the square root of 2,
+1 divided by the square root of 2, as shown here.
+We have seen this vector before in our videos on singular value decomposition.
+And this one has a very high cross product.
+When you map each point to the space spanned by v,
+you can see that it has a wide range.
+And it turns out that this is the solution.
+So this vector that we've just shown is the vector
+that maximizes the sum of squares of yv 1, transposed yv 1.
+And it's referred to as a first principal component.
+That's what this V1 is.
+It's also called an eigenvector.
+And then y times V1 are the projection or the coordinates or eigenvalues.
+These are just mathematical terminology.
+But note that each row of y gets a coordinate, just
+one value for each row of y in the example that we've shown.
+Now, to get the second principal component, what we do
+is we take the residuals of-- we subtract--
+you can call it an approximation of y based
+just on that vector V1, as shown in this formula here.
+And now with those residuals, you try to find a second vector that maximizes
+the cross product for the residuals.
+And then if we had more dimensions than two-- if we had m dimensions,
+then we would keep going and get the third and fourth and fifth, et
+cetera, using this procedure.
+And that basically defines a principal component technique.
+That's how you find them.
+And again, you can find these using the singular value decomposition,
+as shown in this code.
+If we apply it, you can see it right here-- if we apply the singular value
+decomposition to y, you can see that we get these two
+vectors that we showed you earlier.

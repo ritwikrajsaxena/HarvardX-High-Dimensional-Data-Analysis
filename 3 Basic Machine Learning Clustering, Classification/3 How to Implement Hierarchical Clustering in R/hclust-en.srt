@@ -1,0 +1,472 @@
+0
+00:00:07,799 --> 00:00:09,590
+RAFAEL IRIZARRY: In this video, we&#39;re going
+
+1
+00:00:09,590 --> 00:00:15,350
+to demonstrate how to implement hierarchical clustering in R.
+
+2
+00:00:15,350 --> 00:00:20,290
+So we&#39;re going to demonstrate it using the tissue gene expression data.
+
+3
+00:00:20,290 --> 00:00:22,290
+And we&#39;re going to start right away.
+
+4
+00:00:22,290 --> 00:00:26,170
+The first thing we have to do is get a distance between each column.
+
+5
+00:00:26,170 --> 00:00:28,080
+For that, we can use the dist function.
+
+6
+00:00:28,080 --> 00:00:31,080
+We&#39;ve already covered that.
+
+7
+00:00:31,080 --> 00:00:34,500
+And because I want it on the columns of the expression matrix,
+
+8
+00:00:34,500 --> 00:00:37,280
+I have to transpose that matrix.
+
+9
+00:00:37,280 --> 00:00:41,660
+Because by default, distance computes distance between rows.
+
+10
+00:00:41,660 --> 00:00:43,350
+So now I have the distance.
+
+11
+00:00:43,350 --> 00:00:46,790
+And the next step is to apply hierarchical clustering
+
+12
+00:00:46,790 --> 00:00:48,650
+using these distances.
+
+13
+00:00:48,650 --> 00:00:50,980
+For that, I have a function in base-- you
+
+14
+00:00:50,980 --> 00:00:54,650
+don&#39;t have to load any new package-- called hclust.
+
+15
+00:00:54,650 --> 00:00:56,900
+And that, it&#39;s that simple.
+
+16
+00:00:56,900 --> 00:01:00,960
+Now we have applied hierarchical clustering to these samples
+
+17
+00:01:00,960 --> 00:01:04,019
+through the distance matrix d.
+
+18
+00:01:04,019 --> 00:01:07,310
+This is an object of class hclust.
+
+19
+00:01:07,310 --> 00:01:12,130
+And functions like plot know what to do with this object right away.
+
+20
+00:01:12,130 --> 00:01:16,270
+It knows it&#39;s a hierarchical clustering object, and it makes a dendrogram.
+
+21
+00:01:16,270 --> 00:01:20,180
+Right now, that dendrogram isn&#39;t very informative for a couple reasons.
+
+22
+00:01:20,180 --> 00:01:23,360
+One is that instead of tissue-- not names.
+
+23
+00:01:23,360 --> 00:01:26,630
+We&#39;re showing the column names, which are very hard to interpret.
+
+24
+00:01:26,630 --> 00:01:30,450
+Second, the font is too big, and they&#39;re riding on top of each other.
+
+25
+00:01:30,450 --> 00:01:33,010
+Both those things are relatively easy to fix.
+
+26
+00:01:33,010 --> 00:01:37,300
+First, we&#39;ll change the font to a smaller one, so we can see something,
+
+27
+00:01:37,300 --> 00:01:42,370
+and second, we&#39;re going to use as labels the tissue.
+
+28
+00:01:42,370 --> 00:01:49,520
+Now remember this vector tissue is in the correct order, and so they match.
+
+29
+00:01:49,520 --> 00:01:55,710
+The entries of tissue match the columns of the original e-matrix.
+
+30
+00:01:55,710 --> 00:01:59,950
+And this function plot, when applied to hierarchical clustering object,
+
+31
+00:01:59,950 --> 00:02:01,200
+it keeps track of that.
+
+32
+00:02:01,200 --> 00:02:05,280
+So it&#39;ll put the right label here according
+
+33
+00:02:05,280 --> 00:02:12,620
+to the position of that label in this vector and what sample this is.
+
+34
+00:02:12,620 --> 00:02:20,530
+So if I do that, you can now see that we have clustered the different tissues.
+
+35
+00:02:20,530 --> 00:02:23,835
+You can see we see liver here, so you already see some clustering
+
+36
+00:02:23,835 --> 00:02:25,460
+based on the tissue column.
+
+37
+00:02:25,460 --> 00:02:28,980
+It&#39;s not that easy to read, but you can see a kidney.
+
+38
+00:02:28,980 --> 00:02:32,520
+And there&#39;s hippocampus here, et cetera.
+
+39
+00:02:32,520 --> 00:02:34,300
+So that&#39;s how easy it is.
+
+40
+00:02:34,300 --> 00:02:38,310
+I&#39;m going to show you a quick way to add colors
+
+41
+00:02:38,310 --> 00:02:41,260
+to this-- the rafalib package-- we&#39;ve included
+
+42
+00:02:41,260 --> 00:02:44,400
+a function that lets you add that.
+
+43
+00:02:44,400 --> 00:02:46,760
+Make the same plot adding color.
+
+44
+00:02:46,760 --> 00:02:51,740
+It&#39;s called the-- what is it called-- it&#39;s called-- hard
+
+45
+00:02:51,740 --> 00:02:55,540
+to pronounce name-- it&#39;s the myplclust.
+
+46
+00:02:55,540 --> 00:03:01,360
+That&#39;s because plclust is the original one built for hierarchical clustering
+
+47
+00:03:01,360 --> 00:03:02,130
+objects.
+
+48
+00:03:02,130 --> 00:03:03,210
+Myplclust.
+
+49
+00:03:03,210 --> 00:03:09,050
+And now I can add-- I&#39;ll use these same parameters-- now
+
+50
+00:03:09,050 --> 00:03:13,710
+I can add color to the labels using the lab.col.
+
+51
+00:03:17,430 --> 00:03:21,940
+And now I have to give a number, so that each tissue
+
+52
+00:03:21,940 --> 00:03:25,060
+has its own number thus color.
+
+53
+00:03:25,060 --> 00:03:28,180
+So there&#39;s a function also in rafalib that turns characters
+
+54
+00:03:28,180 --> 00:03:30,910
+into factors and then into numbers.
+
+55
+00:03:30,910 --> 00:03:33,560
+And we&#39;ve named that as fumeric().
+
+56
+00:03:33,560 --> 00:03:38,660
+So if you send tissue to that, it&#39;ll turn each tissue
+
+57
+00:03:38,660 --> 00:03:40,540
+into a different number.
+
+58
+00:03:40,540 --> 00:03:46,240
+So now I should be ready to-- label there-- I should be ready to run this,
+
+59
+00:03:46,240 --> 00:03:47,450
+and we should see colors now.
+
+60
+00:03:47,450 --> 00:03:48,080
+Whoops.
+
+61
+00:03:48,080 --> 00:03:49,205
+I have to load the package.
+
+62
+00:03:49,205 --> 00:03:50,140
+All right.
+
+63
+00:03:50,140 --> 00:03:51,520
+So there they are.
+
+64
+00:03:51,520 --> 00:03:55,340
+And you can now see that these livers here are together,
+
+65
+00:03:55,340 --> 00:03:59,935
+and then the colons are together, kidneys, and another tissue here--
+
+66
+00:03:59,935 --> 00:04:01,370
+a hippocampus cerebellum.
+
+67
+00:04:01,370 --> 00:04:03,730
+Now the brains are a little bit mixed up.
+
+68
+00:04:03,730 --> 00:04:08,370
+And we also have a couple of kidneys in here,
+
+69
+00:04:08,370 --> 00:04:12,440
+and cerebellum, and liver, and this strange little cluster.
+
+70
+00:04:12,440 --> 00:04:15,900
+But now, one thing we discussed in the previous videos
+
+71
+00:04:15,900 --> 00:04:19,339
+is that hierarchical clustering groups samples.
+
+72
+00:04:19,339 --> 00:04:22,580
+It doesn&#39;t really give us clusters.
+
+73
+00:04:22,580 --> 00:04:26,520
+It just tells us how far things are through a dendrogram.
+
+74
+00:04:26,520 --> 00:04:31,180
+We actually want to split them into discrete clusters.
+
+75
+00:04:31,180 --> 00:04:33,260
+We have to cut the tree.
+
+76
+00:04:33,260 --> 00:04:41,625
+So for example, I could cut the tree at a specific height, for example, 120.
+
+77
+00:04:41,625 --> 00:04:45,090
+If I add a line there, you can see that what I&#39;m doing now
+
+78
+00:04:45,090 --> 00:04:49,420
+is-- I&#39;ll say anything that splits below that line
+
+79
+00:04:49,420 --> 00:04:50,960
+is going to be in the same group.
+
+80
+00:04:50,960 --> 00:04:54,670
+So all these here will be the same group.
+
+81
+00:04:54,670 --> 00:04:58,267
+All these here, they split up here.
+
+82
+00:04:58,267 --> 00:04:59,850
+All the other splits happen down here.
+
+83
+00:04:59,850 --> 00:05:01,890
+They&#39;ll all be in the same group.
+
+84
+00:05:01,890 --> 00:05:09,420
+So we can apply that to the hierarchical clustering object using the cutree()
+
+85
+00:05:09,420 --> 00:05:09,920
+function.
+
+86
+00:05:09,920 --> 00:05:12,070
+It does it automatically.
+
+87
+00:05:12,070 --> 00:05:15,502
+And my height is going to be 120.
+
+88
+00:05:15,502 --> 00:05:17,460
+This function, by the way, you can also send it
+
+89
+00:05:17,460 --> 00:05:21,550
+the number of clusters you want, and it figures out the height for you.
+
+90
+00:05:21,550 --> 00:05:25,260
+So I&#39;ll put this into clusters.
+
+91
+00:05:25,260 --> 00:05:31,060
+And now I have-- for each sample, I have a cluster, a number.
+
+92
+00:05:31,060 --> 00:05:32,210
+You see all these numbers.
+
+93
+00:05:32,210 --> 00:05:38,200
+So let&#39;s see how that would have worked if we did not know these were tissues,
+
+94
+00:05:38,200 --> 00:05:42,390
+and we just wanted to cluster and see if there&#39;s any discovery, any biology.
+
+95
+00:05:42,390 --> 00:05:45,610
+Would we discover the different tissues?
+
+96
+00:05:45,610 --> 00:05:49,210
+This does a pretty good job of doing that.
+
+97
+00:05:49,210 --> 00:05:57,050
+Show you that with a table that shows us that, for example, let&#39;s
+
+98
+00:05:57,050 --> 00:06:00,750
+look at the good ones first.
+
+99
+00:06:00,750 --> 00:06:04,100
+Almost all the livers are in the cluster 8.
+
+100
+00:06:04,100 --> 00:06:07,480
+And there&#39;s no other tissue type in cluster 8.
+
+101
+00:06:07,480 --> 00:06:08,420
+It&#39;s all livers.
+
+102
+00:06:08,420 --> 00:06:11,540
+Now there&#39;s a couple of weirdos here.
+
+103
+00:06:11,540 --> 00:06:13,900
+Another one that works well is colon.
+
+104
+00:06:13,900 --> 00:06:15,480
+See colon.
+
+105
+00:06:15,480 --> 00:06:17,060
+There we make no mistakes.
+
+106
+00:06:17,060 --> 00:06:21,000
+We would have discovered all the colons at its own cluster.
+
+107
+00:06:21,000 --> 00:06:25,360
+And there&#39;s other examples where they&#39;re in two clusters--
+
+108
+00:06:25,360 --> 00:06:29,050
+so the hippocampus and the kidneys-- not to the kidneys
+
+109
+00:06:29,050 --> 00:06:33,200
+are-- and the kidneys are in separate clusters,
+
+110
+00:06:33,200 --> 00:06:37,950
+but there&#39;s no other tissues in those clusters, so that worked OK.
+
+111
+00:06:37,950 --> 00:06:43,770
+The places where we are don&#39;t do that well are things like kidney that
+
+112
+00:06:43,770 --> 00:06:46,180
+are spread across different ones.
+
+113
+00:06:46,180 --> 00:06:51,500
+And cerebellum are also split across different clusters.
+
+114
+00:06:51,500 --> 00:06:54,260
+So that&#39;s how you use that hierarchical clustering function.
+
+115
+00:06:54,260 --> 00:06:56,840
+It&#39;s very simple, very quick.
+
+116
+00:06:56,840 --> 00:07:01,920
+And most of it is in the base packages, so you don&#39;t really
+
+117
+00:07:01,920 --> 00:07:08,150
+even have to load new packages to perform this analysis.
+

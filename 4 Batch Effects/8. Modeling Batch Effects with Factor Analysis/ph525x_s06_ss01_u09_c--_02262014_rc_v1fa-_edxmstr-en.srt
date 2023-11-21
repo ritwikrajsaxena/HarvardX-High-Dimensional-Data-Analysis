@@ -1,0 +1,480 @@
+0
+00:00:00,000 --> 00:00:01,220
+
+
+1
+00:00:01,220 --> 00:00:04,950
+RAFAEL IRIZARRY: So in the last module we presented this model.
+
+2
+00:00:04,950 --> 00:00:11,860
+This is the model that procedures such as surrogate variable analysis uses.
+
+3
+00:00:11,860 --> 00:00:15,630
+Now the problem is we don't know W. We don't know alpha.
+
+4
+00:00:15,630 --> 00:00:17,420
+We don't know k.
+
+5
+00:00:17,420 --> 00:00:18,470
+We don't know beta.
+
+6
+00:00:18,470 --> 00:00:20,230
+We have to estimate all these things.
+
+7
+00:00:20,230 --> 00:00:21,640
+This is not straightforward.
+
+8
+00:00:21,640 --> 00:00:24,014
+And I'm going to show you just one of the algorithms that
+
+9
+00:00:24,014 --> 00:00:26,660
+tries to fit this model, which is the algorithm that
+
+10
+00:00:26,660 --> 00:00:29,140
+implements the surrogate variable analysis.
+
+11
+00:00:29,140 --> 00:00:30,230
+So here's the idea.
+
+12
+00:00:30,230 --> 00:00:32,910
+Here's a data set that has real signal.
+
+13
+00:00:32,910 --> 00:00:36,060
+Up here you can see the real signal versus not.
+
+14
+00:00:36,060 --> 00:00:37,170
+And it has some batches.
+
+15
+00:00:37,170 --> 00:00:41,560
+So here's Batch 1 is the one that's dark, 1, 2, 3, 4.
+
+16
+00:00:41,560 --> 00:00:42,270
+That's Batch 1.
+
+17
+00:00:42,270 --> 00:00:45,720
+And then the light is Batch 2.
+
+18
+00:00:45,720 --> 00:00:47,041
+That's the batch we don't know.
+
+19
+00:00:47,041 --> 00:00:47,540
+It's hidden.
+
+20
+00:00:47,540 --> 00:00:49,190
+We don't know that it's there.
+
+21
+00:00:49,190 --> 00:00:50,470
+We want to estimate it.
+
+22
+00:00:50,470 --> 00:00:54,230
+So you can see over here this is the true batch, which you don't know.
+
+23
+00:00:54,230 --> 00:00:56,290
+We have to try to find it.
+
+24
+00:00:56,290 --> 00:01:00,010
+So you have the first two arrays are in Batch 1.
+
+25
+00:01:00,010 --> 00:01:05,890
+The next two arrays are in Batch 2, the next five, cetera.
+
+26
+00:01:05,890 --> 00:01:07,210
+See the pattern?
+
+27
+00:01:07,210 --> 00:01:09,640
+When you're up, you're dark.
+
+28
+00:01:09,640 --> 00:01:12,390
+When you're down, you're light.
+
+29
+00:01:12,390 --> 00:01:14,130
+So we want to estimate this.
+
+30
+00:01:14,130 --> 00:01:15,290
+So here's the approach.
+
+31
+00:01:15,290 --> 00:01:18,680
+In the first step, we use the singular value decomposition
+
+32
+00:01:18,680 --> 00:01:21,770
+trick to just try to estimate a batch.
+
+33
+00:01:21,770 --> 00:01:24,495
+Though in this case, I'm only showing you the first column
+
+34
+00:01:24,495 --> 00:01:26,380
+that we're estimating.
+
+35
+00:01:26,380 --> 00:01:27,460
+And here's the result.
+
+36
+00:01:27,460 --> 00:01:31,590
+You can see the estimated batch.
+
+37
+00:01:31,590 --> 00:01:32,620
+It's not quite right.
+
+38
+00:01:32,620 --> 00:01:34,360
+But it's kind of getting there already.
+
+39
+00:01:34,360 --> 00:01:35,610
+So here's the truth.
+
+40
+00:01:35,610 --> 00:01:37,710
+Here's our first estimate.
+
+41
+00:01:37,710 --> 00:01:42,470
+So now what we do is we assume that this is correct.
+
+42
+00:01:42,470 --> 00:01:49,300
+And we find genes that are associated with this current estimate
+
+43
+00:01:49,300 --> 00:01:49,989
+of the batch.
+
+44
+00:01:49,989 --> 00:01:51,530
+And we're going to give them weights.
+
+45
+00:01:51,530 --> 00:01:55,390
+So here are the weights for the genes that
+
+46
+00:01:55,390 --> 00:01:58,640
+are correlated with this version of the batch.
+
+47
+00:01:58,640 --> 00:02:00,710
+You can see it kind of makes sense.
+
+48
+00:02:00,710 --> 00:02:03,080
+These genes have strong correlations.
+
+49
+00:02:03,080 --> 00:02:04,880
+You have this guy, that guy, this guy.
+
+50
+00:02:04,880 --> 00:02:07,000
+So it seems like it's working pretty well.
+
+51
+00:02:07,000 --> 00:02:09,539
+And all these other ones get 0 weight.
+
+52
+00:02:09,539 --> 00:02:15,080
+So now we use only these genes to estimate the batch again,
+
+53
+00:02:15,080 --> 00:02:19,662
+using factor analysis or singular value decomposition.
+
+54
+00:02:19,662 --> 00:02:22,120
+Here's the data that we're going to use, because we're only
+
+55
+00:02:22,120 --> 00:02:24,327
+giving weight to these genes.
+
+56
+00:02:24,327 --> 00:02:25,660
+And now it gets a little better.
+
+57
+00:02:25,660 --> 00:02:29,000
+It gets a little closer to the truth.
+
+58
+00:02:29,000 --> 00:02:30,530
+So what do we do next?
+
+59
+00:02:30,530 --> 00:02:31,790
+We repeat.
+
+60
+00:02:31,790 --> 00:02:34,450
+Again we give weights.
+
+61
+00:02:34,450 --> 00:02:36,610
+And we repeat the analysis.
+
+62
+00:02:36,610 --> 00:02:41,370
+And in the next step, we get pretty close to the truth.
+
+63
+00:02:41,370 --> 00:02:44,210
+So that's the idea behind SVA.
+
+64
+00:02:44,210 --> 00:02:50,470
+There's now many competitors that are performing very well as well.
+
+65
+00:02:50,470 --> 00:02:53,630
+We're going to include some of those links
+
+66
+00:02:53,630 --> 00:02:57,500
+to the papers and software on our class web page.
+
+67
+00:02:57,500 --> 00:03:00,030
+
+
+68
+00:03:00,030 --> 00:03:03,320
+So now let's see what happens with our example data
+
+69
+00:03:03,320 --> 00:03:07,120
+that we showed in the previous models after we implement SVA.
+
+70
+00:03:07,120 --> 00:03:12,812
+So here are the autosome genes that we think should be a flat p value.
+
+71
+00:03:12,812 --> 00:03:15,730
+We don't think there should be signal there.
+
+72
+00:03:15,730 --> 00:03:17,960
+And here are the chromosome Y genes.
+
+73
+00:03:17,960 --> 00:03:20,280
+This is before SVA.
+
+74
+00:03:20,280 --> 00:03:21,180
+Now we apply SVA.
+
+75
+00:03:21,180 --> 00:03:24,440
+In this case, it estimates k to be 5.
+
+76
+00:03:24,440 --> 00:03:26,410
+And it estimates columns.
+
+77
+00:03:26,410 --> 00:03:32,370
+We stick it into the limma procedure to get estimates of the coefficients
+
+78
+00:03:32,370 --> 00:03:34,850
+and standard errors of these coefficients.
+
+79
+00:03:34,850 --> 00:03:36,090
+We recompute p values.
+
+80
+00:03:36,090 --> 00:03:38,240
+And look at how it looks now.
+
+81
+00:03:38,240 --> 00:03:41,290
+The histogram is pretty close to flat.
+
+82
+00:03:41,290 --> 00:03:47,900
+However, we did not lose what we believe to be the real genes.
+
+83
+00:03:47,900 --> 00:03:51,420
+So what is it that we did here, just to review?
+
+84
+00:03:51,420 --> 00:03:56,130
+We started out with a data set that clearly
+
+85
+00:03:56,130 --> 00:04:00,880
+had real signal due to the different sexes.
+
+86
+00:04:00,880 --> 00:04:05,000
+It clearly had some structure that was batch-related.
+
+87
+00:04:05,000 --> 00:04:07,060
+And then it had noise.
+
+88
+00:04:07,060 --> 00:04:10,620
+We estimated each one of these components with SVA.
+
+89
+00:04:10,620 --> 00:04:13,100
+And we can actually make pictures splitting that up
+
+90
+00:04:13,100 --> 00:04:14,310
+into the four components.
+
+91
+00:04:14,310 --> 00:04:14,810
+All right.
+
+92
+00:04:14,810 --> 00:04:17,940
+So here's the data as decomposed by SVA.
+
+93
+00:04:17,940 --> 00:04:20,470
+We have the original data.
+
+94
+00:04:20,470 --> 00:04:26,120
+We have the signal part, the part having to do with the outcome of interest.
+
+95
+00:04:26,120 --> 00:04:29,510
+Then we have the surrogate variable part, or the batch effect part.
+
+96
+00:04:29,510 --> 00:04:32,110
+And then we have the residuals.
+
+97
+00:04:32,110 --> 00:04:36,490
+So we can see that in this case SVA did quite well.
+
+98
+00:04:36,490 --> 00:04:40,670
+Now with that said, it's important to keep in mind
+
+99
+00:04:40,670 --> 00:04:46,770
+that current solutions to batch effects don't solve all batch effect problems.
+
+100
+00:04:46,770 --> 00:04:51,230
+We're faced with situations with real data
+
+101
+00:04:51,230 --> 00:04:57,790
+where SVA and many other algorithms actually fail to detect all the batches
+
+102
+00:04:57,790 --> 00:04:59,510
+or they over-correct.
+
+103
+00:04:59,510 --> 00:05:03,980
+So you always want to do a lot of exploratory data analysis
+
+104
+00:05:03,980 --> 00:05:09,810
+and post-analysis diagnostics to make sure
+
+105
+00:05:09,810 --> 00:05:13,142
+that your answers make sense in some way.
+
+106
+00:05:13,142 --> 00:05:15,470
+But another thing that is important to mention
+
+107
+00:05:15,470 --> 00:05:18,170
+is that you want to be as careful as possible
+
+108
+00:05:18,170 --> 00:05:22,870
+when designing your experiment to avoid too much confounding.
+
+109
+00:05:22,870 --> 00:05:26,070
+One of the situations in which all these methods fail
+
+110
+00:05:26,070 --> 00:05:30,330
+is when a batch is heavily confounded with your outcome of interest.
+
+111
+00:05:30,330 --> 00:05:36,050
+It becomes very difficult to separate the signal from the batch.
+
+112
+00:05:36,050 --> 00:05:40,990
+So you want as much as possible to either balance or randomize
+
+113
+00:05:40,990 --> 00:05:45,780
+the experiment so that you don't have this problem.
+
+114
+00:05:45,780 --> 00:05:48,710
+Now even when you do balance the experiment,
+
+115
+00:05:48,710 --> 00:05:53,240
+there is still unwanted variability that reduces your power.
+
+116
+00:05:53,240 --> 00:05:56,744
+So even in those cases when there are batch effects present,
+
+117
+00:05:56,744 --> 00:05:58,660
+you do want to implement some of these methods
+
+118
+00:05:58,660 --> 00:06:04,090
+to improve your ability to extract signal from your data.
+
+119
+00:06:04,090 --> 00:06:04,700
+
+

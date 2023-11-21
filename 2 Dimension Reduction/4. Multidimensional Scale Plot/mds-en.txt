@@ -1,0 +1,105 @@
+RAFAEL IRIZARRY: Now that we've learned how the SVD works,
+we're going to use that to create an MDS plot, a Multi-Dimensional Scale plot.
+So what I'm going to do is I'm going to apply it to a version, a subset,
+of our matrix that has the tissue gene expression that we've
+been working with.
+I'm only going to look at kidney, colon, and liver, just to keep it simple.
+And what I'm going to do first is I'm going to compute the singular value
+decomposition on this subset.
+On the subset of the matrix, it has only 99 columns,
+because it, again, only uses these three issues.
+OK.
+So I want to make a plot.
+I want to be able to plot all these samples
+and see how close they are to each other.
+I want to see if kidneys are closer to kidneys than colons, all that stuff.
+OK?
+So I can't make a picture of two points that have 22,000 dimensions.
+I'm going to use singular value decomposition,
+and I'm going to look at the two dimensions that
+have the most variability, the columns have the most variability.
+So what we saw in this video is that we can take the SVD of mat.
+Now, I'm going to remove the means.
+I'm going to de-trend them in this sense,
+because I don't want the differences in means to contribute to the variability
+that I'm capturing here.
+When you compute distance between two columns, the mean of the genes
+doesn't come in, because they cancel out when you subtract them from each other.
+All right?
+So I'm going to take this SVD.
+Look at how fast this is.
+Done.
+OK.
+And now what I'm going to do is I'm going to reconstruct the z matrix that
+has just two dimensions.
+And the way we did that is we saw this formula that
+gave us this way of doing it, right?
+So we take just the first two columns.
+That is z-- oh, I need to add the s here.
+And now we can see that this z, as I mentioned, 2 by 99.
+So instead of 22,215 dimensions, now I'm down to two.
+And I'm ready to make pictures.
+Now, I'm going to transform the z, just because I am more used to plotting
+when I have things in columns.
+But there's no reason to do that.
+I'm just used to it doing that that way.
+OK.
+Now I can plot.
+So for example, then you can do this.
+All right?
+So you can see all the points here.
+And now, the idea is that if I want to know the distance between two
+columns of mat-- these are 22 dimensional vectors,
+so, really, it's not easy to do.
+I, instead, in this visualization, the idea
+is that distance is approximated by the distance between points in this plot.
+So now I can visualize it.
+That's the power of this approach.
+So let's look at this a little bit closer.
+So I'm actually going to add this library
+to make it a little nicer-looking.
+And now I can plot z.
+All right.
+So you see the points.
+And now, what do you think these three clusters are?
+Well, let's add some color to this and see.
+I'm going to add the tissue as color.
+And let's see what we have.
+Well, there you go.
+So we have the tissues separate out as we expected.
+So that is a great feature.
+Now, we don't only have to restrict ourselves to the first two dimensions.
+For example, we can look at the third and the fourth.
+Here's the third and the fourth.
+OK?
+And now, we do that instead.
+And we see something different.
+Now we have another source of variability here.
+And you can see that one of these tissues, the orange tissue,
+is splitting up into two.
+That could be sex, for example.
+It could be some other variable.
+But it also has quite a bit of variability.
+But not as much as tissue-to-tissue variability.
+That was the strongest one.
+It seemed to capture the first two columns of the singular value
+decomposition.
+Now, one other quick thing is that we don't
+have to do this with the singular value decomposition.
+There's a function called the CMD in R. It's the multi-dimensional scaling plot
+function that gets you that.
+So if I compute the distance between things,
+then it uses cmdscale to approximate the distances.
+And then we get practically the same picture.
+Well I don't want this to be so big.
+Let's get rid of that.
+But yeah.
+We get the same plot.
+It's doing practically the same thing.
+Another little point is that you can change the K. K2 is a default.
+So it only gives you two dimensions.
+But you could change this to four or five or six, and get as many dimensions
+as you want from the SVD approach, the columns of u and v.
+OK.
+So that's how multi-dimensional scaling is done in R,
+and how it relates to the singular value decomposition.

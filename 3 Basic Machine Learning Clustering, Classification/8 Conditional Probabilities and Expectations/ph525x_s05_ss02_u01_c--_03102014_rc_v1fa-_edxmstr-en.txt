@@ -1,0 +1,50 @@
+
+RAFAEL IRIZARRY: In the next modules, we're going to introduce some concepts from machine
+learning, also known as prediction or classification,
+and how it's used in genomics.
+So let's start by defining conditional expectations.
+Let's use a very simple example, which we've used in a previous module.
+Suppose you want to predict the son's height from the father's height.
+So if you're given just this data and you're
+asked to predict a random person's height, a random person taken
+from the sons, you would take the average.
+Because this is normally distributed data,
+you would predict with the average because a one-inch interval
+around the average has more individuals in it than any other interval of size
+one-inch.
+Now let's say that I change the problem and I say,
+assume that you know that the father is 71 inches tall.
+So now this becomes a prediction problem.
+We have a predictor, x, the height of the father.
+And we're asked to predict the son's height.
+So how do we do this?
+So one simple idea, that is very powerful,
+is to condition the data so you only look at data where
+the x is equal to 71, where the fathers are 71,
+and you look for the value that maximizes the probability.
+For most data, for example, for normally distributed data,
+this location where this probability is maximized is at the average.
+So there, we define the conditional mean or the conditional average.
+So you take all the fathers that are 72 inches.
+And you take the average of those individuals.
+And that's your prediction.
+Our prediction is going to be denoted with f(x).
+So for any given x, you want to give a prediction, f(x).
+So in this case, we would take all the fathers that are 71 inches, right here.
+And here's the distribution function of just these data here.
+And you can see that the maximum is somewhere around 70-71.
+In the case of data like this, that's normally distributed,
+we already saw, in a previous module, that the regression line gives us
+this average, this conditional average.
+And it has a very simple formula.
+You start with the average height of a son.
+And then you add-- so you take how many standard deviations
+a 71-inch tall father is away from the average.
+You multiply by the standard deviation of the son's height,
+to get it back to the right scale.
+And then you multiply by the correlation.
+So this formula here gives us a prediction for any father's height, x.
+And it's actually going to be a very good prediction in this case.
+In the next module, we're going to explain
+what happens when you have more than one predictor, like you have in genomics
+where you have several genes to base your predictions on.

@@ -1,0 +1,82 @@
+RAFAEL IRIZARRY: In this video, we're going to show you
+how to do exploratory data analysis with a PCA.
+And the first thing we're going to do is load and fix
+a data set-- a public data set so it has all this information we
+need to do further analyses.
+That is not important for what we're explaining here,
+so you can follow along with the text later, if you want.
+Right now, we're going to go straight to obtaining
+the SVD of y, which includes the scaled data for this gene expression
+experiment, which has the samples for several ethnic groups
+that we know were recorded across different time points.
+So one of things we then do is look at the image plot of the correlations,
+and we see it's a quite complicated one.
+You see these blocks that seemed to be showing
+the correlation of certain samples is higher than across other samples.
+So what is that?
+What's going on there?
+If we had random data, it would look-- the d's of the singular value
+composition would basically look flat in comparison to what
+you get with our data set, showing us that there is indeed
+quite a bit of structure here.
+OK, so the first thing we're going to show-- we can show here--
+is we've already computed the singular value decomposition,
+so we can very quickly make an MDS plot.
+And one of the things we often do in exploration
+is we use color to show the different factors,
+different covariates in the MDS plot.
+So here, I'm making an MDS plot with just two dimensions,
+and I'm showing you the three different ethnic groups with color.
+So I can add a legend there to know which is which, and immediately we
+see that there's a lot of variability in orange-- in the first PC
+more than the others, which makes us a little suspicious that maybe there's
+something else going on here.
+And now-- so what we're going to do now is instead of showing
+ethnic group as a color, we're going to show the year in which it
+was processed with color.
+So we have-- here's the years.
+We can see it's confounded with the ethnic group.
+So we're going to make that plot now.
+Colors is now going to represent years, and we see
+that it also is very much correlated.
+All right, so look at that, those two plots.
+There's the legend with dates, and here's with ethnic groups.
+So all we're doing is changing the color,
+so clearly there's a lot of correlation with both year and ethnic group.
+They're confounded so that we don't know which is which.
+So something we can do to explore this further is to make box plots of the PCs
+and split them by a outcome that we think is related to batch.
+So year is one, but now we can get a little bit more specific and use months
+instead of year.
+Because we're making a box plot, you'll see how it-- what we're trying to do
+is to further explain variability.
+If we can explain with month, then it really
+points to it being a problem of processing and not so much biology
+that's driving these differences.
+So here we define the month.
+This is a nice function that lets us extract a month from a date.
+You can look that up, learn more about how that works.
+So we have 21 unique months, so now what I'm going to do
+is I'm going to find the variable month and I'm
+going to split-- let's start with the first-- I'm going to define i1.
+That's the first principal component here.
+We can make a box plot, and look at that.
+Now, I'm going to add points.
+So we can see how the first PC very much correlates with month,
+further confirming that this is probably what's driving the variability.
+We can actually do that for more than one PC.
+We can see that the first four PCs actually
+correlate with month pretty strongly.
+So a lot of the structure that we're seeing
+is probably driven somehow by a batch effect
+that seems to be related to the time in which the array was processed.
+So you can do more systematic looks at this.
+You can try things like ANOVA to see which PCs are actually
+correlating with month or other factors that you think are
+related to some kind of batch effect.
+But here what we've shown is how you can use
+a PCA to do exploratory data analysis.
+And another thing that this helps us with is we can start getting an idea--
+if we are going to use, say, factor analysis,
+it starts to give us an idea of how many factors
+we need to describe the structure that we see in the data.

@@ -1,0 +1,428 @@
+0
+00:00:01,090 --> 00:00:04,500
+RAFAEL IRIZARRY: Some of the most widely applied statistical solutions
+
+1
+00:00:04,500 --> 00:00:10,420
+to solving batch effect problems are based on a relatively
+
+2
+00:00:10,420 --> 00:00:14,460
+old technique called factor analysis.
+
+3
+00:00:14,460 --> 00:00:17,510
+So we&#39;re going to explain factor analysis briefly.
+
+4
+00:00:17,510 --> 00:00:23,110
+We&#39;re going to use an example related to the first application of factor
+
+5
+00:00:23,110 --> 00:00:28,580
+analysis over 100 years ago, and it&#39;s related to the correlation in grades
+
+6
+00:00:28,580 --> 00:00:32,780
+that students would obtain in class.
+
+7
+00:00:32,780 --> 00:00:36,910
+So this table I&#39;m showing you here is from simulated data
+
+8
+00:00:36,910 --> 00:00:43,360
+where I have simulated the test scores for several students, N students,
+
+9
+00:00:43,360 --> 00:00:46,500
+across six subjects.
+
+10
+00:00:46,500 --> 00:00:49,260
+So you can compute the correlation between, say,
+
+11
+00:00:49,260 --> 00:00:55,130
+math and science class, because you have several values for several students.
+
+12
+00:00:55,130 --> 00:00:58,010
+And we can see that the correlation is relatively high.
+
+13
+00:00:58,010 --> 00:01:00,022
+In this case, it&#39;s 0.67.
+
+14
+00:01:00,022 --> 00:01:01,730
+Now instead of showing you these numbers,
+
+15
+00:01:01,730 --> 00:01:06,580
+I&#39;ll show you a plot of the numbers which looks-- it&#39;s a little bit easier
+
+16
+00:01:06,580 --> 00:01:07,550
+interpret.
+
+17
+00:01:07,550 --> 00:01:12,490
+So we have here the six subjects, math, science, computer science,
+
+18
+00:01:12,490 --> 00:01:16,830
+and then three others, English, history and classics.
+
+19
+00:01:16,830 --> 00:01:21,540
+The first thing we see is that the data is not independent.
+
+20
+00:01:21,540 --> 00:01:24,710
+Independent data would look like the figure on the right
+
+21
+00:01:24,710 --> 00:01:28,880
+where you would have mostly white here in this picture, as shown below.
+
+22
+00:01:28,880 --> 00:01:31,990
+Red is a high correlation, white is no correlation,
+
+23
+00:01:31,990 --> 00:01:35,000
+and blue would be a negative correlation.
+
+24
+00:01:35,000 --> 00:01:40,500
+So if the test scores across subjects were completely uncorrelated,
+
+25
+00:01:40,500 --> 00:01:43,890
+the picture would look like the picture on the right.
+
+26
+00:01:43,890 --> 00:01:45,940
+And that would mean that if you&#39;re good at math,
+
+27
+00:01:45,940 --> 00:01:49,940
+it doesn&#39;t mean anything about how well you&#39;re going to do in science or CS.
+
+28
+00:01:49,940 --> 00:01:52,810
+But what we see here instead is that everything is correlated.
+
+29
+00:01:52,810 --> 00:01:54,685
+If you&#39;re above average in math, you&#39;re going
+
+30
+00:01:54,685 --> 00:01:57,100
+to be above average in all other subjects.
+
+31
+00:01:57,100 --> 00:01:59,580
+But we see more structure than that.
+
+32
+00:01:59,580 --> 00:02:04,030
+We also see that there&#39;s a higher correlation between the STEM fields,
+
+33
+00:02:04,030 --> 00:02:06,570
+and higher correlation between the humanities fields.
+
+34
+00:02:06,570 --> 00:02:08,590
+So even though everything&#39;s correlated, there&#39;s
+
+35
+00:02:08,590 --> 00:02:11,790
+even more correlation between these two.
+
+36
+00:02:11,790 --> 00:02:16,290
+So if-- we can model this using a factor model.
+
+37
+00:02:16,290 --> 00:02:19,600
+So what we do is we hypothesize there are two hidden factors.
+
+38
+00:02:19,600 --> 00:02:23,870
+W1 and W2 is what I&#39;m calling them here, and the observed data
+
+39
+00:02:23,870 --> 00:02:29,290
+which is the test scores is represented here with Y i j.
+
+40
+00:02:29,290 --> 00:02:34,470
+So this is for student i on subject j, and this
+
+41
+00:02:34,470 --> 00:02:39,985
+is going to be a sum of linear combinations of these two factors.
+
+42
+00:02:39,985 --> 00:02:46,840
+So the idea here is that W1 relates to your overall ability of getting
+
+43
+00:02:46,840 --> 00:02:52,230
+good scores, and then your second W, your second factor,
+
+44
+00:02:52,230 --> 00:02:56,700
+relates to are you stronger in humanities or are you stronger in STEM.
+
+45
+00:02:56,700 --> 00:03:00,580
+So it&#39;ll-- when we interpret these parameters alpha--
+
+46
+00:03:00,580 --> 00:03:04,960
+so notice that every student gets an alpha for the overall W,
+
+47
+00:03:04,960 --> 00:03:08,560
+and an alpha for the difference between the humanities and STEM--
+
+48
+00:03:08,560 --> 00:03:10,310
+that&#39;s how we would interpret these alpha.
+
+49
+00:03:10,310 --> 00:03:14,710
+If you have a high alpha 1, it means you&#39;re overall
+
+50
+00:03:14,710 --> 00:03:17,310
+a student who gets good test scores.
+
+51
+00:03:17,310 --> 00:03:24,210
+If you have a high alpha 2, it means you are better at STEM then
+
+52
+00:03:24,210 --> 00:03:25,250
+in the humanities.
+
+53
+00:03:25,250 --> 00:03:29,690
+If you get a negative alpha, it means the opposite.
+
+54
+00:03:29,690 --> 00:03:31,720
+So now we apply this model.
+
+55
+00:03:31,720 --> 00:03:37,160
+If we were going to try to estimate what these W&#39;s are from the data--
+
+56
+00:03:37,160 --> 00:03:40,460
+so now what we&#39;re going to go back and assume that we don&#39;t know anything.
+
+57
+00:03:40,460 --> 00:03:43,480
+We just get this-- we just get this data set,
+
+58
+00:03:43,480 --> 00:03:46,860
+and we look at the correlation matrix, and we infer
+
+59
+00:03:46,860 --> 00:03:48,810
+that there&#39;s two hidden factors here.
+
+60
+00:03:48,810 --> 00:03:50,910
+We don&#39;t know what they are, and we are going
+
+61
+00:03:50,910 --> 00:03:54,120
+to let the data tell us what these W&#39;s are.
+
+62
+00:03:54,120 --> 00:03:56,820
+And one way you could do this, it turns out,
+
+63
+00:03:56,820 --> 00:03:58,700
+one of the ways you can estimate these W&#39;s
+
+64
+00:03:58,700 --> 00:04:03,790
+once we pose this model is by using the singular value decomposition.
+
+65
+00:04:03,790 --> 00:04:06,040
+And we&#39;re going to assume there&#39;s just two factors,
+
+66
+00:04:06,040 --> 00:04:09,650
+so we just take the first two columns of V,
+
+67
+00:04:09,650 --> 00:04:12,190
+and that gives us an estimate of the W&#39;s.
+
+68
+00:04:12,190 --> 00:04:14,557
+And what we can see if we actually look at them--
+
+69
+00:04:14,557 --> 00:04:16,640
+we look at what these W&#39;s are, and we look at them
+
+70
+00:04:16,640 --> 00:04:20,410
+across the subjects-- we see that the first one appears
+
+71
+00:04:20,410 --> 00:04:21,775
+to relate to the overall.
+
+72
+00:04:21,774 --> 00:04:25,340
+It automatically finds a overall ability.
+
+73
+00:04:25,340 --> 00:04:28,110
+It&#39;s a positive constant for every single subject.
+
+74
+00:04:28,110 --> 00:04:31,810
+And the second column of V appears to be related
+
+75
+00:04:31,810 --> 00:04:35,510
+to the difference between the humanities and STEM.
+
+76
+00:04:35,510 --> 00:04:37,670
+So it actually finds this automatically.
+
+77
+00:04:37,670 --> 00:04:41,060
+This is the power of factor analysis that you
+
+78
+00:04:41,060 --> 00:04:46,620
+let the data pick what these W&#39;s are.
+
+79
+00:04:46,620 --> 00:04:50,730
+So if we fit this model, we can estimate these W&#39;s.
+
+80
+00:04:50,730 --> 00:04:55,080
+Fit the model, and we get-- we explain about 78%
+
+81
+00:04:55,080 --> 00:04:58,080
+of the variance, which is pretty high.
+
+82
+00:04:58,080 --> 00:05:00,780
+Now, there&#39;s a more general way of doing this.
+
+83
+00:05:00,780 --> 00:05:02,500
+We don&#39;t have to have just 2 W&#39;s.
+
+84
+00:05:02,500 --> 00:05:06,050
+We could have many W&#39;s, and we can estimate them with PCA,
+
+85
+00:05:06,050 --> 00:05:08,391
+or singular value decomposition.
+
+86
+00:05:08,391 --> 00:05:10,640
+So this is what we&#39;re going to do when we have batches
+
+87
+00:05:10,640 --> 00:05:12,410
+that we don&#39;t know what they are.
+
+88
+00:05:12,410 --> 00:05:16,270
+We could, for example, model them with these factor models
+
+89
+00:05:16,270 --> 00:05:17,920
+and try to estimate it that way.
+
+90
+00:05:17,920 --> 00:05:22,580
+Now to see how complicated these structures need to be in a real data
+
+91
+00:05:22,580 --> 00:05:26,120
+set, let&#39;s look at this correlation matrix
+
+92
+00:05:26,120 --> 00:05:31,000
+for the data set that we have been studying with the 8,000 and plus genes
+
+93
+00:05:31,000 --> 00:05:34,770
+and 200 plus samples where we have different ethnic groups that
+
+94
+00:05:34,770 --> 00:05:36,770
+were recorded at different times.
+
+95
+00:05:36,770 --> 00:05:39,780
+That&#39;s what this figure is showing us, and we can see it&#39;s-- the data is
+
+96
+00:05:39,780 --> 00:05:41,331
+clearly not independent.
+
+97
+00:05:41,331 --> 00:05:42,330
+There&#39;s structure there.
+
+98
+00:05:42,330 --> 00:05:49,020
+You see these red squares, and bigger red squares, and smaller red squares.
+
+99
+00:05:49,020 --> 00:05:53,500
+This is because there&#39;s correlation between samples that are probably
+
+100
+00:05:53,500 --> 00:05:56,730
+driven by date, but it&#39;s much more complicated
+
+101
+00:05:56,730 --> 00:05:59,360
+than year to year, so we&#39;re going to-- we
+
+102
+00:05:59,360 --> 00:06:03,570
+could use factor analysis to try to describe this structure,
+
+103
+00:06:03,570 --> 00:06:05,610
+and we definitely need more than two.
+
+104
+00:06:05,610 --> 00:06:09,560
+So that is something that we&#39;re going to try to do-- using R,
+
+105
+00:06:09,560 --> 00:06:14,150
+we&#39;re going to try to find how many factors we need here
+
+106
+00:06:14,150 --> 00:06:16,611
+to describe this correlation.
+

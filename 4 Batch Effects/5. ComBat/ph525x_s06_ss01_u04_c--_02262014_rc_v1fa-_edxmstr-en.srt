@@ -1,0 +1,228 @@
+0
+00:00:00,000 --> 00:00:02,270
+
+
+1
+00:00:02,270 --> 00:00:05,245
+RAFAEL IRIZARRY: In the previous module, we showed you this model.
+
+2
+00:00:05,245 --> 00:00:07,120
+That is the naive model we would fit if we were
+
+3
+00:00:07,120 --> 00:00:10,780
+interested in finding differences between males and females.
+
+4
+00:00:10,780 --> 00:00:14,510
+But it's not accounting for batch effects.
+
+5
+00:00:14,510 --> 00:00:17,160
+So how can we do that?
+
+6
+00:00:17,160 --> 00:00:21,210
+One of the first approaches suggested for genomics data
+
+7
+00:00:21,210 --> 00:00:23,360
+is a method called ComBat.
+
+8
+00:00:23,360 --> 00:00:29,230
+What ComBat does is it adds a row to the X
+
+9
+00:00:29,230 --> 00:00:33,310
+matrix that accounts for batch effects.
+
+10
+00:00:33,310 --> 00:00:36,650
+In this case, you have to know what the batch effects are.
+
+11
+00:00:36,650 --> 00:00:39,440
+In this case we know there's June and October.
+
+12
+00:00:39,440 --> 00:00:44,430
+So we're going to go ahead and add that covariate to the model.
+
+13
+00:00:44,430 --> 00:00:47,180
+In this case it would be on the third row
+
+14
+00:00:47,180 --> 00:00:52,850
+and we would have zeros for June, ones for October.
+
+15
+00:00:52,850 --> 00:00:59,160
+Then we add in a beta that will account for the fact that some genes are
+
+16
+00:00:59,160 --> 00:01:01,270
+affected by the batch and others aren't.
+
+17
+00:01:01,270 --> 00:01:07,260
+So when you do this, now you can estimate the parameters of interest--
+
+18
+00:01:07,260 --> 00:01:11,300
+in this case, it would be the beta ones-- taking into account the batch.
+
+19
+00:01:11,300 --> 00:01:14,380
+And if we do that and recalculate the
+
+20
+00:01:14,380 --> 00:01:18,030
+p-values that we calculated in the previous module, which are shown here.
+
+21
+00:01:18,030 --> 00:01:22,450
+So we were worried about the fact that we have too many genes
+
+22
+00:01:22,450 --> 00:01:26,810
+differentially expressed in the autosomes, and we apply ComBat,
+
+23
+00:01:26,810 --> 00:01:28,900
+we get slight improvement.
+
+24
+00:01:28,900 --> 00:01:33,770
+You see how this height dropped but the histogram on the right
+
+25
+00:01:33,770 --> 00:01:35,480
+didn't change much?
+
+26
+00:01:35,480 --> 00:01:36,370
+Which we don't want.
+
+27
+00:01:36,370 --> 00:01:40,770
+We don't want that to change, because these we believe are real differences.
+
+28
+00:01:40,770 --> 00:01:43,510
+But it's not completely flat.
+
+29
+00:01:43,510 --> 00:01:48,770
+And we wonder if maybe we haven't removed the entirety of the variation
+
+30
+00:01:48,770 --> 00:01:49,790
+due to batches.
+
+31
+00:01:49,790 --> 00:01:53,590
+So the limitation of ComBat is that it requires the user
+
+32
+00:01:53,590 --> 00:01:56,000
+to supply the batch effects.
+
+33
+00:01:56,000 --> 00:01:59,860
+In most cases we use the processing date.
+
+34
+00:01:59,860 --> 00:02:05,030
+However, my experience has shown me that processing date is just
+
+35
+00:02:05,030 --> 00:02:09,150
+a surrogate for other sources of variability.
+
+36
+00:02:09,150 --> 00:02:11,770
+And there's more to it than just date.
+
+37
+00:02:11,770 --> 00:02:14,480
+And we can't always know what is there.
+
+38
+00:02:14,480 --> 00:02:17,190
+Just to show you how that's a possibility here,
+
+39
+00:02:17,190 --> 00:02:19,350
+if we look at the dates, these are the dates
+
+40
+00:02:19,350 --> 00:02:22,640
+of all the samples in this complete data set,
+
+41
+00:02:22,640 --> 00:02:25,810
+not just the smaller set we constructed.
+
+42
+00:02:25,810 --> 00:02:30,130
+You can see that although there's some natural jumps,
+
+43
+00:02:30,130 --> 00:02:31,820
+there are also some slow movements.
+
+44
+00:02:31,820 --> 00:02:34,060
+You have one, a few done each day.
+
+45
+00:02:34,060 --> 00:02:35,040
+Then there's a jump.
+
+46
+00:02:35,040 --> 00:02:38,380
+So where do we split this to define batches?
+
+47
+00:02:38,380 --> 00:02:41,860
+In the smaller data set that we constructed, where we have 12 and 12,
+
+48
+00:02:41,860 --> 00:02:47,510
+you can see that the summer arrays and the fall arrays also
+
+49
+00:02:47,510 --> 00:02:49,430
+have days in between.
+
+50
+00:02:49,430 --> 00:02:51,470
+Here we have three days, here we have two days.
+
+51
+00:02:51,470 --> 00:02:54,810
+And maybe the mornings are different from the afternoons.
+
+52
+00:02:54,810 --> 00:02:58,960
+Many things can be happening here that we haven't annotated.
+
+53
+00:02:58,960 --> 00:03:01,390
+So how can we account for that?
+
+54
+00:03:01,390 --> 00:03:05,620
+In the next module, we're going to talk about factor analysis, singular value
+
+55
+00:03:05,620 --> 00:03:11,234
+decomposition, and then SVA as a solution to this problem.
+
+56
+00:03:11,234 --> 00:03:11,734
+
+

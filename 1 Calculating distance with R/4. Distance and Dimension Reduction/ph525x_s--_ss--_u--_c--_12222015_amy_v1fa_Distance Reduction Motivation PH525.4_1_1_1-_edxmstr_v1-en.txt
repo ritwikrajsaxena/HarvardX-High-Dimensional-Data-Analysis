@@ -1,0 +1,170 @@
+RAFAEL IRIZARRY: When you're working with high dimensional data,
+one of the techniques we use to facilitate
+data exploration and other analyses is dimension reduction.
+In this video, we're going to motivate the techniques
+that we use for reducing data size without losing too much information.
+So just to give you an example of why we would
+want to do this, consider a typical high throughput experiment,
+where you have 10,000 genes and 200 samples,
+and we want to examine the relationship between each pair of samples.
+That's a lot of scatter plots to look through.
+But using data dimension reduction will show you
+how this can help, for example, perform data exploration.
+But there are other advantages to using this technique.
+So the general idea is to reduce the dimensions of the data
+set, but yet, at the same time, preserving important properties
+such as-- and that's what we're going to be focusing on in this video--
+the distance between samples.
+So we are going to be using the concept of distance
+that we have previously described.
+So just to give you an example of how this could be useful,
+we could somehow reduce the dimensions to just two
+and we can make a plot because we know how to plot two dimensions.
+You make a scatter plot.
+And I'll point out, from now, that the techniques--
+those mathematical techniques behind all this-- is something
+called a singular value decomposition, SVD.
+So we're going to be motivating the SVD here in this video.
+And it's also important to remember that,
+although there's complicated mathematical ideas behind all this,
+what we're going to show you today gives you the intuition as to why we do it
+and why it works.
+And I'll also note that what we're talking about today
+relates to principal component analysis and we'll
+see how that all comes together later.
+So to motivate the exposition here, I'm going
+to take this data set that I have simulated.
+It's supposed to be the heights of twins.
+So each point is the height of twin number one and twin number two
+that it has been standardized, so this a number of standard deviations
+away from the average of each twin.
+So I want you to focus on the two orange points.
+So we're going to calculate the distance between these points.
+You see, we draw a line and you measure the length of that line.
+And we know how to do that.
+What we're going to try to do is we're going
+to try to provide a reduction of the data set here--
+it's just two dimensions-- so that we have just one dimension.
+And we can summarize distance between points with just one dimension.
+So to make the connection to what we are doing in the other data
+sets in this course, think of this as a high throughput gene
+expression data, where the twin pairs represent end sample.
+So each pair of twins is a sample.
+And the two measurements you have, the two heights,
+are two expressions for two genes.
+So imagine that instead of-- you know, we have 20,000 genes
+and reduce the reduction-- in this very simple example,
+we're trying to reduce the dimensions from two to one.
+But the ideas that we use to do that actually extrapolate to larger data
+sets.
+One of the things I want you to note is that if you
+try to compute the distance between any two points in this figure,
+you will see that most of the lines that go between two points
+are kind of going on a diagonal.
+So if we were able to somehow rotate this picture so
+that that distance between the points is now in one of the dimensions,
+and we would be very close to our ultimate goal of reducing this down
+to one dimension.
+So let's see how we would do that.
+All right, so let's consider an example.
+The distance between those two points is actually 1.14
+and we can compute the distance for every pair.
+And again, we're going to try to summarize or reduce
+the dimensions of this data set to just one and preserve this distance.
+All right.
+So here's one idea.
+Let's perform a transformation that is actually intuitive.
+Instead of plotting the heights against each other,
+we're going to plot the difference on the y-axis and the average
+on the x-axis.
+So we can already see that the distance between the averages
+is already a summary of a distance that is just one dimensional.
+If you just compute the distance between the averages,
+now you have reduced it to one dimension.
+The transformation we're going to end up with
+is similar to what we've just shown.
+So now another important point is that when
+we do this, when we perform this transformation, when we take the two
+heights and we convert them into the average and the difference
+between heights, we can represent this with linear algebra.
+It's a linear transformation, as shown in this slide.
+And you can see that just by having a simple two by two matrix,
+you can transform the data from the original Y-matrix, which
+is what I want to call it, to a new matrix, Z.
+And by taking the inverse of A, you can transform back.
+So you lose no information going back between Z and Y.
+So here's a plot again.
+On the left, you have Y1 versus Y2.
+And on the right, you have Z2 versus Z1.
+OK.
+So now we're going to look at this a little bit more closely.
+If we compute the standard deviations of the Z's-- right, so if you take each Z,
+individually, and you think of the Y's as coming from, say,
+a distribution that has standard deviation sigma,
+well the first dimension is the average.
+So now, the standard deviation is 1 over the square root of 2 times sigma.
+Well the y-axis, in this case, Z2, is a difference of Y's.
+And this is the square of 2 times sigma.
+So we have performed a transformation that
+changes the standard deviations of the two dimensions.
+Before, they were the same, and now they're different.
+And that is a little bit of a problem for what
+we want to do later, where we want to preserve these overall variabilities.
+So what we can do, it's easy to fix.
+We just multiply 1 by the square root of 2.
+And the other one, we divide by the square root of 2.
+And now we have a transformation where the standard deviations are preserved.
+And it's shown in this slide with A, right?
+It's 1 over square root of 2 times the matrix 1, 1, 1, minus 1.
+So if we multiply by this matrix instead,
+we preserve the standard deviations.
+Notice that this is an orthogonal matrix.
+A inverse, A transpose A is the identity.
+And that actually is why the standard deviations are preserved.
+So if I perform this transformation, because it
+is an orthogonal transformation-- here, I'm
+showing you the R code that would do it--
+if I compute the distance between each point in Y,
+compute the distance between each point using the Z's, and we
+plot those against each other-- this is a plot of all the distances
+from the Z's and all the distances from the Y's, you
+can see they're exactly the same.
+This is a mathematical fact.
+The distances are preserved.
+So this transformation preserves distances between points,
+unlike the first one we saw, the difference versus the average.
+So now we can plot this.
+And you can see it's a rotation.
+You take the data, that starts with a scatter like this,
+and we have rotated it to have the data with the dimension on the first axis
+that's related to the average and a dimension
+on the y-axis that's related to the difference.
+So what we're going to do now is we're going to note that in the second plot,
+the second dimension adds very little information.
+If you were going to compute the distance between two points,
+the distance computed just on the Z's are almost all you need.
+Look at the two orange points, for example.
+They almost have the same value of Z2.
+Therefore, the distance is mostly driven by the distance
+in just the first dimension.
+And that actually holds true for all the points.
+If we compute the distance based only on the first dimension--
+we completely ignore the second dimension of Z.
+So now we've reduced it to just one dimension.
+We compute the distance.
+We plot them against each other.
+We see that we get a very close approximation.
+This is, basically, the ideas behind what
+is called principal component analysis.
+Also, it's very related to the singular value decomposition.
+So one of the things I want to point out before we finish here
+is that if you look for explanations of the principal component analysis,
+you will notice that the explanations are a little bit off compared
+to what we've just seen here.
+And that's because, typically, the units--
+in the standard statistical analysis, the units are in the rows.
+In genomics, for reasons that we're not going to explain here,
+the units are typically in the columns.
+So if you look at an explanation that you look up on PCA,
+you'll probably see everything transposed.
+But other than that, you will see that this matches those explanations.

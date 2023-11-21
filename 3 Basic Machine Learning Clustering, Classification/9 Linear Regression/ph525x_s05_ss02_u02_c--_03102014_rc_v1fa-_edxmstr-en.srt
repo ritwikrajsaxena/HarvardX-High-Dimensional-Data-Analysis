@@ -1,0 +1,340 @@
+0
+00:00:00,000 --> 00:00:01,150
+
+
+1
+00:00:01,150 --> 00:00:05,140
+RAFAEL IRIZARRY: So in genomics data, we usually have many predictors.
+
+2
+00:00:05,140 --> 00:00:08,320
+Gene expression for thousands of genes, that could be our predictor.
+
+3
+00:00:08,320 --> 00:00:12,350
+SNPs for thousands of SNPs, those could be our predictors, et cetera.
+
+4
+00:00:12,350 --> 00:00:15,730
+The outcome is usually binary, although not always.
+
+5
+00:00:15,730 --> 00:00:20,510
+But a very common one is good prognosis versus not good prognosis.
+
+6
+00:00:20,510 --> 00:00:24,930
+Or you could have something like disease or not disease.
+
+7
+00:00:24,930 --> 00:00:26,300
+So how do we do this?
+
+8
+00:00:26,300 --> 00:00:30,080
+We're going to use a simple illustration using two variables.
+
+9
+00:00:30,080 --> 00:00:32,860
+So you can think of this as just two genes.
+
+10
+00:00:32,860 --> 00:00:37,289
+However, going forward, we're going to expand this list to many genes.
+
+11
+00:00:37,289 --> 00:00:38,330
+But let's start with two.
+
+12
+00:00:38,330 --> 00:00:40,930
+In the previous module, we did one, father's height
+
+13
+00:00:40,930 --> 00:00:42,440
+to predict son's height.
+
+14
+00:00:42,440 --> 00:00:45,620
+Now we have two variables.
+
+15
+00:00:45,620 --> 00:00:52,650
+So what we're after is the conditional expectation of Y given X1 and X2.
+
+16
+00:00:52,650 --> 00:00:57,010
+So for any pair of X's, we want to find the average value
+
+17
+00:00:57,010 --> 00:01:00,150
+of all the Y's with those two values.
+
+18
+00:01:00,150 --> 00:01:05,930
+Now, because this is a 0-1 case, we have Y is either 0 or a 1,
+
+19
+00:01:05,930 --> 00:01:08,490
+say a case or a control, this expectation
+
+20
+00:01:08,490 --> 00:01:13,740
+is equivalent to the probability of seeing a 1 given X and 1.
+
+21
+00:01:13,740 --> 00:01:17,540
+So I have generated simulated data.
+
+22
+00:01:17,540 --> 00:01:21,650
+And in this plot here I am showing you this probability
+
+23
+00:01:21,650 --> 00:01:23,440
+as a function of X1 and X2.
+
+24
+00:01:23,440 --> 00:01:26,890
+So you have X1 and X2 on the two axes.
+
+25
+00:01:26,890 --> 00:01:33,720
+In blue I'm showing you places where that probability is bigger than 1/2.
+
+26
+00:01:33,720 --> 00:01:35,770
+And in orange I'm showing you places where
+
+27
+00:01:35,770 --> 00:01:39,370
+that probability is less than 1/2.
+
+28
+00:01:39,370 --> 00:01:43,480
+So anything in this region we would probably call a 0.
+
+29
+00:01:43,480 --> 00:01:45,780
+And anything in this region we would call a 1.
+
+30
+00:01:45,780 --> 00:01:48,860
+So we don't actually know this.
+
+31
+00:01:48,860 --> 00:01:51,230
+This is where the data is going to be generated from.
+
+32
+00:01:51,230 --> 00:01:53,210
+It's the hidden truth.
+
+33
+00:01:53,210 --> 00:01:54,395
+We don't know it.
+
+34
+00:01:54,395 --> 00:01:57,370
+All we get to see is data like this.
+
+35
+00:01:57,370 --> 00:02:00,900
+So here we have some data where we have X1, X2.
+
+36
+00:02:00,900 --> 00:02:05,420
+You can think of them as gene expression for one gene and a second gene.
+
+37
+00:02:05,420 --> 00:02:08,150
+And we have outcomes shown with color.
+
+38
+00:02:08,150 --> 00:02:10,130
+So if you're a 0, you're orange.
+
+39
+00:02:10,130 --> 00:02:13,030
+If you're a 1, you're purple.
+
+40
+00:02:13,030 --> 00:02:18,349
+And now the question is, for any new X, for any new X1, X2,
+
+41
+00:02:18,349 --> 00:02:19,390
+can we give a prediction?
+
+42
+00:02:19,390 --> 00:02:22,250
+And how good would this prediction be?
+
+43
+00:02:22,250 --> 00:02:26,660
+So to help answer that question, I have kept--
+
+44
+00:02:26,660 --> 00:02:31,210
+and this is a very standard trick in machine learning problems.
+
+45
+00:02:31,210 --> 00:02:36,320
+I have kept to the side what is called a test set, which I will not
+
+46
+00:02:36,320 --> 00:02:40,650
+use to generate my prediction models.
+
+47
+00:02:40,650 --> 00:02:44,490
+I'm going to build prediction models on a training set.
+
+48
+00:02:44,490 --> 00:02:47,990
+And then I'm going to check how well they work on a test set.
+
+49
+00:02:47,990 --> 00:02:53,070
+The test set is not used to create the prediction models.
+
+50
+00:02:53,070 --> 00:02:54,550
+So let's start simple.
+
+51
+00:02:54,550 --> 00:02:59,250
+Let's try linear regression again, just because we know how to do it.
+
+52
+00:02:59,250 --> 00:03:05,020
+So the linear regression model would model the expectation of Y given X--
+
+53
+00:03:05,020 --> 00:03:11,100
+here X is two-dimensional-- with just a linear combination of the X's.
+
+54
+00:03:11,100 --> 00:03:14,640
+We estimate that with least squares and we get the beta hats.
+
+55
+00:03:14,640 --> 00:03:17,430
+And now we have a prediction formula.
+
+56
+00:03:17,430 --> 00:03:21,940
+So any X, any X1, X2, I just stick them in here.
+
+57
+00:03:21,940 --> 00:03:23,420
+And I'll get a prediction.
+
+58
+00:03:23,420 --> 00:03:25,230
+F of x will be any number.
+
+59
+00:03:25,230 --> 00:03:27,940
+But if it's bigger than 1/2, I'll predict a 1.
+
+60
+00:03:27,940 --> 00:03:31,050
+If it's smaller than 1/2 I'll predict a 0.
+
+61
+00:03:31,050 --> 00:03:34,940
+So if I do that with this data, this is what I get.
+
+62
+00:03:34,940 --> 00:03:37,690
+This is the map that I get.
+
+63
+00:03:37,690 --> 00:03:39,720
+The points are the data.
+
+64
+00:03:39,720 --> 00:03:46,440
+This line is the place where on the one side X1's, X2
+
+65
+00:03:46,440 --> 00:03:48,930
+are going to be bigger than a 1/2.
+
+66
+00:03:48,930 --> 00:03:53,610
+X1's and X2's below that line are going to predict something smaller than 1/2.
+
+67
+00:03:53,610 --> 00:03:58,570
+So this is the line where that linear formula is equal to 1/2.
+
+68
+00:03:58,570 --> 00:04:00,330
+So anything above it is bigger than 1/2.
+
+69
+00:04:00,330 --> 00:04:03,290
+Anything below it is smaller than 1/2.
+
+70
+00:04:03,290 --> 00:04:05,680
+So you can see that we would make several errors.
+
+71
+00:04:05,680 --> 00:04:09,150
+Any time you see an orange point in the purple area
+
+72
+00:04:09,150 --> 00:04:11,770
+that's a mistake and vice versa.
+
+73
+00:04:11,770 --> 00:04:15,440
+So here we make 29.5% mistakes.
+
+74
+00:04:15,440 --> 00:04:17,730
+This is the training data.
+
+75
+00:04:17,730 --> 00:04:20,560
+How well did we do on the test data?
+
+76
+00:04:20,560 --> 00:04:22,660
+Just a little bit worse.
+
+77
+00:04:22,660 --> 00:04:27,010
+And that's somewhat expected, because this is not a very flexible model.
+
+78
+00:04:27,010 --> 00:04:31,350
+Now why did we use linear regression here?
+
+79
+00:04:31,350 --> 00:04:37,430
+There was really no reason to believe that the shape of e of Y given X
+
+80
+00:04:37,430 --> 00:04:39,230
+is of this form.
+
+81
+00:04:39,230 --> 00:04:43,840
+There was no reason to believe it was a linear function of X1 and X2.
+
+82
+00:04:43,840 --> 00:04:49,510
+In the next module, we're going to introduce one of the many approaches
+
+83
+00:04:49,510 --> 00:04:52,990
+to estimating these conditional expectations that
+
+84
+00:04:52,990 --> 00:04:55,810
+are not based on linear models.
+

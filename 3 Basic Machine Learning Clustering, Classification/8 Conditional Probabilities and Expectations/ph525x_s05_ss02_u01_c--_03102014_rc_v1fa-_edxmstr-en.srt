@@ -1,0 +1,200 @@
+0
+00:00:00,000 --> 00:00:01,240
+
+
+1
+00:00:01,240 --> 00:00:04,280
+RAFAEL IRIZARRY: In the next modules, we're going to introduce some concepts from machine
+
+2
+00:00:04,280 --> 00:00:07,990
+learning, also known as prediction or classification,
+
+3
+00:00:07,990 --> 00:00:11,070
+and how it's used in genomics.
+
+4
+00:00:11,070 --> 00:00:14,960
+So let's start by defining conditional expectations.
+
+5
+00:00:14,960 --> 00:00:18,780
+Let's use a very simple example, which we've used in a previous module.
+
+6
+00:00:18,780 --> 00:00:23,080
+Suppose you want to predict the son's height from the father's height.
+
+7
+00:00:23,080 --> 00:00:26,070
+So if you're given just this data and you're
+
+8
+00:00:26,070 --> 00:00:30,260
+asked to predict a random person's height, a random person taken
+
+9
+00:00:30,260 --> 00:00:32,619
+from the sons, you would take the average.
+
+10
+00:00:32,619 --> 00:00:34,890
+Because this is normally distributed data,
+
+11
+00:00:34,890 --> 00:00:38,980
+you would predict with the average because a one-inch interval
+
+12
+00:00:38,980 --> 00:00:43,660
+around the average has more individuals in it than any other interval of size
+
+13
+00:00:43,660 --> 00:00:46,160
+one-inch.
+
+14
+00:00:46,160 --> 00:00:48,740
+Now let's say that I change the problem and I say,
+
+15
+00:00:48,740 --> 00:00:55,000
+assume that you know that the father is 71 inches tall.
+
+16
+00:00:55,000 --> 00:00:56,740
+So now this becomes a prediction problem.
+
+17
+00:00:56,740 --> 00:00:59,640
+We have a predictor, x, the height of the father.
+
+18
+00:00:59,640 --> 00:01:02,090
+And we're asked to predict the son's height.
+
+19
+00:01:02,090 --> 00:01:04,780
+So how do we do this?
+
+20
+00:01:04,780 --> 00:01:09,500
+So one simple idea, that is very powerful,
+
+21
+00:01:09,500 --> 00:01:15,200
+is to condition the data so you only look at data where
+
+22
+00:01:15,200 --> 00:01:19,340
+the x is equal to 71, where the fathers are 71,
+
+23
+00:01:19,340 --> 00:01:24,200
+and you look for the value that maximizes the probability.
+
+24
+00:01:24,200 --> 00:01:27,980
+For most data, for example, for normally distributed data,
+
+25
+00:01:27,980 --> 00:01:31,710
+this location where this probability is maximized is at the average.
+
+26
+00:01:31,710 --> 00:01:36,420
+So there, we define the conditional mean or the conditional average.
+
+27
+00:01:36,420 --> 00:01:40,510
+So you take all the fathers that are 72 inches.
+
+28
+00:01:40,510 --> 00:01:42,630
+And you take the average of those individuals.
+
+29
+00:01:42,630 --> 00:01:44,540
+And that's your prediction.
+
+30
+00:01:44,540 --> 00:01:47,220
+Our prediction is going to be denoted with f(x).
+
+31
+00:01:47,220 --> 00:01:51,500
+So for any given x, you want to give a prediction, f(x).
+
+32
+00:01:51,500 --> 00:01:57,090
+So in this case, we would take all the fathers that are 71 inches, right here.
+
+33
+00:01:57,090 --> 00:02:03,250
+And here's the distribution function of just these data here.
+
+34
+00:02:03,250 --> 00:02:08,270
+And you can see that the maximum is somewhere around 70-71.
+
+35
+00:02:08,270 --> 00:02:11,020
+In the case of data like this, that's normally distributed,
+
+36
+00:02:11,020 --> 00:02:15,860
+we already saw, in a previous module, that the regression line gives us
+
+37
+00:02:15,860 --> 00:02:18,760
+this average, this conditional average.
+
+38
+00:02:18,760 --> 00:02:20,790
+And it has a very simple formula.
+
+39
+00:02:20,790 --> 00:02:23,690
+You start with the average height of a son.
+
+40
+00:02:23,690 --> 00:02:27,865
+And then you add-- so you take how many standard deviations
+
+41
+00:02:27,865 --> 00:02:32,150
+a 71-inch tall father is away from the average.
+
+42
+00:02:32,150 --> 00:02:35,490
+You multiply by the standard deviation of the son's height,
+
+43
+00:02:35,490 --> 00:02:37,410
+to get it back to the right scale.
+
+44
+00:02:37,410 --> 00:02:40,180
+And then you multiply by the correlation.
+
+45
+00:02:40,180 --> 00:02:46,560
+So this formula here gives us a prediction for any father's height, x.
+
+46
+00:02:46,560 --> 00:02:50,960
+And it's actually going to be a very good prediction in this case.
+
+47
+00:02:50,960 --> 00:02:53,090
+In the next module, we're going to explain
+
+48
+00:02:53,090 --> 00:02:56,790
+what happens when you have more than one predictor, like you have in genomics
+
+49
+00:02:56,790 --> 00:03:01,260
+where you have several genes to base your predictions on.
+

@@ -1,0 +1,36 @@
+
+RAFAEL IRIZARRY: In the previous module, we described a way to account for batch effects
+when we know what the batch effects are.
+But we also saw evidence for us not really knowing
+exactly what the batch effects are.
+What are the sources of variability that are affecting our data?
+So a more general model would be this surrogate variable model
+in where we have, just like before, the outcome of interest, which
+in the example that we've been looking at is sex, female or male.
+We have measurement error.
+But now we have this new term that describes the correlation
+that we see between samples.
+To simplify this part of the model, we're
+assuming that it is determined by a series of columns
+that are considered the batches.
+So if we only had one batch, one of the columns of w
+could just be a series of zeros and ones,
+where one means you're in one batch, zero means in the other.
+But now, we don't really know who is a zero and who is a one.
+And we have to actually estimate that.
+So the approach here is difficult because we
+don't know what w is, we don't know what alpha is, we don't know what beta is.
+All these things have to be estimated, which seems almost impossible to do.
+But there is a trick that statisticians have
+been using for decades called factor analysis.
+So notice that if beta is zero, if the effect of the outcome of interest
+is zero, then all we're left with is the sources of variability.
+We have the measurement error, and then we
+have the effects that are associated with batch,
+the surrogate values that we are calling batch effects.
+So now the exercise is to find w and alpha.
+And by making certain assumptions about how these are uncorrelated
+and how they're uncorrelated to noise, we
+can actually estimate these w's and these alphas.
+And we're going to explain how to do that in the next module, where
+we explain singular value decomposition and principal component analysis.

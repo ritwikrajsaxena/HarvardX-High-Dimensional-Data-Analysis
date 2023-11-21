@@ -1,0 +1,99 @@
+RAFAEL IRIZARRY: In this video, we're going
+to show you how to compute distance in R. We're going to use this data set
+that we have been using as an example.
+It includes gene expression measurements for 189 samples on about 22,000 genes,
+and it is-- let's look at that real quick.
+It's saved in the object e, and each column represents a tissue.
+These are from the public repositories.
+Each tissue is very likely from a different person,
+and we can look at which tissue each column represents
+by looking at this vector tissue that just lists them out
+as a character vector.
+So we can see we have several tissues.
+We can use a function table and see how much of each one we have.
+All right, now let's go straight in to calculating distances.
+Let's say we want to compute the distance between two samples.
+Let's take two at random, take the first two.
+That's the first column, represents the first sample, and then the second,
+and I'm going to pick a third at random, 87.
+Now, let's see what those tissues are just
+to see what we're working with here.
+They are two kidneys and a colon, so we expect the first two
+to be closer to each other than the last one because they're different issues.
+And their gene expression profile, these points,
+are expected to be closer if they're the same tissue.
+So how do we compute distance?
+Well, the formula we showed in class tells us we
+take the difference between each entry of x and y,
+square that and then take the sum.
+That gives us the square of the distance, so we take the square root
+and that should be it.
+That should give us the distance between x and y.
+Let's see if that works.
+It says it's 85.8546.
+Now, let's look at the same thing for the distance
+between the first and third tissue, and we get 122.
+As expected, it's a bigger number.
+All right, in the videos, we also showed how we can use matrix algebra.
+So we take x minus y, define that as a difference
+and then take the cross product of that with itself, we
+should get the same answer.
+So let's try it.
+I would write crossprod and then just x minus y.
+It's that simple.
+Now, we have to take the square root of that
+and that should give us 85.8546 because it's the same calculation.
+And there it is, and we can do the same for y minus z
+and again, get the same answer.
+Great.
+Now, if we wanted to compute the distances between each pair of samples,
+there's a function that does that and it's called dist.
+So we can look at the help file for dist, and there it is.
+And we can read that and see that it computes
+the distance between every row in x.
+So we would apply that to e, but we want the distance between each column,
+those are the samples.
+And the way we do achieve that is by taking the transpose so
+that the rows are columns, and now we get the distance between each column.
+Let's put that into d.
+A word of warning.
+If I type dist of e without the transpose,
+I might crash my R session, because we're
+asking R to compute the distance between 22,215, choose two pairs.
+So every pair of genes, that's a big number.
+So to store all that information, we have to create a gigantic object.
+You might not have enough memory for that.
+But here we're taking the transpose, that should give us a 189
+by 189 matrix of distances.
+Remember, for each pair we have a distance, each pair of columns
+gives us a distance.
+Now, this is an object of class dist.
+It isn't that easy to work with.
+If we want to extract things like the distance between the first two samples,
+what I do is I turn it into a matrix and then use it as a matrix.
+And once it's turned into a matrix, now entry 1, 2
+gives us the distance between the first and the second column,
+so that should be 85.8546, and there is.
+And then the same thing for the entry 1-- what was it?
+87.
+That should be 122, I think it was.
+And there it is.
+OK, so that's how this function dist works.
+It's very useful.
+I use it often.
+One other thing I wanted to show you.
+Is that if you wanted to visualize all the distances,
+you could use the image function and just type as.matrix.d, and you're
+going to get a color image of all the distances,
+so that's that 189 by 189 matrix.
+The top triangle and the bottom triangle should be the same
+because the distance between x and y is the same
+as the distance between y and x.
+And you can see these red squares.
+Those red squares are there because the samples are somewhat
+ordered by tissue so you have tissues that
+are close on the matrix are also close in biology or biology wise close,
+and then you get these reddish squares representing the distance
+between tissues of the same kind.
+Red is smaller and yellow is larger.
+OK, so that's how we compute distance using R.

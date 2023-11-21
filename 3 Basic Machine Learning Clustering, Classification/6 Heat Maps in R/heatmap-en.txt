@@ -1,0 +1,124 @@
+RAFAEL IRIZARRY: Now that we know what hierarchical clustering is,
+we're ready to explain heat maps and show you how to make them in R.
+So the idea behind a heat map is to show you the data in two dimensions.
+We're using color.
+So for example, if I could just use a image function
+to show you the first 100 genes, and it would look like this,
+I have to load the data.
+And you can see that that's what the image is.
+And the yellow means high, red means low.
+And you can see every cell in this picture,
+every little pixel, like you see this little square here,
+represents one entry in the table, and the color represents the number.
+Now, what the heat map does, it adds structure to this data.
+It clusters the genes and it clusters the samples,
+and then creates an image like this.
+That's what a heat map does.
+So if we wanted to make the heat map for this data set,
+we can't just run it on the entire data set because then we
+would get 22,000 rows, and that is not something we can see on a screen.
+We don't even have enough pixels on the screen to see that.
+And certainly, our eyes can't distinguish 22,000 times 189
+as a matrix of pixels.
+So many times, when you make a heat map in practice,
+you're going to choose some genes, some rows, to show.
+One very standard way to do that is to pick genes that vary a lot.
+You can take the top, say-- I'm going to make a small heat map.
+So I'll take the first 40 genes of how much they vary.
+There's other ways to do that.
+I'm going to do that here quickly so that you can see how that works.
+I'm going to take the top 40 genes that vary the most using the rowVars
+function to get those, and I'm going to subset the e matrix using those genes.
+And now I can just call the heatmap function like this,
+and it'll make a heat map.
+I don't have to transpose the heat in any way.
+So there you go.
+It already made it.
+So it clustered the genes here.
+It clustered the samples, and then it renders the plot
+with the colors representing the measurements.
+So we can see, for example, that these genes are highly
+expressed in whatever cluster that is, and these genes are low expressed
+in whatever cluster of samples that is.
+Now, right now, the plot isn't very informative.
+I'm going to show you slowly how to add to it.
+Now, the first thing I want to do is change the colors.
+I don't like yellow and red too much, so I'm going to use this R color brewer
+package to pick some colors.
+So here's a standard way you do that.
+You can run the-- let me make this a little bigger so you can see it.
+I'm going to use the brewer.pal function.
+You can look at the Help file.
+So you can see all the choices there are for the palettes.
+Green to blue is one.
+We're going to take that one.
+And then I'm going to use this color ramp palette, which
+is a function that takes these nine colors
+and creates 100 consecutive colors that slowly goes from the first one
+to the last.
+That's how that works.
+And now I have new colors, and I can rerun this command using those.
+Let me copy it here and run it again with these colors.
+And you can see that they're a little bit better to look at.
+So now we have low expression is white and high expression is blue.
+All right.
+Now what else can we do here?
+First of all, I'll say that the heat map function I actually don't like to use.
+The main reason is that when I stretch out the plot, it always stays the same
+and doesn't reshape itself.
+So there's another alternative called the heatmap.2 function that
+works much better than heatmap, and I'm going
+to show you how you can use it here.
+So it's in the gplots package.
+I load that up.
+I have to redo the colors.
+So, yeah.
+Oh yeah.
+So the next thing I'm going to do is I'm going
+to create a palette of colors for the different tissues
+because it's very hard to read these samples here, these sample names here.
+So I'm going to add color to represent the different tissues,
+and that'll visually let me see it.
+So the way I'm going to do that is I'm going
+to create a palette with eight colors.
+I can use seven.
+There's only seven tissues.
+And then assign to each one-- to each tissue, you get assigned one color.
+So let's look at how that works.
+I have to load up rafalib to get as.fumeric.
+Oops, library.
+And now you can see that colors, you can see
+that-- it's a little hard to read-- but you can see that they're repeats.
+That's because they're the same tissue.
+Now, one way to see that is to do this.
+We can show the tissue.
+So there we can see a table.
+And you can see this column name, the tissue, and the color.
+These are the way you define colors in R more generally.
+And you can see the endometrium has the same color.
+Liver has all the same color, et cetera.
+So I'm going to use that as what's called the labCol, the column
+lab, the color for the lab.
+Now, I'm sorry.
+The column side colors I'm going to define as cols.
+I'm going to give these colors are the color for the heat map.
+We already defined that.
+I'm going to then add, instead of the column names,
+I'm going to use tissue as the column name
+so I can see that the different names-- liver, endometrium, et cetera.
+And now I'm ready to go.
+And then one last thing.
+Trace, I don't want to trace.
+You can look at the Help file for what trace is.
+I never make heat maps with trace I don't recommend using that in general.
+All right.
+So let's see how that looks.
+And you'll see how much nicer it looks than before.
+Now I can stretch it.
+And you can see how the entire plot stretches out when you do that.
+You can see the livers, the cerebellums, but it's still
+hard to read because they're so tiny, but now I have the color.
+So these are all the same tissue.
+These are all the same tissues, et cetera.
+So that's how I use heat maps in R, and hopefully it'll
+be a useful tool for you to explore your high dimensional data.

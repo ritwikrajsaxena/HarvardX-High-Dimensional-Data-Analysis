@@ -1,0 +1,156 @@
+PROFESSOR IRIZARRY: We're ready to perform machine learning in R. So what
+we're going to try to do is we're going to try to predict tissues
+based on gene expression data.
+And as we'll see later, we're going to make
+it a little bit challenging because it turns out
+that that's a very easy thing to do.
+Tissues have very different gene expression profiles.
+So we'll try to do it with fewer dimensions than all the genes.
+Now, before we start, I want to show you the outcome
+that we're trying to predict.
+It's tissue.
+So we can see that there's one tissue placenta that only has six.
+So I'm actually going to take that one out.
+And that way it gives us a little bit more balance.
+And it's better for illustration purposes.
+But there are ways to implement machine learning
+algorithms with cases like this.
+So let's take out the columns with that tissue that's your placenta.
+And then we will define y, our outcome of interest,
+and x, our matrix of predictors.
+So y is tissue categories.
+And x is the transpose of e.
+It's the transpose because each column now is a predictor.
+That's how these machine learning algorithms work.
+So we can see the dimension of x is the number of outcomes-- 183--
+that's the length of y.
+And it has 22,215 predictors.
+Now, the first thing we think about when we're
+getting ready to do machine learning is cross validation.
+So it's very important that we cross validate our results that we
+train on one set and test on another.
+So the first thing I'm going to do is create a set of indices
+that facilitates cross validation.
+And we're going to use this nice, little function in the caret package
+to create folds.
+It automatically does this for us.
+So it takes our outcome y, and we're going to create five folds.
+So what it does is it splits the data into five groups.
+And now what we're going to do, which are called the folds.
+And what we're going to do when we come to the prediction part
+is we're going to leave out one fold, use the other four to train,
+and then test on that one we left out.
+That's the idea behind cross validation.
+And then we do that for each fold.
+We leave out the first, the second, the third, the fourth, and the fifth.
+Let's show you what the outcomes are in these five folds.
+So have five folds.
+And in each one, we have a series of tissues.
+These are the tissues in the five subsets.
+The number of tissues in each of the five subsets.
+You can see why we left placenta out.
+A lot of these would have zero placentas.
+And it would complicate the problem slightly.
+Now, as I said earlier, we're going to make this problem more challenging
+by looking at only two dimensions.
+We're going to take the first two dimensions that
+is given to us by cmdscale.
+So we're going to make a smaller set of predictors, basically, two.
+And we're going to try to predict tissues based on these two predictors.
+So I'm going to load the rafalib package to make some nice looking pictures.
+And you can see what these two dimensions are.
+And there they are.
+And we have the different colors or the different tissues.
+So we're going to try to predict those colors based on these two dimensions.
+You can already see that it's not going to be easy, because they
+don't separate out perfect.
+All right, so let's get started.
+So I'm going to use knn to do this, which is in the library class.
+And I'm going to apply knn in the following way.
+What I do is I-- I'm going to train on the rows-- on all the rows except the ith
+fold.
+So here I'm doing the first one.
+So I'm going to take out the rows that are
+indexed in that first fold-- take them out-- take them out also
+for the outcome y.
+You can see here-- cl gives us the outcome.
+And then we're going to test on the remaining dataset.
+So that gives us back-- we're going to get back results for this test data
+as well.
+So we don't use the indices in this fold to train the model.
+So that's our test set.
+So we can run this quick.
+It's very fast.
+And now we can see how we did.
+So we can look at the tissues and the actual tissues and the calls.
+And we can see, for example, that we made some mistakes for cerebellum.
+There's two mistakes here.
+I think we got all our colons right.
+But we got some errors in the hippocampus.
+We can just tally up all the mistakes we made here.
+We count how many mistakes we made.
+And we take the mean.
+And we see that 17%-- we made mistakes in 17% of our predictions.
+Now that was only one fold.
+So now the next step is to run through this,
+do the same at the same thing we just did-- do it now for every fold.
+So that's what I'm going to do now.
+I'm going to go along each of the five folds.
+This is just one through five.
+See that there.
+And for each one, I'm going to run again--
+what we just did-- I'm going to run it again leaving out now
+the first, second, third, fourth and fifth fold
+and then counting the number of mistakes we made.
+So we just run that.
+I'm going to do that for the first-- so I don't this i anymore.
+Where did I go?
+I'm sorry-- right down here.
+So I don't need to-- the i is set in sapply.
+And I do need to set k because I am naming in general.
+You'll see why we're doing that in a second to let's say five.
+Now we run it.
+Now we are doing, again, we're doing the cross validation.
+Basically, we're testing and training, leaving out folds,
+and we're doing it for all five.
+We run this-- should be pretty quick.
+And now we have in res.k-- the results.k--
+we can see we made six mistakes in each one of them.
+Now the next step is to compare the different k.
+So we want to choose the number of nearest neighbors that we include.
+Is 5 a good choice?
+Or should we have done 10?
+Shoud we have done 1?
+So before we continue with that, let's write down
+here what the final outcome is.
+We sum up res.k and divide by the length of y.
+And that gives us the error rate-- 16% now.
+I'm going to do this now-- not for every single k, but several k.
+So let's do 1 through 12.
+And now what I do is I add another level of another loop.
+I go through the k's-- function(k).
+And I'm ready to apply what we just did for these 12 values of k.
+And then we can plot them and see which one works best.
+Then we close it.
+All right, so there it's pretty fast.
+And now we can just plot k's against this res and see how they compare.
+And we can see that the best choice actually was five.
+And we can see that 0 makes more mistakes.
+And then it goes up.
+So that's how we use cross validation to do the prediction.
+And with just two dimensions, we did OK.
+16% mistakes is not terrible.
+Now the last thing I want to show you here
+is that we use more-- if we use more samples-- sorry, if we
+use more than two dimensions, then it becomes pretty easy to do this.
+So we can see that.
+If I now redo it with five dimensions instead of two,
+we can see that-- let's wait for it to finish and then run it.
+So we use five dimensions.
+Before we used two in the k nearest neighbors approach.
+Then we do much, much better.
+We basically make no mistakes when we have more dimensions.
+So just with five dimensions, we're already doing a very good job.
+If we make it 100 or 1,000 dimensions, then we'll probably do perfect.
+So that's how you use cross validation to test out machine learning procedures
+and also to pick the parameters.

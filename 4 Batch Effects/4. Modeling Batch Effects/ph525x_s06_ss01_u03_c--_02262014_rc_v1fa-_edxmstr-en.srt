@@ -1,0 +1,464 @@
+0
+00:00:00,000 --> 00:00:00,931
+
+
+1
+00:00:00,931 --> 00:00:02,930
+RAFAEL IRIZARRY: In this module, we're going to start showing you
+
+2
+00:00:02,930 --> 00:00:07,440
+how you can model data that has batch effects in it.
+
+3
+00:00:07,440 --> 00:00:10,290
+And that'll eventually take us to solutions
+
+4
+00:00:10,290 --> 00:00:17,060
+to estimating differences of interest in data that has batches.
+
+5
+00:00:17,060 --> 00:00:19,650
+So to do that, we're going to construct a data set.
+
+6
+00:00:19,650 --> 00:00:20,930
+This is real data.
+
+7
+00:00:20,930 --> 00:00:23,690
+But it was constructed in a somewhat artificial way.
+
+8
+00:00:23,690 --> 00:00:27,630
+We took the data set from the previous module, where
+
+9
+00:00:27,630 --> 00:00:28,830
+we had the two ethnicities.
+
+10
+00:00:28,830 --> 00:00:33,000
+We stuck to one ethnicity, but took two batches.
+
+11
+00:00:33,000 --> 00:00:36,090
+June, 2005, October, 2005.
+
+12
+00:00:36,090 --> 00:00:41,120
+And then for each one, we picked males and females in a way
+
+13
+00:00:41,120 --> 00:00:44,720
+that they were confounded with date, but not completely confounded with date.
+
+14
+00:00:44,720 --> 00:00:47,410
+So you can see that on the table on the left.
+
+15
+00:00:47,410 --> 00:00:49,280
+So June had more males.
+
+16
+00:00:49,280 --> 00:00:51,661
+October had more females.
+
+17
+00:00:51,661 --> 00:00:53,410
+This is something we don't recommend doing
+
+18
+00:00:53,410 --> 00:00:56,380
+if you're designing an experiment.
+
+19
+00:00:56,380 --> 00:01:01,660
+But sometimes you just get data this way and you have to deal with it.
+
+20
+00:01:01,660 --> 00:01:06,640
+So you can see an image of a subset of the genes.
+
+21
+00:01:06,640 --> 00:01:11,780
+So the first 12 are the females.
+
+22
+00:01:11,780 --> 00:01:14,420
+The second 12 are the males.
+
+23
+00:01:14,420 --> 00:01:21,060
+The first few genes are genes from the Y chromosome, where
+
+24
+00:01:21,060 --> 00:01:24,460
+we know that there are some differences between males and females.
+
+25
+00:01:24,460 --> 00:01:26,110
+So there is some real signal there.
+
+26
+00:01:26,110 --> 00:01:28,300
+And you can already kind of see it.
+
+27
+00:01:28,300 --> 00:01:31,280
+You see some red as high expressed versus
+
+28
+00:01:31,280 --> 00:01:33,890
+blue, low expressed, males versus females.
+
+29
+00:01:33,890 --> 00:01:37,400
+Then we took a set, shown down here, where
+
+30
+00:01:37,400 --> 00:01:39,150
+the genes were associated with batch.
+
+31
+00:01:39,150 --> 00:01:42,410
+So they changed from June to October.
+
+32
+00:01:42,410 --> 00:01:49,840
+And you can see here this must be June, the orange, and this is June.
+
+33
+00:01:49,840 --> 00:01:52,630
+And the blue is October.
+
+34
+00:01:52,630 --> 00:01:54,590
+And vice versa down here.
+
+35
+00:01:54,590 --> 00:02:01,030
+So you know within the females there's three in June and nine in October.
+
+36
+00:02:01,030 --> 00:02:08,990
+In the men three in October and nine in June.
+
+37
+00:02:08,990 --> 00:02:12,797
+And then we selected some random genes as well.
+
+38
+00:02:12,797 --> 00:02:14,130
+So this is just an illustration.
+
+39
+00:02:14,130 --> 00:02:17,117
+This is not-- we actually analyzed the entire data set.
+
+40
+00:02:17,117 --> 00:02:18,950
+But for many of the pictures in this module,
+
+41
+00:02:18,950 --> 00:02:22,630
+we're actually showing just these genes.
+
+42
+00:02:22,630 --> 00:02:25,420
+So how do we begin to model this?
+
+43
+00:02:25,420 --> 00:02:28,020
+Well, let's start with a naive model.
+
+44
+00:02:28,020 --> 00:02:31,990
+So in the naive model, we write something like this.
+
+45
+00:02:31,990 --> 00:02:40,020
+We have a matrix that has features-- genes, SNPs, DNA methylation, loci.
+
+46
+00:02:40,020 --> 00:02:42,850
+And on the columns, we have samples.
+
+47
+00:02:42,850 --> 00:02:46,780
+So we have the 12 females and the 12 males.
+
+48
+00:02:46,780 --> 00:02:52,600
+So that's represented here with this Y. There's m features and n samples.
+
+49
+00:02:52,600 --> 00:02:55,530
+In most statistics textbooks, you're going
+
+50
+00:02:55,530 --> 00:02:59,190
+to see the transpose of this matrix used.
+
+51
+00:02:59,190 --> 00:03:01,090
+So don't be confused by that.
+
+52
+00:03:01,090 --> 00:03:04,370
+We use it in this form here because that's
+
+53
+00:03:04,370 --> 00:03:07,330
+how we usually handle the data on the computer.
+
+54
+00:03:07,330 --> 00:03:10,240
+And we don't want to get confused between what we do in the computer
+
+55
+00:03:10,240 --> 00:03:12,330
+and what we show in class.
+
+56
+00:03:12,330 --> 00:03:15,510
+But when you go read a textbook, you might see it the other way.
+
+57
+00:03:15,510 --> 00:03:16,720
+You might see why Y n m.
+
+58
+00:03:16,720 --> 00:03:21,020
+And the data matrix will be transposed.
+
+59
+00:03:21,020 --> 00:03:21,520
+All right.
+
+60
+00:03:21,520 --> 00:03:23,730
+So now that's the data.
+
+61
+00:03:23,730 --> 00:03:27,820
+So in the naive model, we're going to say, well, there's a sex effect.
+
+62
+00:03:27,820 --> 00:03:31,690
+And that would be modeled with a matrix that
+
+63
+00:03:31,690 --> 00:03:35,660
+has 0s for the females and 1s for the males.
+
+64
+00:03:35,660 --> 00:03:39,510
+And then each gene will have a male effect.
+
+65
+00:03:39,510 --> 00:03:42,440
+So that would be in a matrix like this one
+
+66
+00:03:42,440 --> 00:03:45,220
+that would have the betas, the parameters of interest.
+
+67
+00:03:45,220 --> 00:03:51,530
+And then we have another matrix that has the covariates.
+
+68
+00:03:51,530 --> 00:03:53,250
+And then we have some noise.
+
+69
+00:03:53,250 --> 00:03:56,670
+So that's also an m by n matrix.
+
+70
+00:03:56,670 --> 00:03:59,760
+So X is a simple matrix.
+
+71
+00:03:59,760 --> 00:04:01,050
+It's easy to understand.
+
+72
+00:04:01,050 --> 00:04:05,040
+X is basically denoting who's a male and who's a female.
+
+73
+00:04:05,040 --> 00:04:10,850
+It's going to be a 2 by n by 24 in this case matrix.
+
+74
+00:04:10,850 --> 00:04:13,850
+And the first row is going to have just 1s that
+
+75
+00:04:13,850 --> 00:04:16,673
+will denote the gene mean level.
+
+76
+00:04:16,673 --> 00:04:19,089
+And in the second row, it's going to have either a 0 or 1,
+
+77
+00:04:19,089 --> 00:04:21,990
+depending if you're a male or a female.
+
+78
+00:04:21,990 --> 00:04:25,510
+So you'll have 0, 0, 0, 12 0s, followed by 12 1s.
+
+79
+00:04:25,510 --> 00:04:26,620
+Very simple matrix.
+
+80
+00:04:26,620 --> 00:04:29,320
+There's two betas for each gene.
+
+81
+00:04:29,320 --> 00:04:31,330
+The first one is the mean level.
+
+82
+00:04:31,330 --> 00:04:33,810
+The second one is the effect of being male.
+
+83
+00:04:33,810 --> 00:04:39,060
+So what we're after here if we're thinking of imitating a real analysis,
+
+84
+00:04:39,060 --> 00:04:45,242
+we're looking for genes for which beta 1 is not 0.
+
+85
+00:04:45,242 --> 00:04:46,700
+Those will be the interesting ones.
+
+86
+00:04:46,700 --> 00:04:49,920
+Those will be genes where males and females are different.
+
+87
+00:04:49,920 --> 00:04:52,180
+In this particular data set, we expect this to only
+
+88
+00:04:52,180 --> 00:04:57,210
+be happening on the Y chromosome and maybe the X,
+
+89
+00:04:57,210 --> 00:04:59,580
+because some genes escape X inactivation.
+
+90
+00:04:59,580 --> 00:05:00,080
+All right.
+
+91
+00:05:00,080 --> 00:05:02,090
+So this model, we've seen it before.
+
+92
+00:05:02,090 --> 00:05:05,800
+It's the one we've used in the linear model modules.
+
+93
+00:05:05,800 --> 00:05:08,560
+But in this case, it's missing something.
+
+94
+00:05:08,560 --> 00:05:13,270
+This model is going to explain this variability up here,
+
+95
+00:05:13,270 --> 00:05:19,360
+because when beta 1 is different from 0, you
+
+96
+00:05:19,360 --> 00:05:25,220
+will get differences between the females and the males.
+
+97
+00:05:25,220 --> 00:05:28,950
+But this down here is not explained by that.
+
+98
+00:05:28,950 --> 00:05:31,100
+So we need a way to explain this.
+
+99
+00:05:31,100 --> 00:05:33,740
+So basically, if we fit the model we just showed,
+
+100
+00:05:33,740 --> 00:05:37,200
+which is equivalent to running a t-test on each gene,
+
+101
+00:05:37,200 --> 00:05:43,420
+we get many genes with small p values, more than expected,
+
+102
+00:05:43,420 --> 00:05:44,540
+for the autosome genes.
+
+103
+00:05:44,540 --> 00:05:47,130
+And we suspect that that's wrong.
+
+104
+00:05:47,130 --> 00:05:51,370
+Then on chromosome Y genes, we get most of the genes differentially expressed,
+
+105
+00:05:51,370 --> 00:05:53,640
+which is something we expect.
+
+106
+00:05:53,640 --> 00:05:57,360
+On this histogram on the right, we want to see
+
+107
+00:05:57,360 --> 00:06:00,030
+a lot of genes that are differentially expressed.
+
+108
+00:06:00,030 --> 00:06:05,240
+But we suspect that the histogram on the left should just be flat.
+
+109
+00:06:05,240 --> 00:06:07,510
+We just picked randomly the males and the females.
+
+110
+00:06:07,510 --> 00:06:11,360
+There shouldn't be many differences outside of these chromosomes.
+
+111
+00:06:11,360 --> 00:06:16,912
+So we suspect that these genes here are actually due to the batch effect.
+
+112
+00:06:16,912 --> 00:06:18,870
+So in the next modules, we're going to show you
+
+113
+00:06:18,870 --> 00:06:24,370
+two different approaches, ComBat and SVA, that adjust for batch effects
+
+114
+00:06:24,370 --> 00:06:27,100
+and hopefully improve the results.
+
+115
+00:06:27,100 --> 00:06:27,667
+
+

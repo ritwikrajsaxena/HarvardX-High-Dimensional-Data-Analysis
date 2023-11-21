@@ -1,0 +1,496 @@
+0
+00:00:00,644 --> 00:00:03,060
+RAFAEL IRIZARRY: Now that we know what hierarchical clustering is,
+
+1
+00:00:03,060 --> 00:00:07,290
+we&#39;re ready to explain heat maps and show you how to make them in R.
+
+2
+00:00:07,290 --> 00:00:15,290
+So the idea behind a heat map is to show you the data in two dimensions.
+
+3
+00:00:15,290 --> 00:00:16,740
+We&#39;re using color.
+
+4
+00:00:16,740 --> 00:00:19,790
+So for example, if I could just use a image function
+
+5
+00:00:19,790 --> 00:00:24,090
+to show you the first 100 genes, and it would look like this,
+
+6
+00:00:24,090 --> 00:00:26,080
+I have to load the data.
+
+7
+00:00:26,080 --> 00:00:29,240
+And you can see that that&#39;s what the image is.
+
+8
+00:00:29,240 --> 00:00:32,570
+And the yellow means high, red means low.
+
+9
+00:00:32,570 --> 00:00:34,930
+And you can see every cell in this picture,
+
+10
+00:00:34,930 --> 00:00:39,210
+every little pixel, like you see this little square here,
+
+11
+00:00:39,210 --> 00:00:43,150
+represents one entry in the table, and the color represents the number.
+
+12
+00:00:43,150 --> 00:00:50,560
+Now, what the heat map does, it adds structure to this data.
+
+13
+00:00:50,560 --> 00:00:55,590
+It clusters the genes and it clusters the samples,
+
+14
+00:00:55,590 --> 00:00:59,260
+and then creates an image like this.
+
+15
+00:00:59,260 --> 00:01:01,310
+That&#39;s what a heat map does.
+
+16
+00:01:01,310 --> 00:01:04,540
+So if we wanted to make the heat map for this data set,
+
+17
+00:01:04,540 --> 00:01:07,440
+we can&#39;t just run it on the entire data set because then we
+
+18
+00:01:07,440 --> 00:01:15,170
+would get 22,000 rows, and that is not something we can see on a screen.
+
+19
+00:01:15,170 --> 00:01:18,090
+We don&#39;t even have enough pixels on the screen to see that.
+
+20
+00:01:18,090 --> 00:01:24,090
+And certainly, our eyes can&#39;t distinguish 22,000 times 189
+
+21
+00:01:24,090 --> 00:01:26,070
+as a matrix of pixels.
+
+22
+00:01:26,070 --> 00:01:30,010
+So many times, when you make a heat map in practice,
+
+23
+00:01:30,010 --> 00:01:34,310
+you&#39;re going to choose some genes, some rows, to show.
+
+24
+00:01:34,310 --> 00:01:39,670
+One very standard way to do that is to pick genes that vary a lot.
+
+25
+00:01:39,670 --> 00:01:44,590
+You can take the top, say-- I&#39;m going to make a small heat map.
+
+26
+00:01:44,590 --> 00:01:48,731
+So I&#39;ll take the first 40 genes of how much they vary.
+
+27
+00:01:48,731 --> 00:01:49,980
+There&#39;s other ways to do that.
+
+28
+00:01:49,980 --> 00:01:55,630
+I&#39;m going to do that here quickly so that you can see how that works.
+
+29
+00:01:55,630 --> 00:02:02,140
+I&#39;m going to take the top 40 genes that vary the most using the rowVars
+
+30
+00:02:02,140 --> 00:02:12,850
+function to get those, and I&#39;m going to subset the e matrix using those genes.
+
+31
+00:02:12,850 --> 00:02:16,420
+And now I can just call the heatmap function like this,
+
+32
+00:02:16,420 --> 00:02:18,920
+and it&#39;ll make a heat map.
+
+33
+00:02:18,920 --> 00:02:22,220
+I don&#39;t have to transpose the heat in any way.
+
+34
+00:02:22,220 --> 00:02:23,670
+So there you go.
+
+35
+00:02:23,670 --> 00:02:24,520
+It already made it.
+
+36
+00:02:24,520 --> 00:02:26,940
+So it clustered the genes here.
+
+37
+00:02:26,940 --> 00:02:32,270
+It clustered the samples, and then it renders the plot
+
+38
+00:02:32,270 --> 00:02:35,229
+with the colors representing the measurements.
+
+39
+00:02:35,229 --> 00:02:37,520
+So we can see, for example, that these genes are highly
+
+40
+00:02:37,520 --> 00:02:43,140
+expressed in whatever cluster that is, and these genes are low expressed
+
+41
+00:02:43,140 --> 00:02:46,040
+in whatever cluster of samples that is.
+
+42
+00:02:46,040 --> 00:02:48,590
+Now, right now, the plot isn&#39;t very informative.
+
+43
+00:02:48,590 --> 00:02:52,410
+I&#39;m going to show you slowly how to add to it.
+
+44
+00:02:52,410 --> 00:02:55,290
+Now, the first thing I want to do is change the colors.
+
+45
+00:02:55,290 --> 00:03:04,200
+I don&#39;t like yellow and red too much, so I&#39;m going to use this R color brewer
+
+46
+00:03:04,200 --> 00:03:06,470
+package to pick some colors.
+
+47
+00:03:06,470 --> 00:03:08,590
+So here&#39;s a standard way you do that.
+
+48
+00:03:08,590 --> 00:03:15,410
+You can run the-- let me make this a little bigger so you can see it.
+
+49
+00:03:15,410 --> 00:03:17,820
+I&#39;m going to use the brewer.pal function.
+
+50
+00:03:17,820 --> 00:03:19,100
+You can look at the Help file.
+
+51
+00:03:19,100 --> 00:03:22,670
+So you can see all the choices there are for the palettes.
+
+52
+00:03:22,670 --> 00:03:24,930
+Green to blue is one.
+
+53
+00:03:24,930 --> 00:03:26,170
+We&#39;re going to take that one.
+
+54
+00:03:26,170 --> 00:03:29,120
+And then I&#39;m going to use this color ramp palette, which
+
+55
+00:03:29,120 --> 00:03:32,380
+is a function that takes these nine colors
+
+56
+00:03:32,380 --> 00:03:37,630
+and creates 100 consecutive colors that slowly goes from the first one
+
+57
+00:03:37,630 --> 00:03:39,050
+to the last.
+
+58
+00:03:39,050 --> 00:03:40,760
+That&#39;s how that works.
+
+59
+00:03:40,760 --> 00:03:46,230
+And now I have new colors, and I can rerun this command using those.
+
+60
+00:03:46,230 --> 00:03:50,250
+Let me copy it here and run it again with these colors.
+
+61
+00:03:50,250 --> 00:03:53,900
+And you can see that they&#39;re a little bit better to look at.
+
+62
+00:03:53,900 --> 00:03:59,070
+So now we have low expression is white and high expression is blue.
+
+63
+00:03:59,070 --> 00:03:59,570
+All right.
+
+64
+00:03:59,570 --> 00:04:01,200
+Now what else can we do here?
+
+65
+00:04:01,200 --> 00:04:06,190
+First of all, I&#39;ll say that the heat map function I actually don&#39;t like to use.
+
+66
+00:04:06,190 --> 00:04:12,620
+The main reason is that when I stretch out the plot, it always stays the same
+
+67
+00:04:12,620 --> 00:04:15,940
+and doesn&#39;t reshape itself.
+
+68
+00:04:15,940 --> 00:04:22,830
+So there&#39;s another alternative called the heatmap.2 function that
+
+69
+00:04:22,830 --> 00:04:25,665
+works much better than heatmap, and I&#39;m going
+
+70
+00:04:25,665 --> 00:04:29,120
+to show you how you can use it here.
+
+71
+00:04:29,120 --> 00:04:32,370
+So it&#39;s in the gplots package.
+
+72
+00:04:32,370 --> 00:04:35,176
+I load that up.
+
+73
+00:04:35,176 --> 00:04:38,620
+I have to redo the colors.
+
+74
+00:04:38,620 --> 00:04:39,301
+So, yeah.
+
+75
+00:04:39,301 --> 00:04:39,800
+Oh yeah.
+
+76
+00:04:39,800 --> 00:04:45,340
+So the next thing I&#39;m going to do is I&#39;m going
+
+77
+00:04:45,340 --> 00:04:51,420
+to create a palette of colors for the different tissues
+
+78
+00:04:51,420 --> 00:04:56,390
+because it&#39;s very hard to read these samples here, these sample names here.
+
+79
+00:04:56,390 --> 00:05:00,690
+So I&#39;m going to add color to represent the different tissues,
+
+80
+00:05:00,690 --> 00:05:02,470
+and that&#39;ll visually let me see it.
+
+81
+00:05:02,470 --> 00:05:04,303
+So the way I&#39;m going to do that is I&#39;m going
+
+82
+00:05:04,303 --> 00:05:07,340
+to create a palette with eight colors.
+
+83
+00:05:07,340 --> 00:05:08,380
+I can use seven.
+
+84
+00:05:08,380 --> 00:05:10,010
+There&#39;s only seven tissues.
+
+85
+00:05:10,010 --> 00:05:17,070
+And then assign to each one-- to each tissue, you get assigned one color.
+
+86
+00:05:17,070 --> 00:05:19,050
+So let&#39;s look at how that works.
+
+87
+00:05:19,050 --> 00:05:25,270
+I have to load up rafalib to get as.fumeric.
+
+88
+00:05:25,270 --> 00:05:27,480
+Oops, library.
+
+89
+00:05:27,480 --> 00:05:31,150
+And now you can see that colors, you can see
+
+90
+00:05:31,150 --> 00:05:34,570
+that-- it&#39;s a little hard to read-- but you can see that they&#39;re repeats.
+
+91
+00:05:34,570 --> 00:05:36,550
+That&#39;s because they&#39;re the same tissue.
+
+92
+00:05:36,550 --> 00:05:40,580
+Now, one way to see that is to do this.
+
+93
+00:05:40,580 --> 00:05:46,110
+We can show the tissue.
+
+94
+00:05:46,110 --> 00:05:47,470
+So there we can see a table.
+
+95
+00:05:47,470 --> 00:05:51,340
+And you can see this column name, the tissue, and the color.
+
+96
+00:05:51,340 --> 00:05:55,040
+These are the way you define colors in R more generally.
+
+97
+00:05:55,040 --> 00:05:57,230
+And you can see the endometrium has the same color.
+
+98
+00:05:57,230 --> 00:05:59,210
+Liver has all the same color, et cetera.
+
+99
+00:05:59,210 --> 00:06:03,750
+So I&#39;m going to use that as what&#39;s called the labCol, the column
+
+100
+00:06:03,750 --> 00:06:05,830
+lab, the color for the lab.
+
+101
+00:06:05,830 --> 00:06:07,030
+Now, I&#39;m sorry.
+
+102
+00:06:07,030 --> 00:06:13,060
+The column side colors I&#39;m going to define as cols.
+
+103
+00:06:13,060 --> 00:06:16,140
+I&#39;m going to give these colors are the color for the heat map.
+
+104
+00:06:16,140 --> 00:06:18,540
+We already defined that.
+
+105
+00:06:18,540 --> 00:06:21,830
+I&#39;m going to then add, instead of the column names,
+
+106
+00:06:21,830 --> 00:06:24,460
+I&#39;m going to use tissue as the column name
+
+107
+00:06:24,460 --> 00:06:28,070
+so I can see that the different names-- liver, endometrium, et cetera.
+
+108
+00:06:28,070 --> 00:06:29,070
+And now I&#39;m ready to go.
+
+109
+00:06:29,070 --> 00:06:30,070
+And then one last thing.
+
+110
+00:06:30,070 --> 00:06:32,010
+Trace, I don&#39;t want to trace.
+
+111
+00:06:32,010 --> 00:06:34,740
+You can look at the Help file for what trace is.
+
+112
+00:06:34,740 --> 00:06:41,981
+I never make heat maps with trace I don&#39;t recommend using that in general.
+
+113
+00:06:41,981 --> 00:06:42,480
+All right.
+
+114
+00:06:42,480 --> 00:06:44,770
+So let&#39;s see how that looks.
+
+115
+00:06:44,770 --> 00:06:49,670
+And you&#39;ll see how much nicer it looks than before.
+
+116
+00:06:49,670 --> 00:06:51,410
+Now I can stretch it.
+
+117
+00:06:51,410 --> 00:06:56,050
+And you can see how the entire plot stretches out when you do that.
+
+118
+00:06:56,050 --> 00:06:58,766
+You can see the livers, the cerebellums, but it&#39;s still
+
+119
+00:06:58,766 --> 00:07:01,390
+hard to read because they&#39;re so tiny, but now I have the color.
+
+120
+00:07:01,390 --> 00:07:02,950
+So these are all the same tissue.
+
+121
+00:07:02,950 --> 00:07:05,540
+These are all the same tissues, et cetera.
+
+122
+00:07:05,540 --> 00:07:11,980
+So that&#39;s how I use heat maps in R, and hopefully it&#39;ll
+
+123
+00:07:11,980 --> 00:07:17,615
+be a useful tool for you to explore your high dimensional data.
+

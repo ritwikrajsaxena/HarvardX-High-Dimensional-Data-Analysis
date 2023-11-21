@@ -1,0 +1,125 @@
+
+RAFAEL IRIZARRY: In the previous modules, we focused on clustering samples.
+In this module, we're going to describe gene clustering.
+Now for gene clustering, there's a little bit
+of mathematics we can show that can help us interpret the final results.
+Now here's the first mathematical formula I want to share with you.
+So up here I have the formula for the distance squared.
+We can always take the square root at the end.
+And what I'm showing you is the distance between two genes,
+X and Y in this case.
+And then we're moving across M samples.
+We are actually standardizing the values.
+We're subtracting the mean and dividing by the standard deviation.
+Now if we do that, we can work out the math, right?
+This is a quadratic, so we square the two terms.
+And then we have the multiplication of the two.
+This is just simple algebra.
+And we work this out, this term is going to be 1,
+because the data has been standardized and this
+is its standard deviation or its variance, which is 1 by definition.
+Same for this one.
+And over here we have the correlation.
+This is the sample correlation.
+So in this case, if you standardize your data
+and you compute Euclidean distance, you end up
+with a formula that includes just the correlation.
+And there's an inverse relationship.
+The more correlated two things are, the smaller the distance,
+which makes a lot of sense.
+Now here's the second formula that's important.
+And it's related.
+So for this case, what I'm doing is I'm computing
+the distance between two genes.
+For simplicity of the exposition, I'm going
+to assume that X and Y have the same standard deviation and it's 1,
+but that they have different means.
+So X and Y are two genes.
+They move across the samples.
+They have standard deviation of 1, but they have different means.
+So let's see what their distance is.
+So I'm going to work it all out to get the distance in terms of correlation,
+just like we did in the previous slide.
+So I subtract and add the mean for both genes.
+Then I work out the quadratic.
+And when I'm finished simplifying this, I get the same result as before,
+2 minus 1 minus the correlation.
+But because I didn't standardize by removing the mean,
+I have this term here.
+That's the difference in the means squared.
+What is that telling us?
+That's telling us that the distance between two genes
+is going to be dominated by the differences in mean.
+Note that this number is fixed.
+It can be at most 2.
+This number can be anything.
+You can have two genes that are very, very far apart
+and the distance is bigger, bigger, and bigger.
+Now why is that a problem?
+That is a problem because many times we're
+looking for genes that move together but aren't
+necessarily at exactly the same level.
+Genes are not always measured in the same units.
+Therefore, we don't necessarily care that they are at different levels.
+But we do want to find genes that are, say,
+going up and down at the same time.
+So for that reason, there's a big difference in the result you will get
+if you standardize versus if you don't.
+So let me show you some examples with real data.
+So here's an example using the data set that we've
+used in previous modules, where you have several tissues
+and for each tissue we have several biological replicates.
+So we took a random sample of 5,000 genes,
+just to be able to compute the distance without crashing our computer.
+And then we found four clusters using hierarchical clustering.
+So now each gene is assigned to one of four clusters.
+And you can see what the four clusters are here.
+This is the first one.
+It's plotted here.
+You can see that this seems to be all the genes that are varying around 7,
+a value of 7 or so.
+Here's another set of genes.
+And all that happened here is that we have
+another series of genes that are varying around 12.
+And here on the fourth cluster, we have a series
+of genes that are varying around 10.
+So this is really not that interesting.
+All these genes are flat.
+They're not changing across tissues.
+All they're doing is they're changing their mean level.
+The distance between the genes in this cluster in this cluster
+is driven by their difference in mean, usually not of interest.
+So let's repeat the exercise, but this time removing the mean from each gene.
+How do we do that?
+We have this big table.
+For each row we have the values for that gene.
+We're going to remove their mean one by one and then re-compute clusters.
+Look how different the results are.
+So now we have in the first cluster, these are centered at 0.
+These are the genes that don't change across tissues.
+Now the second cluster, we have genes that slightly changed from the brains
+to the rest.
+See, there's a little increment there?
+This group is now a group that is highly expressed in the brains
+and slightly underexpressed in the rest of the tissues.
+And then the fourth cluster is a group that is highly expressed in kidney.
+We could have shown more clusters and we would
+have seen similar patterns that are interesting.
+These are genes that go up in liver or up in kidney or down in the brains.
+Those are more interesting features of the data.
+Therefore in this case, it usually makes more sense
+to remove the mean from the genes.
+And more importantly, remember that you will get two very different answers
+when you use the two different approaches.
+All right.
+So as a final example, I'm showing you the results
+of a very famous experiment, one of the first microarray experiments, where
+we recorded gene expression for yeast across our cell cycle.
+And you can see this is again de-meaning.
+We removed the mean.
+We start seeing very interesting patterns,
+like genes that follow these cycles, genes that go up,
+genes that stay fixed, genes that vary a lot,
+genes that have slightly different cycle, et cetera.
+So if you are interested in finding things like this,
+you are definitely interested in removing the mean from the genes first.

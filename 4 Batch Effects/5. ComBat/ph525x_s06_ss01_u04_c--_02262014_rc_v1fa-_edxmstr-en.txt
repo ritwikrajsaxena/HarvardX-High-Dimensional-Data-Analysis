@@ -1,0 +1,56 @@
+
+RAFAEL IRIZARRY: In the previous module, we showed you this model.
+That is the naive model we would fit if we were
+interested in finding differences between males and females.
+But it's not accounting for batch effects.
+So how can we do that?
+One of the first approaches suggested for genomics data
+is a method called ComBat.
+What ComBat does is it adds a row to the X
+matrix that accounts for batch effects.
+In this case, you have to know what the batch effects are.
+In this case we know there's June and October.
+So we're going to go ahead and add that covariate to the model.
+In this case it would be on the third row
+and we would have zeros for June, ones for October.
+Then we add in a beta that will account for the fact that some genes are
+affected by the batch and others aren't.
+So when you do this, now you can estimate the parameters of interest--
+in this case, it would be the beta ones-- taking into account the batch.
+And if we do that and recalculate the
+p-values that we calculated in the previous module, which are shown here.
+So we were worried about the fact that we have too many genes
+differentially expressed in the autosomes, and we apply ComBat,
+we get slight improvement.
+You see how this height dropped but the histogram on the right
+didn't change much?
+Which we don't want.
+We don't want that to change, because these we believe are real differences.
+But it's not completely flat.
+And we wonder if maybe we haven't removed the entirety of the variation
+due to batches.
+So the limitation of ComBat is that it requires the user
+to supply the batch effects.
+In most cases we use the processing date.
+However, my experience has shown me that processing date is just
+a surrogate for other sources of variability.
+And there's more to it than just date.
+And we can't always know what is there.
+Just to show you how that's a possibility here,
+if we look at the dates, these are the dates
+of all the samples in this complete data set,
+not just the smaller set we constructed.
+You can see that although there's some natural jumps,
+there are also some slow movements.
+You have one, a few done each day.
+Then there's a jump.
+So where do we split this to define batches?
+In the smaller data set that we constructed, where we have 12 and 12,
+you can see that the summer arrays and the fall arrays also
+have days in between.
+Here we have three days, here we have two days.
+And maybe the mornings are different from the afternoons.
+Many things can be happening here that we haven't annotated.
+So how can we account for that?
+In the next module, we're going to talk about factor analysis, singular value
+decomposition, and then SVA as a solution to this problem.

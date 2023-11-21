@@ -1,0 +1,126 @@
+RAFAEL IRIZARRY: In this short video, I'm
+going to introduce the concept of smoothing.
+So in machine learning, one of the tasks that we very commonly
+are trying to perform is to estimate either the conditional probability
+of an outcome given predictors or the expected
+value of an outcome given predictors.
+So here, I'm denoting that with E of Y given X. So that's
+what we're going to estimate.
+And this particular data set I'm showing you,
+which is actually a real data set-- it's data from microarrays.
+I'm comparing two samples in an MA plot, Y is M, X is a.
+And we see a non-linear dependent of Y on X.
+And as we'll learn in future videos, actually in the Bioconductor course,
+is that we need to normalize this data.
+And to do that we have to find this curve, this dependence,
+so we can remove it.
+So that's the motivation for this particular example.
+So we see this data, and we think there's an underlying curve
+and then there's random noise around that curve.
+And we have a suspicion.
+There's reasons to believe that this bias is actually
+a smooth function of x.
+So we want to estimate Y given X. And the standard approach,
+when we have two variables of using linear regression,
+is not going to work here.
+We see the regression that's been fitted to this data,
+and we immediately see that there is a bias.
+At the beginning, there's more positive residuals, shown in green,
+and in the middle, there's more negative residuals, shown in purple.
+And then there's, at the end, again, some green residuals.
+That's because the underlying curve appears to be non-linear.
+It's more like a check mark shape.
+So the idea of smoothing is based, in a way,
+in Taylor's theorem that tells us that if you look at any function,
+no matter how complicated it is, if you look at it close,
+in small little intervals, it can be approximated with a lower degree
+polynomial.
+So in this case, I'm assuming that if you look at a small enough window,
+you can assume that it has a mean constant.
+So the purple points in this small little interval,
+they almost appear as if there is no dependence
+of Y on X in that very small window.
+We're assuming that the function, the underlying function E expected
+value of Y given X, is constant in this small interval.
+So we do that.
+We do that for other intervals as well.
+Here's another interval where we see that the mean shifts.
+It's now a little bit lower.
+So now the idea bin smoothing, for example,
+is to move around, move the center of these bins across the entire range of X
+and estimate that mean and keep that mean as the estimate of E of Y given X.
+So we can see that we're almost tracing the curve that in our minds
+is the curve that should be there.
+That's what bin smoothing does.
+Now when we look at the final result of bin smoothing,
+it looks a little jagged.
+It's not as smooth as we were-- at least I was hoping it to be.
+Now, that's because this approximation of using a constant in a small window
+is not always appropriate.
+The data's moving too fast, we have to make the windows too small,
+and then we have too few points to obtain precision of our estimates.
+So local regression, local weighted regression, which is nicknamed LOESS,
+is a method that instead of fitting constants, it fits lines or parabolas.
+And it has other properties.
+Like it tries to remove outliers.
+But the main one is that we fit lines to small windows.
+Now we don't have to make the windows so small because--
+and this is actually something that Taylor's theorem tells us--
+if give the degree of the polynomial is bigger,
+we can actually expand the window a little bit.
+So you can think of this as forming an edge in gardening,
+where you want to form a curve, and you have a shovel that is straight edged.
+But you can form curves with straight edges.
+And that's what we're going to do here.
+So you fit a line to these windows, and then you move the window along,
+and you get another fitted line.
+And you keep the center of that line as an estimate.
+And here's an animation showing us how that works.
+And now it's giving us a fit that is much better looking than the bin
+smoother, in part, because we're now using bigger windows, more data, more
+precise estimates.
+And at the end, we get a nice-looking curve
+like this that appears to have captured the bias.
+And we can remove that bias away and improve our data.
+Now what if the data's multi-dimensional?
+So here's an example.
+Now the expected value of Y given X comma X2, so two dimensions,
+is shown here.
+Now I'm not showing you data.
+I'm actually showing you the expected value, the conditional expectation of Y
+given these two variables, X1 and X2.
+So color means higher value.
+Sorry.
+Blue means lower values, red means higher values.
+So we're showing you that function.
+We want to estimate that function with data.
+So here's some data.
+And from this data, we now want to estimate that underlying expectation
+that we don't know, we want to estimate.
+So here again we can use the same idea.
+We can form small windows, and in that window,
+either estimate a plane or a constant plane or maybe a parabolic curve.
+And we do it for several locations.
+We can do it there, there.
+We can actually do it for every single location and obtain an estimate.
+In fact, if we do this, we're doing something
+very similar to k nearest neighbors.
+All right.
+So here's k nearest neighbors with 50.
+We estimate the mean value by taking votes across zeros and ones.
+So that data that I showed you originally, the points were-- red
+meant 1 and blue meant 0.
+So in this particular case, we're basically
+voting for either red or blue.
+But then we get a proportion of reds, proportion of blues.
+And that proportion is shown in this plot as an estimate of E of Y
+given X1 and X2.
+And you can see that it does a pretty good job.
+This is a very simple approach of k nearest neighbors.
+But again, the idea is to look at smaller bins
+where we think the data is closer to either constant or a plane or a simpler
+polynomial that we can fit, and then move that window around
+to obtain an estimate of the more complicated curve.
+So that's smoothing, a very short introduction to smoothing.
+And that should help us better understand
+some of what we do in other machine learning techniques.

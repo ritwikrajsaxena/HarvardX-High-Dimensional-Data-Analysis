@@ -1,0 +1,135 @@
+RAFAEL IRIZARRY: So what we're after is estimating the conditional probability of Y
+equals 1 given x1 and x2.
+There are many, many approaches to doing that.
+And in this module, we're going to cover one call K-nearest neighbors.
+It's one of the most simple ones and more intuitive ones.
+So the very, very simple idea is the following.
+You have an x.
+You're given an x, which in this case is a point in two-dimensional space.
+You have two genes, x1 and x2.
+And what we're going to do is we're going
+to take the K-nearest points in the observed data.
+We're going to take the K-nearest points to that x.
+And each one of those is going to be either a 0 or a 1.
+We're going to take the average of those 0s and 1s.
+This is sometimes called voting.
+Each point gets to vote.
+And that average is going to be our prediction.
+So let's see what happens if we take K equals to 1.
+This is kind of an absurd case.
+If we take x equal to 1, then basically the closest point to x
+is going to be itself.
+And you're going to be either 0 or 1, depending on what the observed data is.
+So here is the map that's formed when you use K equals 1 nearest neighbor.
+And you see a very choppy estimate.
+You have islands of orange over here and islands of purple over here.
+However, when you compute the error rate not surprisingly in the training set
+it's 0, because every point it's its closest and it's going to be the same.
+So you get them all right.
+However, on the test set, there's a very different story.
+Now the error rate goes all the way up to 37.5.
+And you can see several cases where you have these little islands that
+are orange and inside them you have several purple points.
+That's because that region was called orange simply
+because in the training set there was one solitary orange point up there.
+OK.
+So K equals 1 is just not a great choice.
+But we can use other values.
+For example, let's take the nearest 100 points.
+If we do that, now we get something that looks much better.
+You can see that the estimated prediction function now
+splits the space into this orange part and this purple part.
+And you can see that it's non-linear.
+It's different from the linear model.
+The error rate now is 24.5.
+This is on the training set.
+And on the test set, it's a very respectable 28.0.
+This is much better than the linear model approach
+that we saw in a previous module.
+So let's see why that is.
+Why does K-nearest neighbor work so much better than the linear model approach?
+So here's the truth.
+You have the orange area and the purple area.
+This is the true probability function when it's smaller than 1/2
+and when it's larger than 1/2.
+And over here is the best estimate you get with a linear model.
+It's constrained to be split by a line.
+There's just no way around that.
+If your model is linear in the way we defined
+it to be when we tried this approach, you have to have it split by a line,
+because the cases where the function is equal to 1/2
+is by mathematical definition a straight line.
+So you have no way of creating an estimate that looks like this.
+Now K-nearest neighbor is much more flexible.
+And now you get something closer to the truth.
+Now you're basically saying-- the basic idea behind K-nearest neighbors
+it's similar to the idea behind loess.
+We have a neighborhood of points.
+We assume that in that neighborhood the function is flat.
+It's a small neighborhood.
+And we estimate it with a mean.
+And then we start moving that neighborhood around
+to get a final result that looks like this.
+Now with that said, you can see that we don't necessarily
+have to make it just a flat line.
+We could have fit parabolas or other functions, other kernels.
+And we might have even gotten a better answer than this.
+All right.
+Now one last important point to make.
+When you have noisy data, as you do in genomics,
+it is going to be very rare where you're going to make perfect predictions.
+In fact in this case that I just showed you,
+it's impossible to make perfect predictions.
+On average, the best possible classifier,
+which is called a Bayes classifier-- this
+is what you predict when you know the truth, when
+you know what the true conditional expectation is.
+Even that perfect case scenario produces errors.
+Why?
+Because the data is noisy.
+There are cases with the same x1 and x2 that are 0 and 1.
+Two different cases, same gene expression for two genes.
+One's a 0.
+One's a 1.
+That's just random variability.
+In those cases, you can't possibly predict them perfectly.
+So in this plot, I just want to show you the two points here.
+One is the how optimistic error rates from the training set
+are-- this is for K-nearest neighbors-- and how close
+we can get to the best possible prediction based
+on the Bayes classifier.
+So what this plot is showing you is the error rates, based on just one sample--
+remember, this is not the theoretical value.
+This is what we get from this one example
+with one sample that's test and one example that's training.
+These are the error rates we get down here
+in pink color for the training set.
+And you can see that with K-nearest neighbors with one neighbor
+you get apparently perfect prediction.
+But when you go to the test set, it goes all the way up to 37.
+So here what I'm doing is I'm changing the K in the K-nearest neighbors from 2
+all the way to 200.
+And you can see that the optimistic prediction error is worse.
+It's most optimistic, most incorrectly optimistic for smaller values of K,
+not surprisingly, because we have too much flexibility.
+But the actual error rate on the test set is actually dropping with K.
+Now at some point, it starts going up again.
+And that's because now the model is not flexible enough.
+And we're not able to capture the nonlinearity
+in the true conditional probability.
+So that is an important lesson to take away,
+that training and test errors are very different.
+It's very important to look at test error rates to evaluate your models.
+So in the next module, we're going to introduce
+the concept of cross-validation.
+Cross-validation is a technique that permits
+you to obtain good estimates of the error rates
+you will get when you're given a new data set to predict.
+You should be aware that there's many other approaches to prediction.
+K-nearest neighbor is just one.
+Five examples of techniques that are very widely used
+are linear discriminant analysis, or LDA; neural networks; support vector
+machines; classification algorithm and regression trees,
+or CART; and random forests.
+All these methods are implemented in R packages
+so you can actually use them with your data to create prediction algorithms.

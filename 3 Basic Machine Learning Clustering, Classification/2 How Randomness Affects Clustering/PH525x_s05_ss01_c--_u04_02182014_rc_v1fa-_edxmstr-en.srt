@@ -1,0 +1,172 @@
+0
+00:00:00,000 --> 00:00:01,510
+
+
+1
+00:00:01,510 --> 00:00:07,870
+RAFAEL IRIZARRY: So, in a way, dendrograms, clustering, the results of clustering,
+
+2
+00:00:07,870 --> 00:00:11,980
+are data summaries just like any other data summary,
+
+3
+00:00:11,980 --> 00:00:13,310
+similar to the t-statistic.
+
+4
+00:00:13,310 --> 00:00:16,129
+The t-statistic is a data summary.
+
+5
+00:00:16,129 --> 00:00:21,540
+The one big difference, though, is that while summaries such as the t-statistic
+
+6
+00:00:21,540 --> 00:00:27,140
+are univariate, it's just one number, a dendrogram is not that simple.
+
+7
+00:00:27,140 --> 00:00:30,390
+It has many different aspects to it.
+
+8
+00:00:30,390 --> 00:00:35,000
+So what we can easily describe how much a t-statistic varies due to chance.
+
+9
+00:00:35,000 --> 00:00:38,430
+It's a little bit harder to show, or to describe,
+
+10
+00:00:38,430 --> 00:00:42,220
+how clustering could have been different-- had we had another sample,
+
+11
+00:00:42,220 --> 00:00:46,820
+had measurement error been different-- but it is a random quantity.
+
+12
+00:00:46,820 --> 00:00:49,250
+So I want to illustrate that to give you a sense of how
+
+13
+00:00:49,250 --> 00:00:52,340
+strong the effect of variability can be on clustering.
+
+14
+00:00:52,340 --> 00:00:56,900
+This is particularly important to keep in mind because, in the literature,
+
+15
+00:00:56,900 --> 00:01:02,361
+you usually don't see uncertainty summaries attached to clustering, which
+
+16
+00:01:02,361 --> 00:01:04,569
+makes some people believe that they're deterministic.
+
+17
+00:01:04,569 --> 00:01:06,860
+That this is the only cluster they could have happened.
+
+18
+00:01:06,860 --> 00:01:08,380
+That this is the final answer.
+
+19
+00:01:08,380 --> 00:01:14,990
+When, in fact, they are random just like any other summary statistic we compute.
+
+20
+00:01:14,990 --> 00:01:17,270
+So just to illustrate, I want to show you
+
+21
+00:01:17,270 --> 00:01:19,720
+a simple example created with simulations
+
+22
+00:01:19,720 --> 00:01:23,020
+which you can see in the class notes.
+
+23
+00:01:23,020 --> 00:01:31,380
+So for this stimulation, I created four profiles based on 50 genes.
+
+24
+00:01:31,380 --> 00:01:34,560
+So these 50 genes are different in the four profiles.
+
+25
+00:01:34,560 --> 00:01:39,870
+And then I created from those, 10 biological replicates from each group.
+
+26
+00:01:39,870 --> 00:01:42,150
+I added a little bit of measurement error.
+
+27
+00:01:42,150 --> 00:01:46,290
+And when I cluster these samples, we get perfect clustering,
+
+28
+00:01:46,290 --> 00:01:49,840
+and by group, which is not surprising.
+
+29
+00:01:49,840 --> 00:01:53,780
+Each group has a different profile therefore the distance between groups
+
+30
+00:01:53,780 --> 00:01:57,360
+is much bigger than the distance within group.
+
+31
+00:01:57,360 --> 00:02:01,010
+Now this is actually a realistic example.
+
+32
+00:02:01,010 --> 00:02:07,320
+Now let's suppose we run a microarray or we perform an RNA-seq experiment.
+
+33
+00:02:07,320 --> 00:02:13,750
+Now we have the 50 genes that changed plus thousands of others that don't.
+
+34
+00:02:13,750 --> 00:02:17,430
+So what happens when you add this is to the simulation, where you add thousands
+
+35
+00:02:17,430 --> 00:02:20,430
+of genes that don't change to the 50 that do?
+
+36
+00:02:20,430 --> 00:02:23,420
+Look at how much the clustering changes.
+
+37
+00:02:23,420 --> 00:02:31,390
+And no longer are the samples grouped by their original true profile.
+
+38
+00:02:31,390 --> 00:02:33,980
+You can see there's 2's and 4's here.
+
+39
+00:02:33,980 --> 00:02:37,240
+There's 2's mixed with the 4's, et cetera.
+
+40
+00:02:37,240 --> 00:02:40,250
+So that's a very important fact to keep in mind,
+
+41
+00:02:40,250 --> 00:02:44,500
+that clustering is also a random result.
+
+42
+00:02:44,500 --> 00:02:45,000
+
+

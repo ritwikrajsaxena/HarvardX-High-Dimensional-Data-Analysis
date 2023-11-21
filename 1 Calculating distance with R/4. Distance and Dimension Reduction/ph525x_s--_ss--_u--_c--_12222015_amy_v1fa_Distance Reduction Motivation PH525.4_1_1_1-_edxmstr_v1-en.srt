@@ -1,0 +1,680 @@
+0
+00:00:01,040 --> 00:00:03,520
+RAFAEL IRIZARRY: When you&#39;re working with high dimensional data,
+
+1
+00:00:03,520 --> 00:00:06,300
+one of the techniques we use to facilitate
+
+2
+00:00:06,300 --> 00:00:11,640
+data exploration and other analyses is dimension reduction.
+
+3
+00:00:11,640 --> 00:00:15,000
+In this video, we&#39;re going to motivate the techniques
+
+4
+00:00:15,000 --> 00:00:22,240
+that we use for reducing data size without losing too much information.
+
+5
+00:00:22,240 --> 00:00:24,790
+So just to give you an example of why we would
+
+6
+00:00:24,790 --> 00:00:28,000
+want to do this, consider a typical high throughput experiment,
+
+7
+00:00:28,000 --> 00:00:31,500
+where you have 10,000 genes and 200 samples,
+
+8
+00:00:31,500 --> 00:00:34,810
+and we want to examine the relationship between each pair of samples.
+
+9
+00:00:34,810 --> 00:00:38,140
+That&#39;s a lot of scatter plots to look through.
+
+10
+00:00:38,140 --> 00:00:41,870
+But using data dimension reduction will show you
+
+11
+00:00:41,870 --> 00:00:46,210
+how this can help, for example, perform data exploration.
+
+12
+00:00:46,210 --> 00:00:53,000
+But there are other advantages to using this technique.
+
+13
+00:00:53,000 --> 00:00:56,790
+So the general idea is to reduce the dimensions of the data
+
+14
+00:00:56,790 --> 00:01:01,442
+set, but yet, at the same time, preserving important properties
+
+15
+00:01:01,442 --> 00:01:04,400
+such as-- and that&#39;s what we&#39;re going to be focusing on in this video--
+
+16
+00:01:04,400 --> 00:01:07,306
+the distance between samples.
+
+17
+00:01:07,306 --> 00:01:09,430
+So we are going to be using the concept of distance
+
+18
+00:01:09,430 --> 00:01:12,162
+that we have previously described.
+
+19
+00:01:12,162 --> 00:01:14,620
+So just to give you an example of how this could be useful,
+
+20
+00:01:14,620 --> 00:01:17,515
+we could somehow reduce the dimensions to just two
+
+21
+00:01:17,515 --> 00:01:20,350
+and we can make a plot because we know how to plot two dimensions.
+
+22
+00:01:20,350 --> 00:01:22,210
+You make a scatter plot.
+
+23
+00:01:22,210 --> 00:01:25,270
+And I&#39;ll point out, from now, that the techniques--
+
+24
+00:01:25,270 --> 00:01:28,560
+those mathematical techniques behind all this-- is something
+
+25
+00:01:28,560 --> 00:01:31,180
+called a singular value decomposition, SVD.
+
+26
+00:01:31,180 --> 00:01:35,830
+So we&#39;re going to be motivating the SVD here in this video.
+
+27
+00:01:35,830 --> 00:01:39,810
+And it&#39;s also important to remember that,
+
+28
+00:01:39,810 --> 00:01:44,230
+although there&#39;s complicated mathematical ideas behind all this,
+
+29
+00:01:44,230 --> 00:01:47,615
+what we&#39;re going to show you today gives you the intuition as to why we do it
+
+30
+00:01:47,615 --> 00:01:49,090
+and why it works.
+
+31
+00:01:49,090 --> 00:01:51,340
+And I&#39;ll also note that what we&#39;re talking about today
+
+32
+00:01:51,340 --> 00:01:53,460
+relates to principal component analysis and we&#39;ll
+
+33
+00:01:53,460 --> 00:01:57,060
+see how that all comes together later.
+
+34
+00:01:57,060 --> 00:02:01,020
+So to motivate the exposition here, I&#39;m going
+
+35
+00:02:01,020 --> 00:02:04,870
+to take this data set that I have simulated.
+
+36
+00:02:04,870 --> 00:02:07,640
+It&#39;s supposed to be the heights of twins.
+
+37
+00:02:07,640 --> 00:02:12,430
+So each point is the height of twin number one and twin number two
+
+38
+00:02:12,430 --> 00:02:15,650
+that it has been standardized, so this a number of standard deviations
+
+39
+00:02:15,650 --> 00:02:18,940
+away from the average of each twin.
+
+40
+00:02:18,940 --> 00:02:22,807
+So I want you to focus on the two orange points.
+
+41
+00:02:22,807 --> 00:02:25,390
+So we&#39;re going to calculate the distance between these points.
+
+42
+00:02:25,390 --> 00:02:28,360
+You see, we draw a line and you measure the length of that line.
+
+43
+00:02:28,360 --> 00:02:29,640
+And we know how to do that.
+
+44
+00:02:29,640 --> 00:02:31,473
+What we&#39;re going to try to do is we&#39;re going
+
+45
+00:02:31,473 --> 00:02:34,320
+to try to provide a reduction of the data set here--
+
+46
+00:02:34,320 --> 00:02:38,900
+it&#39;s just two dimensions-- so that we have just one dimension.
+
+47
+00:02:38,900 --> 00:02:45,190
+And we can summarize distance between points with just one dimension.
+
+48
+00:02:45,190 --> 00:02:48,860
+So to make the connection to what we are doing in the other data
+
+49
+00:02:48,860 --> 00:02:53,520
+sets in this course, think of this as a high throughput gene
+
+50
+00:02:53,520 --> 00:02:57,070
+expression data, where the twin pairs represent end sample.
+
+51
+00:02:57,070 --> 00:02:59,850
+So each pair of twins is a sample.
+
+52
+00:02:59,850 --> 00:03:02,170
+And the two measurements you have, the two heights,
+
+53
+00:03:02,170 --> 00:03:05,500
+are two expressions for two genes.
+
+54
+00:03:05,500 --> 00:03:08,620
+So imagine that instead of-- you know, we have 20,000 genes
+
+55
+00:03:08,620 --> 00:03:11,780
+and reduce the reduction-- in this very simple example,
+
+56
+00:03:11,780 --> 00:03:15,210
+we&#39;re trying to reduce the dimensions from two to one.
+
+57
+00:03:15,210 --> 00:03:19,750
+But the ideas that we use to do that actually extrapolate to larger data
+
+58
+00:03:19,750 --> 00:03:20,655
+sets.
+
+59
+00:03:20,655 --> 00:03:22,780
+One of the things I want you to note is that if you
+
+60
+00:03:22,780 --> 00:03:27,330
+try to compute the distance between any two points in this figure,
+
+61
+00:03:27,330 --> 00:03:31,720
+you will see that most of the lines that go between two points
+
+62
+00:03:31,720 --> 00:03:34,290
+are kind of going on a diagonal.
+
+63
+00:03:34,290 --> 00:03:38,800
+So if we were able to somehow rotate this picture so
+
+64
+00:03:38,800 --> 00:03:44,790
+that that distance between the points is now in one of the dimensions,
+
+65
+00:03:44,790 --> 00:03:48,810
+and we would be very close to our ultimate goal of reducing this down
+
+66
+00:03:48,810 --> 00:03:49,540
+to one dimension.
+
+67
+00:03:49,540 --> 00:03:52,360
+So let&#39;s see how we would do that.
+
+68
+00:03:52,360 --> 00:03:54,920
+All right, so let&#39;s consider an example.
+
+69
+00:03:54,920 --> 00:03:58,200
+The distance between those two points is actually 1.14
+
+70
+00:03:58,200 --> 00:04:01,160
+and we can compute the distance for every pair.
+
+71
+00:04:01,160 --> 00:04:03,900
+And again, we&#39;re going to try to summarize or reduce
+
+72
+00:04:03,900 --> 00:04:08,732
+the dimensions of this data set to just one and preserve this distance.
+
+73
+00:04:08,732 --> 00:04:09,560
+All right.
+
+74
+00:04:09,560 --> 00:04:11,520
+So here&#39;s one idea.
+
+75
+00:04:11,520 --> 00:04:16,510
+Let&#39;s perform a transformation that is actually intuitive.
+
+76
+00:04:16,510 --> 00:04:19,829
+Instead of plotting the heights against each other,
+
+77
+00:04:19,829 --> 00:04:24,850
+we&#39;re going to plot the difference on the y-axis and the average
+
+78
+00:04:24,850 --> 00:04:26,850
+on the x-axis.
+
+79
+00:04:26,850 --> 00:04:30,370
+So we can already see that the distance between the averages
+
+80
+00:04:30,370 --> 00:04:35,530
+is already a summary of a distance that is just one dimensional.
+
+81
+00:04:35,530 --> 00:04:38,550
+If you just compute the distance between the averages,
+
+82
+00:04:38,550 --> 00:04:40,635
+now you have reduced it to one dimension.
+
+83
+00:04:40,635 --> 00:04:42,510
+The transformation we&#39;re going to end up with
+
+84
+00:04:42,510 --> 00:04:45,470
+is similar to what we&#39;ve just shown.
+
+85
+00:04:45,470 --> 00:04:48,070
+So now another important point is that when
+
+86
+00:04:48,070 --> 00:04:53,660
+we do this, when we perform this transformation, when we take the two
+
+87
+00:04:53,660 --> 00:04:56,640
+heights and we convert them into the average and the difference
+
+88
+00:04:56,640 --> 00:05:00,500
+between heights, we can represent this with linear algebra.
+
+89
+00:05:00,500 --> 00:05:04,440
+It&#39;s a linear transformation, as shown in this slide.
+
+90
+00:05:04,440 --> 00:05:07,810
+And you can see that just by having a simple two by two matrix,
+
+91
+00:05:07,810 --> 00:05:12,910
+you can transform the data from the original Y-matrix, which
+
+92
+00:05:12,910 --> 00:05:15,880
+is what I want to call it, to a new matrix, Z.
+
+93
+00:05:15,880 --> 00:05:18,360
+And by taking the inverse of A, you can transform back.
+
+94
+00:05:18,360 --> 00:05:23,620
+So you lose no information going back between Z and Y.
+
+95
+00:05:23,620 --> 00:05:25,340
+So here&#39;s a plot again.
+
+96
+00:05:25,340 --> 00:05:28,840
+On the left, you have Y1 versus Y2.
+
+97
+00:05:28,840 --> 00:05:33,610
+And on the right, you have Z2 versus Z1.
+
+98
+00:05:33,610 --> 00:05:34,110
+OK.
+
+99
+00:05:34,110 --> 00:05:40,530
+So now we&#39;re going to look at this a little bit more closely.
+
+100
+00:05:40,530 --> 00:05:46,960
+If we compute the standard deviations of the Z&#39;s-- right, so if you take each Z,
+
+101
+00:05:46,960 --> 00:05:51,680
+individually, and you think of the Y&#39;s as coming from, say,
+
+102
+00:05:51,680 --> 00:05:55,430
+a distribution that has standard deviation sigma,
+
+103
+00:05:55,430 --> 00:05:58,540
+well the first dimension is the average.
+
+104
+00:05:58,540 --> 00:06:03,620
+So now, the standard deviation is 1 over the square root of 2 times sigma.
+
+105
+00:06:03,620 --> 00:06:09,510
+Well the y-axis, in this case, Z2, is a difference of Y&#39;s.
+
+106
+00:06:09,510 --> 00:06:12,270
+And this is the square of 2 times sigma.
+
+107
+00:06:12,270 --> 00:06:14,320
+So we have performed a transformation that
+
+108
+00:06:14,320 --> 00:06:19,290
+changes the standard deviations of the two dimensions.
+
+109
+00:06:19,290 --> 00:06:21,890
+Before, they were the same, and now they&#39;re different.
+
+110
+00:06:21,890 --> 00:06:24,740
+And that is a little bit of a problem for what
+
+111
+00:06:24,740 --> 00:06:30,100
+we want to do later, where we want to preserve these overall variabilities.
+
+112
+00:06:30,100 --> 00:06:32,730
+So what we can do, it&#39;s easy to fix.
+
+113
+00:06:32,730 --> 00:06:36,412
+We just multiply 1 by the square root of 2.
+
+114
+00:06:36,412 --> 00:06:38,620
+And the other one, we divide by the square root of 2.
+
+115
+00:06:38,620 --> 00:06:42,149
+And now we have a transformation where the standard deviations are preserved.
+
+116
+00:06:42,149 --> 00:06:43,940
+And it&#39;s shown in this slide with A, right?
+
+117
+00:06:43,940 --> 00:06:49,370
+It&#39;s 1 over square root of 2 times the matrix 1, 1, 1, minus 1.
+
+118
+00:06:49,370 --> 00:06:53,230
+So if we multiply by this matrix instead,
+
+119
+00:06:53,230 --> 00:06:55,920
+we preserve the standard deviations.
+
+120
+00:06:55,920 --> 00:06:59,010
+Notice that this is an orthogonal matrix.
+
+121
+00:06:59,010 --> 00:07:05,650
+A inverse, A transpose A is the identity.
+
+122
+00:07:05,650 --> 00:07:10,730
+And that actually is why the standard deviations are preserved.
+
+123
+00:07:10,730 --> 00:07:13,930
+So if I perform this transformation, because it
+
+124
+00:07:13,930 --> 00:07:17,670
+is an orthogonal transformation-- here, I&#39;m
+
+125
+00:07:17,670 --> 00:07:19,420
+showing you the R code that would do it--
+
+126
+00:07:19,420 --> 00:07:22,750
+if I compute the distance between each point in Y,
+
+127
+00:07:22,750 --> 00:07:26,130
+compute the distance between each point using the Z&#39;s, and we
+
+128
+00:07:26,130 --> 00:07:29,650
+plot those against each other-- this is a plot of all the distances
+
+129
+00:07:29,650 --> 00:07:32,180
+from the Z&#39;s and all the distances from the Y&#39;s, you
+
+130
+00:07:32,180 --> 00:07:33,820
+can see they&#39;re exactly the same.
+
+131
+00:07:33,820 --> 00:07:35,720
+This is a mathematical fact.
+
+132
+00:07:35,720 --> 00:07:37,670
+The distances are preserved.
+
+133
+00:07:37,670 --> 00:07:40,800
+So this transformation preserves distances between points,
+
+134
+00:07:40,800 --> 00:07:45,910
+unlike the first one we saw, the difference versus the average.
+
+135
+00:07:45,910 --> 00:07:47,737
+So now we can plot this.
+
+136
+00:07:47,737 --> 00:07:49,070
+And you can see it&#39;s a rotation.
+
+137
+00:07:49,070 --> 00:07:52,660
+You take the data, that starts with a scatter like this,
+
+138
+00:07:52,660 --> 00:07:59,630
+and we have rotated it to have the data with the dimension on the first axis
+
+139
+00:07:59,630 --> 00:08:01,930
+that&#39;s related to the average and a dimension
+
+140
+00:08:01,930 --> 00:08:05,260
+on the y-axis that&#39;s related to the difference.
+
+141
+00:08:05,260 --> 00:08:10,400
+So what we&#39;re going to do now is we&#39;re going to note that in the second plot,
+
+142
+00:08:10,400 --> 00:08:13,590
+the second dimension adds very little information.
+
+143
+00:08:13,590 --> 00:08:16,610
+If you were going to compute the distance between two points,
+
+144
+00:08:16,610 --> 00:08:22,040
+the distance computed just on the Z&#39;s are almost all you need.
+
+145
+00:08:22,040 --> 00:08:24,667
+Look at the two orange points, for example.
+
+146
+00:08:24,667 --> 00:08:26,250
+They almost have the same value of Z2.
+
+147
+00:08:26,250 --> 00:08:31,530
+Therefore, the distance is mostly driven by the distance
+
+148
+00:08:31,530 --> 00:08:33,340
+in just the first dimension.
+
+149
+00:08:33,340 --> 00:08:35,640
+And that actually holds true for all the points.
+
+150
+00:08:35,640 --> 00:08:38,690
+If we compute the distance based only on the first dimension--
+
+151
+00:08:38,690 --> 00:08:41,710
+we completely ignore the second dimension of Z.
+
+152
+00:08:41,710 --> 00:08:44,400
+So now we&#39;ve reduced it to just one dimension.
+
+153
+00:08:44,400 --> 00:08:45,400
+We compute the distance.
+
+154
+00:08:45,400 --> 00:08:46,733
+We plot them against each other.
+
+155
+00:08:46,733 --> 00:08:49,770
+We see that we get a very close approximation.
+
+156
+00:08:49,770 --> 00:08:53,140
+This is, basically, the ideas behind what
+
+157
+00:08:53,140 --> 00:08:55,610
+is called principal component analysis.
+
+158
+00:08:55,610 --> 00:09:00,680
+Also, it&#39;s very related to the singular value decomposition.
+
+159
+00:09:00,680 --> 00:09:03,760
+So one of the things I want to point out before we finish here
+
+160
+00:09:03,760 --> 00:09:07,460
+is that if you look for explanations of the principal component analysis,
+
+161
+00:09:07,460 --> 00:09:13,062
+you will notice that the explanations are a little bit off compared
+
+162
+00:09:13,062 --> 00:09:14,270
+to what we&#39;ve just seen here.
+
+163
+00:09:14,270 --> 00:09:18,340
+And that&#39;s because, typically, the units--
+
+164
+00:09:18,340 --> 00:09:24,660
+in the standard statistical analysis, the units are in the rows.
+
+165
+00:09:24,660 --> 00:09:29,070
+In genomics, for reasons that we&#39;re not going to explain here,
+
+166
+00:09:29,070 --> 00:09:32,450
+the units are typically in the columns.
+
+167
+00:09:32,450 --> 00:09:35,190
+So if you look at an explanation that you look up on PCA,
+
+168
+00:09:35,190 --> 00:09:37,980
+you&#39;ll probably see everything transposed.
+
+169
+00:09:37,980 --> 00:09:43,100
+But other than that, you will see that this matches those explanations.
+

@@ -1,0 +1,280 @@
+0
+00:00:02,100 --> 00:00:05,110
+RAFAEL IRIZARRY: Now we&#39;re going to continue the previous analysis,
+
+1
+00:00:05,110 --> 00:00:07,270
+but now instead of hierarchical clustering,
+
+2
+00:00:07,270 --> 00:00:11,720
+we&#39;re going to perform k means clustering.
+
+3
+00:00:11,720 --> 00:00:18,570
+The function kmeans clustering takes a matrix.
+
+4
+00:00:18,570 --> 00:00:21,520
+It computes the distance on its own.
+
+5
+00:00:21,520 --> 00:00:25,200
+So we can actually feed it the expression matrix.
+
+6
+00:00:25,200 --> 00:00:34,480
+We do have to send the transpose because it will compute distances between rows.
+
+7
+00:00:34,480 --> 00:00:38,320
+All right, the way we use that with a function is also in base,
+
+8
+00:00:38,320 --> 00:00:40,020
+called kmeans.
+
+9
+00:00:40,020 --> 00:00:42,579
+And it takes as input, the original matrix.
+
+10
+00:00:42,579 --> 00:00:44,870
+And again, it&#39;s going to compute distance between rows.
+
+11
+00:00:44,870 --> 00:00:47,090
+So we have to transpose it.
+
+12
+00:00:47,090 --> 00:00:51,260
+And now, as we discussed, we have to tell how many clusters we
+
+13
+00:00:51,260 --> 00:00:53,410
+want it to find.
+
+14
+00:00:53,410 --> 00:01:09,340
+So let&#39;s say that we have-- to remind ourselves how many tissues we have-- 7,
+
+15
+00:01:09,340 --> 00:01:12,220
+so we&#39;re going to say 7 centers.
+
+16
+00:01:12,220 --> 00:01:13,690
+So centers
+
+17
+00:01:13,690 --> 00:01:14,900
+is equal to 7.
+
+18
+00:01:14,900 --> 00:01:18,710
+And we don&#39;t know-- we&#39;re going to let kmeans choose
+
+19
+00:01:18,710 --> 00:01:23,250
+the location of the starting value.
+
+20
+00:01:23,250 --> 00:01:27,650
+So now that runs kmeans, It&#39;s computing distance,
+
+21
+00:01:27,650 --> 00:01:31,020
+so it takes a little bit of time, but now it&#39;s done.
+
+22
+00:01:31,020 --> 00:01:38,970
+And now we can, for example, make again, a table where we see the tissues.
+
+23
+00:01:38,970 --> 00:01:44,330
+The actual tissues, and the clusters that we got.
+
+24
+00:01:44,330 --> 00:01:49,010
+So let&#39;s call that clusters, and it&#39;s in the-- the km
+
+25
+00:01:49,010 --> 00:01:54,560
+object has this component called cluster,
+
+26
+00:01:54,560 --> 00:01:56,580
+that gives it the different numbers.
+
+27
+00:01:56,580 --> 00:02:00,110
+Actually look at that, you can see it gives us
+
+28
+00:02:00,110 --> 00:02:02,360
+a cluster number for each sample.
+
+29
+00:02:02,360 --> 00:02:05,840
+You can see there how that worked.
+
+30
+00:02:05,840 --> 00:02:09,690
+So here it is, and we can see it did a pretty good job.
+
+31
+00:02:09,690 --> 00:02:13,870
+You have cluster number 2.
+
+32
+00:02:13,870 --> 00:02:18,620
+It&#39;s all colon and placenta, but endometrium got its own.
+
+33
+00:02:18,620 --> 00:02:21,110
+No mistakes there.
+
+34
+00:02:21,110 --> 00:02:23,930
+Hippocampus, as well, kidney.
+
+35
+00:02:23,930 --> 00:02:31,080
+So it worked pretty well at clustering the tissues by group.
+
+36
+00:02:31,080 --> 00:02:34,410
+Another thing I want to show you is, you can visualize this.
+
+37
+00:02:34,410 --> 00:02:36,750
+If we&#39;re going to visualize this, we&#39;re going to plot,
+
+38
+00:02:36,750 --> 00:02:44,430
+so we can use MDS, multi-dimensional scalings,
+
+39
+00:02:44,430 --> 00:02:48,240
+to be able to plot in two dimensions.
+
+40
+00:02:48,240 --> 00:02:50,670
+So we&#39;re going to do that, real quick.
+
+41
+00:02:50,670 --> 00:02:53,850
+That works on d, which we already calculated in the previous video.
+
+42
+00:02:53,850 --> 00:02:58,390
+If you want to remind yourself why we did that, we just did this.
+
+43
+00:02:58,390 --> 00:03:00,530
+So that&#39;s how that would work.
+
+44
+00:03:00,530 --> 00:03:01,360
+We compute that.
+
+45
+00:03:01,360 --> 00:03:11,230
+We can plot them, and we can see that we can add color
+
+46
+00:03:11,230 --> 00:03:15,760
+to see the different colors that were clustered here.
+
+47
+00:03:15,760 --> 00:03:17,040
+So that&#39;s km cluster.
+
+48
+00:03:20,316 --> 00:03:21,270
+And there you go .
+
+49
+00:03:21,270 --> 00:03:26,280
+So you can see how these different points got clustered, again.
+
+50
+00:03:26,280 --> 00:03:30,020
+But these are just two dimensions and there&#39;s more dimensions of that.
+
+51
+00:03:30,020 --> 00:03:32,450
+So you can see that these are all on top of each other.
+
+52
+00:03:32,450 --> 00:03:34,241
+It&#39;s hard to see how it would cluster them,
+
+53
+00:03:34,241 --> 00:03:38,150
+but it&#39;s because there&#39;s other dimensions it&#39;s using
+
+54
+00:03:38,150 --> 00:03:40,610
+work for this distance calculation.
+
+55
+00:03:40,610 --> 00:03:42,960
+So that&#39;s how you use the kmeans cluster.
+
+56
+00:03:42,960 --> 00:03:45,670
+Now one thing I want to show you, is that if you run it again,
+
+57
+00:03:45,670 --> 00:03:47,780
+you get a different answer.
+
+58
+00:03:47,780 --> 00:03:52,400
+That&#39;s because it chooses the starting values differently.
+
+59
+00:03:52,400 --> 00:03:56,150
+You see that one didn&#39;t work as well as the first one.
+
+60
+00:03:56,150 --> 00:03:59,530
+You get cluster one is-- those are the brains, actually,
+
+61
+00:03:59,530 --> 00:04:03,290
+but it&#39;s-- you have liver is split now, kidney is split.
+
+62
+00:04:03,290 --> 00:04:06,282
+So every time you run it-- you can keep running it over and over again
+
+63
+00:04:06,282 --> 00:04:09,240
+you&#39;re going to see-- you&#39;re going to get different answers every time.
+
+64
+00:04:09,240 --> 00:04:12,160
+So that&#39;s something important to keep in mind about this function.
+
+65
+00:04:12,160 --> 00:04:15,159
+That because the starting values are random
+
+66
+00:04:15,159 --> 00:04:16,950
+it gives you a different answer every time.
+
+67
+00:04:16,950 --> 00:04:22,590
+You can choose the starting values to avoid that,
+
+68
+00:04:22,590 --> 00:04:29,760
+but that requires a bit more work on how to decide what starting values to use.
+
+69
+00:04:29,760 --> 00:04:34,660
+But this is the general idea of how to use kmeans in R.
+

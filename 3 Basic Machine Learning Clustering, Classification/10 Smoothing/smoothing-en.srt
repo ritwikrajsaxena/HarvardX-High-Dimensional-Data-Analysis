@@ -1,0 +1,504 @@
+0
+00:00:00,602 --> 00:00:02,310
+RAFAEL IRIZARRY: In this short video, I&#39;m
+
+1
+00:00:02,310 --> 00:00:06,020
+going to introduce the concept of smoothing.
+
+2
+00:00:06,020 --> 00:00:11,190
+So in machine learning, one of the tasks that we very commonly
+
+3
+00:00:11,190 --> 00:00:16,309
+are trying to perform is to estimate either the conditional probability
+
+4
+00:00:16,309 --> 00:00:19,770
+of an outcome given predictors or the expected
+
+5
+00:00:19,770 --> 00:00:23,990
+value of an outcome given predictors.
+
+6
+00:00:23,990 --> 00:00:27,720
+So here, I&#39;m denoting that with E of Y given X. So that&#39;s
+
+7
+00:00:27,720 --> 00:00:29,626
+what we&#39;re going to estimate.
+
+8
+00:00:29,626 --> 00:00:31,500
+And this particular data set I&#39;m showing you,
+
+9
+00:00:31,500 --> 00:00:34,970
+which is actually a real data set-- it&#39;s data from microarrays.
+
+10
+00:00:34,970 --> 00:00:40,460
+I&#39;m comparing two samples in an MA plot, Y is M, X is a.
+
+11
+00:00:40,460 --> 00:00:45,250
+And we see a non-linear dependent of Y on X.
+
+12
+00:00:45,250 --> 00:00:52,710
+And as we&#39;ll learn in future videos, actually in the Bioconductor course,
+
+13
+00:00:52,710 --> 00:00:55,500
+is that we need to normalize this data.
+
+14
+00:00:55,500 --> 00:00:59,650
+And to do that we have to find this curve, this dependence,
+
+15
+00:00:59,650 --> 00:01:00,740
+so we can remove it.
+
+16
+00:01:00,740 --> 00:01:04,450
+So that&#39;s the motivation for this particular example.
+
+17
+00:01:04,450 --> 00:01:08,890
+So we see this data, and we think there&#39;s an underlying curve
+
+18
+00:01:08,890 --> 00:01:11,500
+and then there&#39;s random noise around that curve.
+
+19
+00:01:11,500 --> 00:01:14,230
+And we have a suspicion.
+
+20
+00:01:14,230 --> 00:01:17,690
+There&#39;s reasons to believe that this bias is actually
+
+21
+00:01:17,690 --> 00:01:20,960
+a smooth function of x.
+
+22
+00:01:20,960 --> 00:01:26,020
+So we want to estimate Y given X. And the standard approach,
+
+23
+00:01:26,020 --> 00:01:29,080
+when we have two variables of using linear regression,
+
+24
+00:01:29,080 --> 00:01:30,820
+is not going to work here.
+
+25
+00:01:30,820 --> 00:01:33,530
+We see the regression that&#39;s been fitted to this data,
+
+26
+00:01:33,530 --> 00:01:37,670
+and we immediately see that there is a bias.
+
+27
+00:01:37,670 --> 00:01:41,940
+At the beginning, there&#39;s more positive residuals, shown in green,
+
+28
+00:01:41,940 --> 00:01:45,440
+and in the middle, there&#39;s more negative residuals, shown in purple.
+
+29
+00:01:45,440 --> 00:01:49,270
+And then there&#39;s, at the end, again, some green residuals.
+
+30
+00:01:49,270 --> 00:01:54,500
+That&#39;s because the underlying curve appears to be non-linear.
+
+31
+00:01:54,500 --> 00:01:58,590
+It&#39;s more like a check mark shape.
+
+32
+00:01:58,590 --> 00:02:02,650
+So the idea of smoothing is based, in a way,
+
+33
+00:02:02,650 --> 00:02:06,630
+in Taylor&#39;s theorem that tells us that if you look at any function,
+
+34
+00:02:06,630 --> 00:02:10,550
+no matter how complicated it is, if you look at it close,
+
+35
+00:02:10,550 --> 00:02:17,630
+in small little intervals, it can be approximated with a lower degree
+
+36
+00:02:17,630 --> 00:02:19,190
+polynomial.
+
+37
+00:02:19,190 --> 00:02:23,000
+So in this case, I&#39;m assuming that if you look at a small enough window,
+
+38
+00:02:23,000 --> 00:02:26,450
+you can assume that it has a mean constant.
+
+39
+00:02:26,450 --> 00:02:29,210
+So the purple points in this small little interval,
+
+40
+00:02:29,210 --> 00:02:33,520
+they almost appear as if there is no dependence
+
+41
+00:02:33,520 --> 00:02:37,100
+of Y on X in that very small window.
+
+42
+00:02:37,100 --> 00:02:43,670
+We&#39;re assuming that the function, the underlying function E expected
+
+43
+00:02:43,670 --> 00:02:47,590
+value of Y given X, is constant in this small interval.
+
+44
+00:02:47,590 --> 00:02:49,000
+So we do that.
+
+45
+00:02:49,000 --> 00:02:50,660
+We do that for other intervals as well.
+
+46
+00:02:50,660 --> 00:02:55,160
+Here&#39;s another interval where we see that the mean shifts.
+
+47
+00:02:55,160 --> 00:02:56,720
+It&#39;s now a little bit lower.
+
+48
+00:02:56,720 --> 00:02:59,870
+So now the idea bin smoothing, for example,
+
+49
+00:02:59,870 --> 00:03:07,710
+is to move around, move the center of these bins across the entire range of X
+
+50
+00:03:07,710 --> 00:03:14,810
+and estimate that mean and keep that mean as the estimate of E of Y given X.
+
+51
+00:03:14,810 --> 00:03:20,250
+So we can see that we&#39;re almost tracing the curve that in our minds
+
+52
+00:03:20,250 --> 00:03:22,240
+is the curve that should be there.
+
+53
+00:03:22,240 --> 00:03:23,900
+That&#39;s what bin smoothing does.
+
+54
+00:03:23,900 --> 00:03:26,610
+Now when we look at the final result of bin smoothing,
+
+55
+00:03:26,610 --> 00:03:27,820
+it looks a little jagged.
+
+56
+00:03:27,820 --> 00:03:32,440
+It&#39;s not as smooth as we were-- at least I was hoping it to be.
+
+57
+00:03:32,440 --> 00:03:38,750
+Now, that&#39;s because this approximation of using a constant in a small window
+
+58
+00:03:38,750 --> 00:03:41,635
+is not always appropriate.
+
+59
+00:03:41,635 --> 00:03:45,600
+The data&#39;s moving too fast, we have to make the windows too small,
+
+60
+00:03:45,600 --> 00:03:50,940
+and then we have too few points to obtain precision of our estimates.
+
+61
+00:03:50,940 --> 00:03:56,690
+So local regression, local weighted regression, which is nicknamed LOESS,
+
+62
+00:03:56,690 --> 00:04:04,570
+is a method that instead of fitting constants, it fits lines or parabolas.
+
+63
+00:04:04,570 --> 00:04:10,390
+And it has other properties.
+
+64
+00:04:10,390 --> 00:04:12,970
+Like it tries to remove outliers.
+
+65
+00:04:12,970 --> 00:04:17,547
+But the main one is that we fit lines to small windows.
+
+66
+00:04:17,547 --> 00:04:19,880
+Now we don&#39;t have to make the windows so small because--
+
+67
+00:04:19,880 --> 00:04:22,530
+and this is actually something that Taylor&#39;s theorem tells us--
+
+68
+00:04:22,530 --> 00:04:25,210
+if give the degree of the polynomial is bigger,
+
+69
+00:04:25,210 --> 00:04:27,630
+we can actually expand the window a little bit.
+
+70
+00:04:27,630 --> 00:04:32,490
+So you can think of this as forming an edge in gardening,
+
+71
+00:04:32,490 --> 00:04:39,780
+where you want to form a curve, and you have a shovel that is straight edged.
+
+72
+00:04:39,780 --> 00:04:42,406
+But you can form curves with straight edges.
+
+73
+00:04:42,406 --> 00:04:44,030
+And that&#39;s what we&#39;re going to do here.
+
+74
+00:04:44,030 --> 00:04:49,690
+So you fit a line to these windows, and then you move the window along,
+
+75
+00:04:49,690 --> 00:04:51,410
+and you get another fitted line.
+
+76
+00:04:51,410 --> 00:04:53,850
+And you keep the center of that line as an estimate.
+
+77
+00:04:53,850 --> 00:04:57,420
+And here&#39;s an animation showing us how that works.
+
+78
+00:04:57,420 --> 00:05:03,460
+And now it&#39;s giving us a fit that is much better looking than the bin
+
+79
+00:05:03,460 --> 00:05:08,610
+smoother, in part, because we&#39;re now using bigger windows, more data, more
+
+80
+00:05:08,610 --> 00:05:09,630
+precise estimates.
+
+81
+00:05:09,630 --> 00:05:11,890
+And at the end, we get a nice-looking curve
+
+82
+00:05:11,890 --> 00:05:15,380
+like this that appears to have captured the bias.
+
+83
+00:05:15,380 --> 00:05:20,110
+And we can remove that bias away and improve our data.
+
+84
+00:05:20,110 --> 00:05:22,260
+Now what if the data&#39;s multi-dimensional?
+
+85
+00:05:22,260 --> 00:05:23,640
+So here&#39;s an example.
+
+86
+00:05:23,640 --> 00:05:30,730
+Now the expected value of Y given X comma X2, so two dimensions,
+
+87
+00:05:30,730 --> 00:05:33,972
+is shown here.
+
+88
+00:05:33,972 --> 00:05:35,180
+Now I&#39;m not showing you data.
+
+89
+00:05:35,180 --> 00:05:39,770
+I&#39;m actually showing you the expected value, the conditional expectation of Y
+
+90
+00:05:39,770 --> 00:05:42,540
+given these two variables, X1 and X2.
+
+91
+00:05:42,540 --> 00:05:46,410
+So color means higher value.
+
+92
+00:05:46,410 --> 00:05:46,990
+Sorry.
+
+93
+00:05:46,990 --> 00:05:50,900
+Blue means lower values, red means higher values.
+
+94
+00:05:50,900 --> 00:05:53,040
+So we&#39;re showing you that function.
+
+95
+00:05:53,040 --> 00:05:55,590
+We want to estimate that function with data.
+
+96
+00:05:55,590 --> 00:05:57,150
+So here&#39;s some data.
+
+97
+00:05:57,150 --> 00:06:03,870
+And from this data, we now want to estimate that underlying expectation
+
+98
+00:06:03,870 --> 00:06:05,870
+that we don&#39;t know, we want to estimate.
+
+99
+00:06:05,870 --> 00:06:08,500
+So here again we can use the same idea.
+
+100
+00:06:08,500 --> 00:06:12,580
+We can form small windows, and in that window,
+
+101
+00:06:12,580 --> 00:06:18,940
+either estimate a plane or a constant plane or maybe a parabolic curve.
+
+102
+00:06:18,940 --> 00:06:20,917
+And we do it for several locations.
+
+103
+00:06:20,917 --> 00:06:22,000
+We can do it there, there.
+
+104
+00:06:22,000 --> 00:06:26,750
+We can actually do it for every single location and obtain an estimate.
+
+105
+00:06:26,750 --> 00:06:29,340
+In fact, if we do this, we&#39;re doing something
+
+106
+00:06:29,340 --> 00:06:31,560
+very similar to k nearest neighbors.
+
+107
+00:06:31,560 --> 00:06:32,060
+All right.
+
+108
+00:06:32,060 --> 00:06:34,270
+So here&#39;s k nearest neighbors with 50.
+
+109
+00:06:34,270 --> 00:06:43,830
+We estimate the mean value by taking votes across zeros and ones.
+
+110
+00:06:43,830 --> 00:06:51,160
+So that data that I showed you originally, the points were-- red
+
+111
+00:06:51,160 --> 00:06:54,590
+meant 1 and blue meant 0.
+
+112
+00:06:54,590 --> 00:06:57,780
+So in this particular case, we&#39;re basically
+
+113
+00:06:57,780 --> 00:06:59,830
+voting for either red or blue.
+
+114
+00:06:59,830 --> 00:07:03,070
+But then we get a proportion of reds, proportion of blues.
+
+115
+00:07:03,070 --> 00:07:06,950
+And that proportion is shown in this plot as an estimate of E of Y
+
+116
+00:07:06,950 --> 00:07:08,590
+given X1 and X2.
+
+117
+00:07:08,590 --> 00:07:11,120
+And you can see that it does a pretty good job.
+
+118
+00:07:11,120 --> 00:07:14,160
+This is a very simple approach of k nearest neighbors.
+
+119
+00:07:14,160 --> 00:07:18,390
+But again, the idea is to look at smaller bins
+
+120
+00:07:18,390 --> 00:07:24,280
+where we think the data is closer to either constant or a plane or a simpler
+
+121
+00:07:24,280 --> 00:07:28,550
+polynomial that we can fit, and then move that window around
+
+122
+00:07:28,550 --> 00:07:32,460
+to obtain an estimate of the more complicated curve.
+
+123
+00:07:32,460 --> 00:07:36,990
+So that&#39;s smoothing, a very short introduction to smoothing.
+
+124
+00:07:36,990 --> 00:07:39,920
+And that should help us better understand
+
+125
+00:07:39,920 --> 00:07:43,640
+some of what we do in other machine learning techniques.
+

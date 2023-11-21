@@ -1,0 +1,148 @@
+0
+00:00:00,000 --> 00:00:01,700
+
+
+1
+00:00:01,700 --> 00:00:06,200
+RAFAEL IRIZARRY: In the previous module, we described a way to account for batch effects
+
+2
+00:00:06,200 --> 00:00:09,030
+when we know what the batch effects are.
+
+3
+00:00:09,030 --> 00:00:13,210
+But we also saw evidence for us not really knowing
+
+4
+00:00:13,210 --> 00:00:15,160
+exactly what the batch effects are.
+
+5
+00:00:15,160 --> 00:00:22,330
+What are the sources of variability that are affecting our data?
+
+6
+00:00:22,330 --> 00:00:27,330
+So a more general model would be this surrogate variable model
+
+7
+00:00:27,330 --> 00:00:31,900
+in where we have, just like before, the outcome of interest, which
+
+8
+00:00:31,900 --> 00:00:36,070
+in the example that we've been looking at is sex, female or male.
+
+9
+00:00:36,070 --> 00:00:37,790
+We have measurement error.
+
+10
+00:00:37,790 --> 00:00:43,170
+But now we have this new term that describes the correlation
+
+11
+00:00:43,170 --> 00:00:46,600
+that we see between samples.
+
+12
+00:00:46,600 --> 00:00:49,900
+To simplify this part of the model, we're
+
+13
+00:00:49,900 --> 00:00:55,170
+assuming that it is determined by a series of columns
+
+14
+00:00:55,170 --> 00:00:57,120
+that are considered the batches.
+
+15
+00:00:57,120 --> 00:01:01,750
+So if we only had one batch, one of the columns of w
+
+16
+00:01:01,750 --> 00:01:04,709
+could just be a series of zeros and ones,
+
+17
+00:01:04,709 --> 00:01:07,900
+where one means you're in one batch, zero means in the other.
+
+18
+00:01:07,900 --> 00:01:11,380
+But now, we don't really know who is a zero and who is a one.
+
+19
+00:01:11,380 --> 00:01:14,860
+And we have to actually estimate that.
+
+20
+00:01:14,860 --> 00:01:18,650
+So the approach here is difficult because we
+
+21
+00:01:18,650 --> 00:01:22,550
+don't know what w is, we don't know what alpha is, we don't know what beta is.
+
+22
+00:01:22,550 --> 00:01:28,187
+All these things have to be estimated, which seems almost impossible to do.
+
+23
+00:01:28,187 --> 00:01:30,020
+But there is a trick that statisticians have
+
+24
+00:01:30,020 --> 00:01:34,500
+been using for decades called factor analysis.
+
+25
+00:01:34,500 --> 00:01:39,850
+So notice that if beta is zero, if the effect of the outcome of interest
+
+26
+00:01:39,850 --> 00:01:45,320
+is zero, then all we're left with is the sources of variability.
+
+27
+00:01:45,320 --> 00:01:47,740
+We have the measurement error, and then we
+
+28
+00:01:47,740 --> 00:01:52,600
+have the effects that are associated with batch,
+
+29
+00:01:52,600 --> 00:01:56,360
+the surrogate values that we are calling batch effects.
+
+30
+00:01:56,360 --> 00:02:00,670
+So now the exercise is to find w and alpha.
+
+31
+00:02:00,670 --> 00:02:06,551
+And by making certain assumptions about how these are uncorrelated
+
+32
+00:02:06,551 --> 00:02:08,259
+and how they're uncorrelated to noise, we
+
+33
+00:02:08,259 --> 00:02:12,219
+can actually estimate these w's and these alphas.
+
+34
+00:02:12,219 --> 00:02:15,010
+And we're going to explain how to do that in the next module, where
+
+35
+00:02:15,010 --> 00:02:20,800
+we explain singular value decomposition and principal component analysis.
+
+36
+00:02:20,800 --> 00:02:21,475
+
+

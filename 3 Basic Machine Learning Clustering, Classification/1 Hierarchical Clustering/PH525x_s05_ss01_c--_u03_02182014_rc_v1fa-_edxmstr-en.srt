@@ -1,0 +1,424 @@
+0
+00:00:00,000 --> 00:00:01,270
+
+
+1
+00:00:01,270 --> 00:00:05,260
+RAFAEL IRIZARRY: We're going to start this module describing hierarchical clustering.
+
+2
+00:00:05,260 --> 00:00:09,280
+It's one of the many clustering algorithms that exist.
+
+3
+00:00:09,280 --> 00:00:12,110
+In this figure, we're showing you the result
+
+4
+00:00:12,110 --> 00:00:15,270
+of applying hierarchical clustering to the data
+
+5
+00:00:15,270 --> 00:00:17,520
+that we have shown in the previous modules, where
+
+6
+00:00:17,520 --> 00:00:24,630
+we have several biological replicates for a handful of different tissues.
+
+7
+00:00:24,630 --> 00:00:29,580
+Now when you look at this figure, you recognize it from the heat map
+
+8
+00:00:29,580 --> 00:00:34,970
+that we showed at the very beginning of this week's modules.
+
+9
+00:00:34,970 --> 00:00:38,300
+And this is in fact the technique that is used by heat maps
+
+10
+00:00:38,300 --> 00:00:41,550
+to organize samples and genes.
+
+11
+00:00:41,550 --> 00:00:44,990
+So let's describe how hierarchical clustering works.
+
+12
+00:00:44,990 --> 00:00:49,850
+First step, of course, is to compute a distance between each sample.
+
+13
+00:00:49,850 --> 00:00:53,960
+Once we've done that, then we're going to start grouping them together.
+
+14
+00:00:53,960 --> 00:00:59,360
+There's two types of hierarchical clustering, top down and bottom up.
+
+15
+00:00:59,360 --> 00:01:02,440
+In top down, we start dividing things into groups.
+
+16
+00:01:02,440 --> 00:01:05,116
+In bottom up, we join things into groups.
+
+17
+00:01:05,116 --> 00:01:07,115
+So to do this, we need to make another decision.
+
+18
+00:01:07,115 --> 00:01:12,270
+And it's, how are we going to define the distance between two groups?
+
+19
+00:01:12,270 --> 00:01:14,080
+There are several ways of doing that, which
+
+20
+00:01:14,080 --> 00:01:15,910
+I'm not going to cover here in detail.
+
+21
+00:01:15,910 --> 00:01:22,370
+But you can read about it in any full description of hierarchical clustering.
+
+22
+00:01:22,370 --> 00:01:25,930
+So we start by finding the two samples that are closest together
+
+23
+00:01:25,930 --> 00:01:27,640
+and put them into a group.
+
+24
+00:01:27,640 --> 00:01:32,680
+Then in the next step we find the two closest groups--
+
+25
+00:01:32,680 --> 00:01:35,710
+a group could be just one sample-- that are closest together
+
+26
+00:01:35,710 --> 00:01:37,330
+and put those two together.
+
+27
+00:01:37,330 --> 00:01:46,185
+And we keep doing this repeatedly until we have all samples in one group.
+
+28
+00:01:46,185 --> 00:01:47,060
+And you can see that.
+
+29
+00:01:47,060 --> 00:01:49,893
+Just from the picture, you can see that that was what happened here.
+
+30
+00:01:49,893 --> 00:01:53,060
+You have these two samples were probably put together first.
+
+31
+00:01:53,060 --> 00:01:56,600
+Then these two, then these two, then these were put together.
+
+32
+00:01:56,600 --> 00:02:00,190
+Then probably these two were put together and these two, et cetera.
+
+33
+00:02:00,190 --> 00:02:02,880
+Then we kept going, putting things together all the way up.
+
+34
+00:02:02,880 --> 00:02:05,690
+Every time you see a split, like this, it
+
+35
+00:02:05,690 --> 00:02:11,070
+means that these samples, which were already in a group,
+
+36
+00:02:11,070 --> 00:02:18,390
+were joined with these samples at this particular distance between groups.
+
+37
+00:02:18,390 --> 00:02:23,940
+This value here is called the height when we do hierarchical clustering.
+
+38
+00:02:23,940 --> 00:02:26,230
+And then we go all the way to the top, where
+
+39
+00:02:26,230 --> 00:02:31,450
+all the samples are grouped into just one large group.
+
+40
+00:02:31,450 --> 00:02:35,250
+Now, some important things to know about this figure.
+
+41
+00:02:35,250 --> 00:02:40,650
+The first one is that you should think of dendrograms as mobiles.
+
+42
+00:02:40,650 --> 00:02:42,992
+So consider these two samples.
+
+43
+00:02:42,992 --> 00:02:43,700
+This is placenta.
+
+44
+00:02:43,700 --> 00:02:45,440
+And this is colon.
+
+45
+00:02:45,440 --> 00:02:46,590
+They're next to each other.
+
+46
+00:02:46,590 --> 00:02:49,400
+But that does not mean that they're close to each other.
+
+47
+00:02:49,400 --> 00:02:52,730
+The way we find the distance between them is that we go back.
+
+48
+00:02:52,730 --> 00:02:57,520
+We have to follow the branches all the way to the place where they split,
+
+49
+00:02:57,520 --> 00:02:59,510
+which is way up here.
+
+50
+00:02:59,510 --> 00:03:02,440
+So those two samples are actually very far apart.
+
+51
+00:03:02,440 --> 00:03:08,560
+And we actually saw that in the MDS plot that we showed in a previous module.
+
+52
+00:03:08,560 --> 00:03:12,390
+I find the MDS plot to be a better way to get
+
+53
+00:03:12,390 --> 00:03:15,340
+an idea of how far and close things are.
+
+54
+00:03:15,340 --> 00:03:19,320
+The dendrogram is also useful for that.
+
+55
+00:03:19,320 --> 00:03:24,100
+So another important characteristic about the dendrogram
+
+56
+00:03:24,100 --> 00:03:27,170
+is that it doesn't define clusters.
+
+57
+00:03:27,170 --> 00:03:28,670
+It just groups things.
+
+58
+00:03:28,670 --> 00:03:33,230
+If we actually want to define clusters, we have to pick a height.
+
+59
+00:03:33,230 --> 00:03:36,400
+Like for example, I could just draw a line right here.
+
+60
+00:03:36,400 --> 00:03:40,010
+And now what happens is I keep all the things
+
+61
+00:03:40,010 --> 00:03:44,210
+below that line that are together, that are in the same group,
+
+62
+00:03:44,210 --> 00:03:45,810
+and define that as a cluster.
+
+63
+00:03:45,810 --> 00:03:50,270
+So this is actually quite easy to do in R. And in the labs,
+
+64
+00:03:50,270 --> 00:03:55,070
+you're going to have several opportunities to try this function.
+
+65
+00:03:55,070 --> 00:03:59,025
+Now once we are done-- now that we've defined hierarchical clustering,
+
+66
+00:03:59,025 --> 00:04:02,120
+we can actually explain how heat maps are created.
+
+67
+00:04:02,120 --> 00:04:05,300
+So here's a heat map with the same data.
+
+68
+00:04:05,300 --> 00:04:09,440
+You can see again the colors representing the tissues.
+
+69
+00:04:09,440 --> 00:04:13,030
+And the tissue names are way down here in very small font.
+
+70
+00:04:13,030 --> 00:04:15,290
+So how is this heat map created?
+
+71
+00:04:15,290 --> 00:04:20,140
+First, the samples are clustered.
+
+72
+00:04:20,140 --> 00:04:22,000
+And then the genes are clustered.
+
+73
+00:04:22,000 --> 00:04:25,150
+Now, because there's 20,000 genes and we don't
+
+74
+00:04:25,150 --> 00:04:30,250
+want to show a figure with 22,000 rows-- it would also take a long time to run
+
+75
+00:04:30,250 --> 00:04:33,330
+on the computer-- we actually took a subset of genes.
+
+76
+00:04:33,330 --> 00:04:36,590
+And the way we did that-- and this is a quite common approach when you're
+
+77
+00:04:36,590 --> 00:04:41,610
+exploring data-- is we took the variant, we calculated the standard deviation
+
+78
+00:04:41,610 --> 00:04:43,920
+across sample for every gene.
+
+79
+00:04:43,920 --> 00:04:47,790
+And we kept the ones that varied the most, because genes
+
+80
+00:04:47,790 --> 00:04:50,000
+that don't vary too much are probably not changing much.
+
+81
+00:04:50,000 --> 00:04:51,280
+They're probably not important.
+
+82
+00:04:51,280 --> 00:04:52,405
+That's not always the case.
+
+83
+00:04:52,405 --> 00:04:56,990
+But that's one technique that we use in data exploration.
+
+84
+00:04:56,990 --> 00:05:02,150
+So here we put the top 500 or 200 genes.
+
+85
+00:05:02,150 --> 00:05:05,880
+And then we clustered all the genes and all the samples.
+
+86
+00:05:05,880 --> 00:05:09,260
+So we organized the samples according to the clustering.
+
+87
+00:05:09,260 --> 00:05:13,520
+Then we organized the genes according to the clustering.
+
+88
+00:05:13,520 --> 00:05:16,290
+So now we have a new ordering of the matrix.
+
+89
+00:05:16,290 --> 00:05:19,040
+And we show that matrix.
+
+90
+00:05:19,040 --> 00:05:23,770
+We put colors to signify how high expression there is in each cell.
+
+91
+00:05:23,770 --> 00:05:26,440
+So in this case, blue means high expression.
+
+92
+00:05:26,440 --> 00:05:29,230
+White means low expression.
+
+93
+00:05:29,230 --> 00:05:30,200
+So what do we see here?
+
+94
+00:05:30,200 --> 00:05:33,100
+What types of things do we see in heat maps?
+
+95
+00:05:33,100 --> 00:05:36,460
+One is that we can see this group of genes here.
+
+96
+00:05:36,460 --> 00:05:42,190
+They tend to be highly expressed in this tissue and not in too many others.
+
+97
+00:05:42,190 --> 00:05:44,660
+And they sort of follow that general pattern.
+
+98
+00:05:44,660 --> 00:05:47,950
+We also see that these tissues all have these groups
+
+99
+00:05:47,950 --> 00:05:51,550
+of genes expressed, while the other tissues don't, et cetera.
+
+100
+00:05:51,550 --> 00:05:53,890
+So we start seeing patterns like this.
+
+101
+00:05:53,890 --> 00:05:57,210
+It's a very useful exploratory tool for looking at our data
+
+102
+00:05:57,210 --> 00:05:59,930
+and seeing the structure in our data.
+
+103
+00:05:59,930 --> 00:06:04,280
+In the next module, we're going to talk a little bit about how variability
+
+104
+00:06:04,280 --> 00:06:10,330
+makes clustering non-deterministic, a very important fact to remember.
+
+105
+00:06:10,330 --> 00:06:11,438
+
+

@@ -1,0 +1,328 @@
+0
+00:00:00,019 --> 00:00:02,060
+RAFAEL IRIZARRY: In this video, we&#39;re going to show you
+
+1
+00:00:02,060 --> 00:00:05,930
+how to do exploratory data analysis with a PCA.
+
+2
+00:00:05,930 --> 00:00:11,350
+And the first thing we&#39;re going to do is load and fix
+
+3
+00:00:11,350 --> 00:00:14,900
+a data set-- a public data set so it has all this information we
+
+4
+00:00:14,900 --> 00:00:17,600
+need to do further analyses.
+
+5
+00:00:17,600 --> 00:00:20,380
+That is not important for what we&#39;re explaining here,
+
+6
+00:00:20,380 --> 00:00:24,150
+so you can follow along with the text later, if you want.
+
+7
+00:00:24,150 --> 00:00:28,050
+Right now, we&#39;re going to go straight to obtaining
+
+8
+00:00:28,050 --> 00:00:36,430
+the SVD of y, which includes the scaled data for this gene expression
+
+9
+00:00:36,430 --> 00:00:42,300
+experiment, which has the samples for several ethnic groups
+
+10
+00:00:42,300 --> 00:00:45,380
+that we know were recorded across different time points.
+
+11
+00:00:45,380 --> 00:00:49,600
+So one of things we then do is look at the image plot of the correlations,
+
+12
+00:00:49,600 --> 00:00:52,000
+and we see it&#39;s a quite complicated one.
+
+13
+00:00:52,000 --> 00:00:55,740
+You see these blocks that seemed to be showing
+
+14
+00:00:55,740 --> 00:01:01,940
+the correlation of certain samples is higher than across other samples.
+
+15
+00:01:01,940 --> 00:01:02,900
+So what is that?
+
+16
+00:01:02,900 --> 00:01:05,129
+What&#39;s going on there?
+
+17
+00:01:05,129 --> 00:01:12,960
+If we had random data, it would look-- the d&#39;s of the singular value
+
+18
+00:01:12,960 --> 00:01:16,440
+composition would basically look flat in comparison to what
+
+19
+00:01:16,440 --> 00:01:20,850
+you get with our data set, showing us that there is indeed
+
+20
+00:01:20,850 --> 00:01:23,475
+quite a bit of structure here.
+
+21
+00:01:23,475 --> 00:01:26,100
+OK, so the first thing we&#39;re going to show-- we can show here--
+
+22
+00:01:26,100 --> 00:01:28,420
+is we&#39;ve already computed the singular value decomposition,
+
+23
+00:01:28,420 --> 00:01:30,950
+so we can very quickly make an MDS plot.
+
+24
+00:01:30,950 --> 00:01:33,600
+And one of the things we often do in exploration
+
+25
+00:01:33,600 --> 00:01:40,390
+is we use color to show the different factors,
+
+26
+00:01:40,390 --> 00:01:42,970
+different covariates in the MDS plot.
+
+27
+00:01:42,970 --> 00:01:46,260
+So here, I&#39;m making an MDS plot with just two dimensions,
+
+28
+00:01:46,260 --> 00:01:49,550
+and I&#39;m showing you the three different ethnic groups with color.
+
+29
+00:01:49,550 --> 00:01:54,160
+So I can add a legend there to know which is which, and immediately we
+
+30
+00:01:54,160 --> 00:01:58,305
+see that there&#39;s a lot of variability in orange-- in the first PC
+
+31
+00:01:58,305 --> 00:02:01,430
+more than the others, which makes us a little suspicious that maybe there&#39;s
+
+32
+00:02:01,430 --> 00:02:03,990
+something else going on here.
+
+33
+00:02:03,990 --> 00:02:07,630
+And now-- so what we&#39;re going to do now is instead of showing
+
+34
+00:02:07,630 --> 00:02:10,650
+ethnic group as a color, we&#39;re going to show the year in which it
+
+35
+00:02:10,650 --> 00:02:12,930
+was processed with color.
+
+36
+00:02:12,930 --> 00:02:16,020
+So we have-- here&#39;s the years.
+
+37
+00:02:16,020 --> 00:02:20,600
+We can see it&#39;s confounded with the ethnic group.
+
+38
+00:02:20,600 --> 00:02:22,340
+So we&#39;re going to make that plot now.
+
+39
+00:02:22,340 --> 00:02:25,490
+Colors is now going to represent years, and we see
+
+40
+00:02:25,490 --> 00:02:28,690
+that it also is very much correlated.
+
+41
+00:02:28,690 --> 00:02:32,670
+All right, so look at that, those two plots.
+
+42
+00:02:32,670 --> 00:02:36,752
+There&#39;s the legend with dates, and here&#39;s with ethnic groups.
+
+43
+00:02:36,752 --> 00:02:38,460
+So all we&#39;re doing is changing the color,
+
+44
+00:02:38,460 --> 00:02:44,350
+so clearly there&#39;s a lot of correlation with both year and ethnic group.
+
+45
+00:02:44,350 --> 00:02:47,670
+They&#39;re confounded so that we don&#39;t know which is which.
+
+46
+00:02:47,670 --> 00:02:57,030
+So something we can do to explore this further is to make box plots of the PCs
+
+47
+00:02:57,030 --> 00:03:01,880
+and split them by a outcome that we think is related to batch.
+
+48
+00:03:01,880 --> 00:03:06,980
+So year is one, but now we can get a little bit more specific and use months
+
+49
+00:03:06,980 --> 00:03:08,400
+instead of year.
+
+50
+00:03:08,400 --> 00:03:12,170
+Because we&#39;re making a box plot, you&#39;ll see how it-- what we&#39;re trying to do
+
+51
+00:03:12,170 --> 00:03:15,087
+is to further explain variability.
+
+52
+00:03:15,087 --> 00:03:16,920
+If we can explain with month, then it really
+
+53
+00:03:16,920 --> 00:03:23,620
+points to it being a problem of processing and not so much biology
+
+54
+00:03:23,620 --> 00:03:26,000
+that&#39;s driving these differences.
+
+55
+00:03:26,000 --> 00:03:27,660
+So here we define the month.
+
+56
+00:03:27,660 --> 00:03:32,160
+This is a nice function that lets us extract a month from a date.
+
+57
+00:03:32,160 --> 00:03:35,470
+You can look that up, learn more about how that works.
+
+58
+00:03:35,470 --> 00:03:39,280
+So we have 21 unique months, so now what I&#39;m going to do
+
+59
+00:03:39,280 --> 00:03:42,310
+is I&#39;m going to find the variable month and I&#39;m
+
+60
+00:03:42,310 --> 00:03:45,990
+going to split-- let&#39;s start with the first-- I&#39;m going to define i1.
+
+61
+00:03:45,990 --> 00:03:48,460
+That&#39;s the first principal component here.
+
+62
+00:03:48,460 --> 00:03:50,990
+We can make a box plot, and look at that.
+
+63
+00:03:50,990 --> 00:03:53,410
+Now, I&#39;m going to add points.
+
+64
+00:03:53,410 --> 00:04:01,210
+So we can see how the first PC very much correlates with month,
+
+65
+00:04:01,210 --> 00:04:07,060
+further confirming that this is probably what&#39;s driving the variability.
+
+66
+00:04:07,060 --> 00:04:10,080
+We can actually do that for more than one PC.
+
+67
+00:04:10,080 --> 00:04:12,820
+We can see that the first four PCs actually
+
+68
+00:04:12,820 --> 00:04:17,120
+correlate with month pretty strongly.
+
+69
+00:04:17,120 --> 00:04:19,480
+So a lot of the structure that we&#39;re seeing
+
+70
+00:04:19,480 --> 00:04:23,810
+is probably driven somehow by a batch effect
+
+71
+00:04:23,810 --> 00:04:28,880
+that seems to be related to the time in which the array was processed.
+
+72
+00:04:28,880 --> 00:04:32,100
+So you can do more systematic looks at this.
+
+73
+00:04:32,100 --> 00:04:38,440
+You can try things like ANOVA to see which PCs are actually
+
+74
+00:04:38,440 --> 00:04:44,030
+correlating with month or other factors that you think are
+
+75
+00:04:44,030 --> 00:04:47,560
+related to some kind of batch effect.
+
+76
+00:04:47,560 --> 00:04:50,280
+But here what we&#39;ve shown is how you can use
+
+77
+00:04:50,280 --> 00:04:53,650
+a PCA to do exploratory data analysis.
+
+78
+00:04:53,650 --> 00:04:58,210
+And another thing that this helps us with is we can start getting an idea--
+
+79
+00:04:58,210 --> 00:05:01,750
+if we are going to use, say, factor analysis,
+
+80
+00:05:01,750 --> 00:05:04,990
+it starts to give us an idea of how many factors
+
+81
+00:05:04,990 --> 00:05:10,530
+we need to describe the structure that we see in the data.
+

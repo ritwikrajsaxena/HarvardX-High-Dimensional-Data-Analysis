@@ -1,0 +1,107 @@
+RAFAEL IRIZARRY: Some of the most widely applied statistical solutions
+to solving batch effect problems are based on a relatively
+old technique called factor analysis.
+So we're going to explain factor analysis briefly.
+We're going to use an example related to the first application of factor
+analysis over 100 years ago, and it's related to the correlation in grades
+that students would obtain in class.
+So this table I'm showing you here is from simulated data
+where I have simulated the test scores for several students, N students,
+across six subjects.
+So you can compute the correlation between, say,
+math and science class, because you have several values for several students.
+And we can see that the correlation is relatively high.
+In this case, it's 0.67.
+Now instead of showing you these numbers,
+I'll show you a plot of the numbers which looks-- it's a little bit easier
+interpret.
+So we have here the six subjects, math, science, computer science,
+and then three others, English, history and classics.
+The first thing we see is that the data is not independent.
+Independent data would look like the figure on the right
+where you would have mostly white here in this picture, as shown below.
+Red is a high correlation, white is no correlation,
+and blue would be a negative correlation.
+So if the test scores across subjects were completely uncorrelated,
+the picture would look like the picture on the right.
+And that would mean that if you're good at math,
+it doesn't mean anything about how well you're going to do in science or CS.
+But what we see here instead is that everything is correlated.
+If you're above average in math, you're going
+to be above average in all other subjects.
+But we see more structure than that.
+We also see that there's a higher correlation between the STEM fields,
+and higher correlation between the humanities fields.
+So even though everything's correlated, there's
+even more correlation between these two.
+So if-- we can model this using a factor model.
+So what we do is we hypothesize there are two hidden factors.
+W1 and W2 is what I'm calling them here, and the observed data
+which is the test scores is represented here with Y i j.
+So this is for student i on subject j, and this
+is going to be a sum of linear combinations of these two factors.
+So the idea here is that W1 relates to your overall ability of getting
+good scores, and then your second W, your second factor,
+relates to are you stronger in humanities or are you stronger in STEM.
+So it'll-- when we interpret these parameters alpha--
+so notice that every student gets an alpha for the overall W,
+and an alpha for the difference between the humanities and STEM--
+that's how we would interpret these alpha.
+If you have a high alpha 1, it means you're overall
+a student who gets good test scores.
+If you have a high alpha 2, it means you are better at STEM then
+in the humanities.
+If you get a negative alpha, it means the opposite.
+So now we apply this model.
+If we were going to try to estimate what these W's are from the data--
+so now what we're going to go back and assume that we don't know anything.
+We just get this-- we just get this data set,
+and we look at the correlation matrix, and we infer
+that there's two hidden factors here.
+We don't know what they are, and we are going
+to let the data tell us what these W's are.
+And one way you could do this, it turns out,
+one of the ways you can estimate these W's
+once we pose this model is by using the singular value decomposition.
+And we're going to assume there's just two factors,
+so we just take the first two columns of V,
+and that gives us an estimate of the W's.
+And what we can see if we actually look at them--
+we look at what these W's are, and we look at them
+across the subjects-- we see that the first one appears
+to relate to the overall.
+It automatically finds a overall ability.
+It's a positive constant for every single subject.
+And the second column of V appears to be related
+to the difference between the humanities and STEM.
+So it actually finds this automatically.
+This is the power of factor analysis that you
+let the data pick what these W's are.
+So if we fit this model, we can estimate these W's.
+Fit the model, and we get-- we explain about 78%
+of the variance, which is pretty high.
+Now, there's a more general way of doing this.
+We don't have to have just 2 W's.
+We could have many W's, and we can estimate them with PCA,
+or singular value decomposition.
+So this is what we're going to do when we have batches
+that we don't know what they are.
+We could, for example, model them with these factor models
+and try to estimate it that way.
+Now to see how complicated these structures need to be in a real data
+set, let's look at this correlation matrix
+for the data set that we have been studying with the 8,000 and plus genes
+and 200 plus samples where we have different ethnic groups that
+were recorded at different times.
+That's what this figure is showing us, and we can see it's-- the data is
+clearly not independent.
+There's structure there.
+You see these red squares, and bigger red squares, and smaller red squares.
+This is because there's correlation between samples that are probably
+driven by date, but it's much more complicated
+than year to year, so we're going to-- we
+could use factor analysis to try to describe this structure,
+and we definitely need more than two.
+So that is something that we're going to try to do-- using R,
+we're going to try to find how many factors we need here
+to describe this correlation.

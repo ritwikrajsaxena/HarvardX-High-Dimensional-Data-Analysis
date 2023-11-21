@@ -1,0 +1,420 @@
+0
+00:00:00,760 --> 00:00:03,390
+RAFAEL IRIZARRY: Now that we&#39;ve learned how the SVD works,
+
+1
+00:00:03,390 --> 00:00:07,680
+we&#39;re going to use that to create an MDS plot, a Multi-Dimensional Scale plot.
+
+2
+00:00:07,680 --> 00:00:11,640
+So what I&#39;m going to do is I&#39;m going to apply it to a version, a subset,
+
+3
+00:00:11,640 --> 00:00:17,410
+of our matrix that has the tissue gene expression that we&#39;ve
+
+4
+00:00:17,410 --> 00:00:18,590
+been working with.
+
+5
+00:00:18,590 --> 00:00:22,700
+I&#39;m only going to look at kidney, colon, and liver, just to keep it simple.
+
+6
+00:00:22,700 --> 00:00:26,790
+And what I&#39;m going to do first is I&#39;m going to compute the singular value
+
+7
+00:00:26,790 --> 00:00:29,260
+decomposition on this subset.
+
+8
+00:00:29,260 --> 00:00:32,520
+On the subset of the matrix, it has only 99 columns,
+
+9
+00:00:32,520 --> 00:00:35,410
+because it, again, only uses these three issues.
+
+10
+00:00:35,410 --> 00:00:35,910
+OK.
+
+11
+00:00:35,910 --> 00:00:37,390
+So I want to make a plot.
+
+12
+00:00:37,390 --> 00:00:39,360
+I want to be able to plot all these samples
+
+13
+00:00:39,360 --> 00:00:40,770
+and see how close they are to each other.
+
+14
+00:00:40,770 --> 00:00:43,780
+I want to see if kidneys are closer to kidneys than colons, all that stuff.
+
+15
+00:00:43,780 --> 00:00:44,320
+OK?
+
+16
+00:00:44,320 --> 00:00:48,740
+So I can&#39;t make a picture of two points that have 22,000 dimensions.
+
+17
+00:00:48,740 --> 00:00:51,080
+I&#39;m going to use singular value decomposition,
+
+18
+00:00:51,080 --> 00:00:54,730
+and I&#39;m going to look at the two dimensions that
+
+19
+00:00:54,730 --> 00:00:59,330
+have the most variability, the columns have the most variability.
+
+20
+00:00:59,330 --> 00:01:03,380
+So what we saw in this video is that we can take the SVD of mat.
+
+21
+00:01:03,380 --> 00:01:06,180
+Now, I&#39;m going to remove the means.
+
+22
+00:01:06,180 --> 00:01:08,420
+I&#39;m going to de-trend them in this sense,
+
+23
+00:01:08,420 --> 00:01:12,670
+because I don&#39;t want the differences in means to contribute to the variability
+
+24
+00:01:12,670 --> 00:01:14,420
+that I&#39;m capturing here.
+
+25
+00:01:14,420 --> 00:01:17,780
+When you compute distance between two columns, the mean of the genes
+
+26
+00:01:17,780 --> 00:01:22,150
+doesn&#39;t come in, because they cancel out when you subtract them from each other.
+
+27
+00:01:22,150 --> 00:01:22,960
+All right?
+
+28
+00:01:22,960 --> 00:01:24,550
+So I&#39;m going to take this SVD.
+
+29
+00:01:24,550 --> 00:01:26,310
+Look at how fast this is.
+
+30
+00:01:26,310 --> 00:01:26,950
+Done.
+
+31
+00:01:26,950 --> 00:01:27,450
+OK.
+
+32
+00:01:27,450 --> 00:01:31,000
+And now what I&#39;m going to do is I&#39;m going to reconstruct the z matrix that
+
+33
+00:01:31,000 --> 00:01:32,550
+has just two dimensions.
+
+34
+00:01:32,550 --> 00:01:39,560
+And the way we did that is we saw this formula that
+
+35
+00:01:39,560 --> 00:01:43,100
+gave us this way of doing it, right?
+
+36
+00:01:43,100 --> 00:01:45,630
+So we take just the first two columns.
+
+37
+00:01:45,630 --> 00:01:50,290
+That is z-- oh, I need to add the s here.
+
+38
+00:01:50,290 --> 00:01:56,660
+And now we can see that this z, as I mentioned, 2 by 99.
+
+39
+00:01:56,660 --> 00:02:03,600
+So instead of 22,215 dimensions, now I&#39;m down to two.
+
+40
+00:02:03,600 --> 00:02:06,240
+And I&#39;m ready to make pictures.
+
+41
+00:02:06,240 --> 00:02:12,110
+Now, I&#39;m going to transform the z, just because I am more used to plotting
+
+42
+00:02:12,110 --> 00:02:13,450
+when I have things in columns.
+
+43
+00:02:13,450 --> 00:02:16,265
+But there&#39;s no reason to do that.
+
+44
+00:02:16,265 --> 00:02:18,660
+I&#39;m just used to it doing that that way.
+
+45
+00:02:18,660 --> 00:02:20,200
+OK.
+
+46
+00:02:20,200 --> 00:02:21,610
+Now I can plot.
+
+47
+00:02:21,610 --> 00:02:23,400
+So for example, then you can do this.
+
+48
+00:02:23,400 --> 00:02:23,900
+All right?
+
+49
+00:02:23,900 --> 00:02:26,760
+So you can see all the points here.
+
+50
+00:02:26,760 --> 00:02:30,700
+And now, the idea is that if I want to know the distance between two
+
+51
+00:02:30,700 --> 00:02:36,990
+columns of mat-- these are 22 dimensional vectors,
+
+52
+00:02:36,990 --> 00:02:39,110
+so, really, it&#39;s not easy to do.
+
+53
+00:02:39,110 --> 00:02:43,270
+I, instead, in this visualization, the idea
+
+54
+00:02:43,270 --> 00:02:48,900
+is that distance is approximated by the distance between points in this plot.
+
+55
+00:02:48,900 --> 00:02:50,200
+So now I can visualize it.
+
+56
+00:02:50,200 --> 00:02:53,620
+That&#39;s the power of this approach.
+
+57
+00:02:53,620 --> 00:02:55,370
+So let&#39;s look at this a little bit closer.
+
+58
+00:02:55,370 --> 00:02:58,124
+So I&#39;m actually going to add this library
+
+59
+00:02:58,124 --> 00:02:59,540
+to make it a little nicer-looking.
+
+60
+00:03:02,700 --> 00:03:06,020
+And now I can plot z.
+
+61
+00:03:06,020 --> 00:03:06,520
+All right.
+
+62
+00:03:06,520 --> 00:03:07,684
+So you see the points.
+
+63
+00:03:07,684 --> 00:03:09,850
+And now, what do you think these three clusters are?
+
+64
+00:03:09,850 --> 00:03:13,900
+Well, let&#39;s add some color to this and see.
+
+65
+00:03:13,900 --> 00:03:16,570
+I&#39;m going to add the tissue as color.
+
+66
+00:03:16,570 --> 00:03:17,909
+And let&#39;s see what we have.
+
+67
+00:03:17,909 --> 00:03:18,700
+Well, there you go.
+
+68
+00:03:18,700 --> 00:03:24,190
+So we have the tissues separate out as we expected.
+
+69
+00:03:24,190 --> 00:03:28,360
+So that is a great feature.
+
+70
+00:03:28,360 --> 00:03:32,910
+Now, we don&#39;t only have to restrict ourselves to the first two dimensions.
+
+71
+00:03:32,910 --> 00:03:36,340
+For example, we can look at the third and the fourth.
+
+72
+00:03:36,340 --> 00:03:39,820
+Here&#39;s the third and the fourth.
+
+73
+00:03:39,820 --> 00:03:40,320
+OK?
+
+74
+00:03:40,320 --> 00:03:42,580
+And now, we do that instead.
+
+75
+00:03:42,580 --> 00:03:44,020
+And we see something different.
+
+76
+00:03:44,020 --> 00:03:47,550
+Now we have another source of variability here.
+
+77
+00:03:47,550 --> 00:03:51,770
+And you can see that one of these tissues, the orange tissue,
+
+78
+00:03:51,770 --> 00:03:53,650
+is splitting up into two.
+
+79
+00:03:53,650 --> 00:03:55,420
+That could be sex, for example.
+
+80
+00:03:55,420 --> 00:03:57,250
+It could be some other variable.
+
+81
+00:03:57,250 --> 00:03:59,540
+But it also has quite a bit of variability.
+
+82
+00:03:59,540 --> 00:04:02,310
+But not as much as tissue-to-tissue variability.
+
+83
+00:04:02,310 --> 00:04:04,500
+That was the strongest one.
+
+84
+00:04:04,500 --> 00:04:10,590
+It seemed to capture the first two columns of the singular value
+
+85
+00:04:10,590 --> 00:04:12,660
+decomposition.
+
+86
+00:04:12,660 --> 00:04:15,100
+Now, one other quick thing is that we don&#39;t
+
+87
+00:04:15,100 --> 00:04:17,649
+have to do this with the singular value decomposition.
+
+88
+00:04:17,649 --> 00:04:27,500
+There&#39;s a function called the CMD in R. It&#39;s the multi-dimensional scaling plot
+
+89
+00:04:27,500 --> 00:04:29,180
+function that gets you that.
+
+90
+00:04:29,180 --> 00:04:32,600
+So if I compute the distance between things,
+
+91
+00:04:32,600 --> 00:04:36,440
+then it uses cmdscale to approximate the distances.
+
+92
+00:04:36,440 --> 00:04:40,360
+And then we get practically the same picture.
+
+93
+00:04:40,360 --> 00:04:43,220
+Well I don&#39;t want this to be so big.
+
+94
+00:04:43,220 --> 00:04:46,010
+Let&#39;s get rid of that.
+
+95
+00:04:46,010 --> 00:04:47,250
+But yeah.
+
+96
+00:04:47,250 --> 00:04:49,350
+We get the same plot.
+
+97
+00:04:49,350 --> 00:04:53,220
+It&#39;s doing practically the same thing.
+
+98
+00:04:53,220 --> 00:04:57,790
+Another little point is that you can change the K. K2 is a default.
+
+99
+00:04:57,790 --> 00:05:00,720
+So it only gives you two dimensions.
+
+100
+00:05:00,720 --> 00:05:04,080
+But you could change this to four or five or six, and get as many dimensions
+
+101
+00:05:04,080 --> 00:05:12,730
+as you want from the SVD approach, the columns of u and v.
+
+102
+00:05:12,730 --> 00:05:13,230
+OK.
+
+103
+00:05:13,230 --> 00:05:16,450
+So that&#39;s how multi-dimensional scaling is done in R,
+
+104
+00:05:16,450 --> 00:05:20,290
+and how it relates to the singular value decomposition.
+

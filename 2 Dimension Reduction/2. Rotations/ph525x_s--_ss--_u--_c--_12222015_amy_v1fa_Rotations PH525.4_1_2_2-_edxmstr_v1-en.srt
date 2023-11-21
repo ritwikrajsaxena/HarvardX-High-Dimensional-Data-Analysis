@@ -1,0 +1,116 @@
+0
+00:00:00,810 --> 00:00:03,490
+RAFAEL IRIZARRY: In this video, we&#39;re going to briefly describe
+
+1
+00:00:03,490 --> 00:00:06,370
+the mathematics between rotations.
+
+2
+00:00:06,370 --> 00:00:11,360
+This is very related to our previous video on projections.
+
+3
+00:00:11,360 --> 00:00:16,940
+So, as we saw in that video, we can take an example into two dimensions.
+
+4
+00:00:16,940 --> 00:00:22,190
+The vector 2,3, which is shown here on the right, as a point in space.
+
+5
+00:00:22,190 --> 00:00:26,080
+And we can write that as a multiplication of two
+
+6
+00:00:26,080 --> 00:00:31,530
+coordinates, two and three, and the bases 1 and 0 and 0 and 1.
+
+7
+00:00:31,530 --> 00:00:35,730
+But notice that we don&#39;t have to write it this way.
+
+8
+00:00:35,730 --> 00:00:38,640
+We can write the vector 2,3 in other ways.
+
+9
+00:00:38,640 --> 00:00:44,870
+So here we change the bases to 1,1 0.5, minus 0.5.
+
+10
+00:00:44,870 --> 00:00:48,370
+This gives us the average and the difference.
+
+11
+00:00:48,370 --> 00:00:53,010
+And what we see here is that the coordinates are now 2.5 and minus 1.
+
+12
+00:00:53,010 --> 00:00:55,470
+So the coordinates change, but the point is the same.
+
+13
+00:00:55,470 --> 00:00:59,680
+That&#39;s because the coordinate system changes as well.
+
+14
+00:00:59,680 --> 00:01:05,420
+Now, typically, we like to use bases that are orthogonal
+
+15
+00:01:05,420 --> 00:01:08,620
+and that their sum of squares is one.
+
+16
+00:01:08,620 --> 00:01:11,434
+So we would just multiply these by the square root of 2
+
+17
+00:01:11,434 --> 00:01:13,350
+and divide the other by the square root of 2 to get
+
+18
+00:01:13,350 --> 00:01:15,420
+this alternative coordinate system.
+
+19
+00:01:15,420 --> 00:01:18,580
+And now our new coordinates are basically the same,
+
+20
+00:01:18,580 --> 00:01:19,566
+but they&#39;re shifted.
+
+21
+00:01:22,640 --> 00:01:25,620
+And then linear algebra gives us the rotation.
+
+22
+00:01:25,620 --> 00:01:29,910
+This is defined by the matrix A. And you can go back and forth
+
+23
+00:01:29,910 --> 00:01:34,280
+between the original data, Y, and the new coordinate,
+
+24
+00:01:34,280 --> 00:01:37,667
+Z. You can just go back and forth by multiplying by A.
+
+25
+00:01:37,667 --> 00:01:40,620
+And this is, using our example from twins,
+
+26
+00:01:40,620 --> 00:01:45,690
+is literally rotating the data, in this case, 45 degrees.
+
+27
+00:01:45,690 --> 00:01:50,700
+And you can see it going back and forth, just by multiplying by A.
+
+28
+00:01:50,700 --> 00:01:54,445
+So this is what we call a rotation in mathematics.
+

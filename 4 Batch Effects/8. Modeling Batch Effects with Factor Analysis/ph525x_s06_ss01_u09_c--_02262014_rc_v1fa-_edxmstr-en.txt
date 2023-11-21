@@ -1,0 +1,119 @@
+
+RAFAEL IRIZARRY: So in the last module we presented this model.
+This is the model that procedures such as surrogate variable analysis uses.
+Now the problem is we don't know W. We don't know alpha.
+We don't know k.
+We don't know beta.
+We have to estimate all these things.
+This is not straightforward.
+And I'm going to show you just one of the algorithms that
+tries to fit this model, which is the algorithm that
+implements the surrogate variable analysis.
+So here's the idea.
+Here's a data set that has real signal.
+Up here you can see the real signal versus not.
+And it has some batches.
+So here's Batch 1 is the one that's dark, 1, 2, 3, 4.
+That's Batch 1.
+And then the light is Batch 2.
+That's the batch we don't know.
+It's hidden.
+We don't know that it's there.
+We want to estimate it.
+So you can see over here this is the true batch, which you don't know.
+We have to try to find it.
+So you have the first two arrays are in Batch 1.
+The next two arrays are in Batch 2, the next five, cetera.
+See the pattern?
+When you're up, you're dark.
+When you're down, you're light.
+So we want to estimate this.
+So here's the approach.
+In the first step, we use the singular value decomposition
+trick to just try to estimate a batch.
+Though in this case, I'm only showing you the first column
+that we're estimating.
+And here's the result.
+You can see the estimated batch.
+It's not quite right.
+But it's kind of getting there already.
+So here's the truth.
+Here's our first estimate.
+So now what we do is we assume that this is correct.
+And we find genes that are associated with this current estimate
+of the batch.
+And we're going to give them weights.
+So here are the weights for the genes that
+are correlated with this version of the batch.
+You can see it kind of makes sense.
+These genes have strong correlations.
+You have this guy, that guy, this guy.
+So it seems like it's working pretty well.
+And all these other ones get 0 weight.
+So now we use only these genes to estimate the batch again,
+using factor analysis or singular value decomposition.
+Here's the data that we're going to use, because we're only
+giving weight to these genes.
+And now it gets a little better.
+It gets a little closer to the truth.
+So what do we do next?
+We repeat.
+Again we give weights.
+And we repeat the analysis.
+And in the next step, we get pretty close to the truth.
+So that's the idea behind SVA.
+There's now many competitors that are performing very well as well.
+We're going to include some of those links
+to the papers and software on our class web page.
+
+So now let's see what happens with our example data
+that we showed in the previous models after we implement SVA.
+So here are the autosome genes that we think should be a flat p value.
+We don't think there should be signal there.
+And here are the chromosome Y genes.
+This is before SVA.
+Now we apply SVA.
+In this case, it estimates k to be 5.
+And it estimates columns.
+We stick it into the limma procedure to get estimates of the coefficients
+and standard errors of these coefficients.
+We recompute p values.
+And look at how it looks now.
+The histogram is pretty close to flat.
+However, we did not lose what we believe to be the real genes.
+So what is it that we did here, just to review?
+We started out with a data set that clearly
+had real signal due to the different sexes.
+It clearly had some structure that was batch-related.
+And then it had noise.
+We estimated each one of these components with SVA.
+And we can actually make pictures splitting that up
+into the four components.
+All right.
+So here's the data as decomposed by SVA.
+We have the original data.
+We have the signal part, the part having to do with the outcome of interest.
+Then we have the surrogate variable part, or the batch effect part.
+And then we have the residuals.
+So we can see that in this case SVA did quite well.
+Now with that said, it's important to keep in mind
+that current solutions to batch effects don't solve all batch effect problems.
+We're faced with situations with real data
+where SVA and many other algorithms actually fail to detect all the batches
+or they over-correct.
+So you always want to do a lot of exploratory data analysis
+and post-analysis diagnostics to make sure
+that your answers make sense in some way.
+But another thing that is important to mention
+is that you want to be as careful as possible
+when designing your experiment to avoid too much confounding.
+One of the situations in which all these methods fail
+is when a batch is heavily confounded with your outcome of interest.
+It becomes very difficult to separate the signal from the batch.
+So you want as much as possible to either balance or randomize
+the experiment so that you don't have this problem.
+Now even when you do balance the experiment,
+there is still unwanted variability that reduces your power.
+So even in those cases when there are batch effects present,
+you do want to implement some of these methods
+to improve your ability to extract signal from your data.

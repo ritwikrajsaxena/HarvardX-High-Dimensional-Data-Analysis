@@ -1,0 +1,61 @@
+
+RAFAEL IRIZARRY: In this module, we're going to give an example of how confounding
+can affect a genomics data analysis.
+We're going to use data from a paper that had as one of the results
+that if you compared two ethnic groups and their gene expression,
+they had thousands of genes differentially expressed.
+A very large percentage of genes were differentially expressed.
+We downloaded this data and performed the analyses ourselves
+and in fact, we did find the same thing.
+Here is a histogram of p values on the left and a volcano plot on the right.
+And you can see that if we just by eye, we
+can see that perhaps something like 70% of genes
+would be called differentially expressed,
+even after adjusting for multiple comparison.
+And we can see on the volcano plot that the effect sizes
+are pretty large in some cases as well.
+So this, it's a very striking result.
+I think we would not expect there to be so many differences between two
+ethnic groups.
+I mean, at the end of the day, we're both humans,
+and this is quite a dramatic difference.
+So if you look at the data a little bit more closely,
+and you extracted dates from the files that
+have the data-- something that you'll learn to do in the labs
+and by looking at the code for this lecture--
+you'll see that the two ethnic groups are confounded with year.
+So this ethnic group over here had most of the data processed in 2004
+and before.
+The second one and this other ethnic group
+had most of it processed in 2005 and after that.
+So just like we saw in the previous model,
+a confounded variable can make things seem
+more different than they really are.
+And they can even make it seem different when they're really not different.
+The same can happen with genomics data.
+It's pretty much the same phenomenon.
+So to show how this can happen, we're going to take two batches.
+We're going to define them as batches.
+We're going to take October 2005 and compare it to June 2005,
+and we're going to stick to one ethnic group.
+So we're not going to have the two.
+We're just going to have one of them.
+And we're going to do the same analysis.
+So when we do this analysis, the only difference is the date.
+And when we compare genes from one batch the other,
+we again get many, many differentially expressed genes.
+So now the question is, when we saw the differences between the ethnic groups,
+we know that that includes a date effect.
+We know it.
+It could also include an ethnic background effect.
+But what we do know for sure, is that it does include a date effect.
+So how do we parse those two out?
+In this case, the experimental design was such
+that data was pretty much completely confounded.
+There's one or two exceptions of samples from the two ethnic groups that
+were run in the same batch.
+But overall, they were very confounded.
+In this case, it's almost impossible to separate the two.
+Next module, we're going to take a subset of this data set
+to show how we can adjust for batch effects
+and find signal that has been corrected for it.

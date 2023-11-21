@@ -1,0 +1,540 @@
+0
+00:00:01,230 --> 00:00:07,140
+RAFAEL IRIZARRY: So what we&#39;re after is estimating the conditional probability of Y
+
+1
+00:00:07,140 --> 00:00:10,450
+equals 1 given x1 and x2.
+
+2
+00:00:10,450 --> 00:00:14,280
+There are many, many approaches to doing that.
+
+3
+00:00:14,280 --> 00:00:17,870
+And in this module, we&#39;re going to cover one call K-nearest neighbors.
+
+4
+00:00:17,870 --> 00:00:21,340
+It&#39;s one of the most simple ones and more intuitive ones.
+
+5
+00:00:21,340 --> 00:00:24,970
+So the very, very simple idea is the following.
+
+6
+00:00:24,970 --> 00:00:26,910
+You have an x.
+
+7
+00:00:26,910 --> 00:00:30,180
+You&#39;re given an x, which in this case is a point in two-dimensional space.
+
+8
+00:00:30,180 --> 00:00:32,942
+You have two genes, x1 and x2.
+
+9
+00:00:32,942 --> 00:00:34,650
+And what we&#39;re going to do is we&#39;re going
+
+10
+00:00:34,650 --> 00:00:40,440
+to take the K-nearest points in the observed data.
+
+11
+00:00:40,440 --> 00:00:44,460
+We&#39;re going to take the K-nearest points to that x.
+
+12
+00:00:44,460 --> 00:00:48,160
+And each one of those is going to be either a 0 or a 1.
+
+13
+00:00:48,160 --> 00:00:50,540
+We&#39;re going to take the average of those 0s and 1s.
+
+14
+00:00:50,540 --> 00:00:51,900
+This is sometimes called voting.
+
+15
+00:00:51,900 --> 00:00:53,810
+Each point gets to vote.
+
+16
+00:00:53,810 --> 00:00:56,300
+And that average is going to be our prediction.
+
+17
+00:00:56,300 --> 00:00:59,570
+So let&#39;s see what happens if we take K equals to 1.
+
+18
+00:00:59,570 --> 00:01:02,300
+This is kind of an absurd case.
+
+19
+00:01:02,300 --> 00:01:08,270
+If we take x equal to 1, then basically the closest point to x
+
+20
+00:01:08,270 --> 00:01:09,360
+is going to be itself.
+
+21
+00:01:09,360 --> 00:01:13,640
+And you&#39;re going to be either 0 or 1, depending on what the observed data is.
+
+22
+00:01:13,640 --> 00:01:19,940
+So here is the map that&#39;s formed when you use K equals 1 nearest neighbor.
+
+23
+00:01:19,940 --> 00:01:24,310
+And you see a very choppy estimate.
+
+24
+00:01:24,310 --> 00:01:29,500
+You have islands of orange over here and islands of purple over here.
+
+25
+00:01:29,500 --> 00:01:34,360
+However, when you compute the error rate not surprisingly in the training set
+
+26
+00:01:34,360 --> 00:01:39,150
+it&#39;s 0, because every point it&#39;s its closest and it&#39;s going to be the same.
+
+27
+00:01:39,150 --> 00:01:41,530
+So you get them all right.
+
+28
+00:01:41,530 --> 00:01:45,430
+However, on the test set, there&#39;s a very different story.
+
+29
+00:01:45,430 --> 00:01:48,840
+Now the error rate goes all the way up to 37.5.
+
+30
+00:01:48,840 --> 00:01:53,910
+And you can see several cases where you have these little islands that
+
+31
+00:01:53,910 --> 00:01:57,870
+are orange and inside them you have several purple points.
+
+32
+00:01:57,870 --> 00:02:00,860
+That&#39;s because that region was called orange simply
+
+33
+00:02:00,860 --> 00:02:06,710
+because in the training set there was one solitary orange point up there.
+
+34
+00:02:06,710 --> 00:02:07,210
+OK.
+
+35
+00:02:07,210 --> 00:02:10,380
+So K equals 1 is just not a great choice.
+
+36
+00:02:10,380 --> 00:02:11,780
+But we can use other values.
+
+37
+00:02:11,780 --> 00:02:15,600
+For example, let&#39;s take the nearest 100 points.
+
+38
+00:02:15,600 --> 00:02:19,190
+If we do that, now we get something that looks much better.
+
+39
+00:02:19,190 --> 00:02:24,620
+You can see that the estimated prediction function now
+
+40
+00:02:24,620 --> 00:02:28,060
+splits the space into this orange part and this purple part.
+
+41
+00:02:28,060 --> 00:02:30,470
+And you can see that it&#39;s non-linear.
+
+42
+00:02:30,470 --> 00:02:32,570
+It&#39;s different from the linear model.
+
+43
+00:02:32,570 --> 00:02:35,430
+The error rate now is 24.5.
+
+44
+00:02:35,430 --> 00:02:37,330
+This is on the training set.
+
+45
+00:02:37,330 --> 00:02:41,220
+And on the test set, it&#39;s a very respectable 28.0.
+
+46
+00:02:41,220 --> 00:02:44,970
+This is much better than the linear model approach
+
+47
+00:02:44,970 --> 00:02:46,849
+that we saw in a previous module.
+
+48
+00:02:46,849 --> 00:02:47,890
+So let&#39;s see why that is.
+
+49
+00:02:47,890 --> 00:02:55,780
+Why does K-nearest neighbor work so much better than the linear model approach?
+
+50
+00:02:55,780 --> 00:02:57,690
+So here&#39;s the truth.
+
+51
+00:02:57,690 --> 00:03:01,680
+You have the orange area and the purple area.
+
+52
+00:03:01,680 --> 00:03:06,130
+This is the true probability function when it&#39;s smaller than 1/2
+
+53
+00:03:06,130 --> 00:03:07,940
+and when it&#39;s larger than 1/2.
+
+54
+00:03:07,940 --> 00:03:11,090
+And over here is the best estimate you get with a linear model.
+
+55
+00:03:11,090 --> 00:03:13,780
+It&#39;s constrained to be split by a line.
+
+56
+00:03:13,780 --> 00:03:15,730
+There&#39;s just no way around that.
+
+57
+00:03:15,730 --> 00:03:20,310
+If your model is linear in the way we defined
+
+58
+00:03:20,310 --> 00:03:24,810
+it to be when we tried this approach, you have to have it split by a line,
+
+59
+00:03:24,810 --> 00:03:28,110
+because the cases where the function is equal to 1/2
+
+60
+00:03:28,110 --> 00:03:31,830
+is by mathematical definition a straight line.
+
+61
+00:03:31,830 --> 00:03:36,770
+So you have no way of creating an estimate that looks like this.
+
+62
+00:03:36,770 --> 00:03:39,720
+Now K-nearest neighbor is much more flexible.
+
+63
+00:03:39,720 --> 00:03:42,580
+And now you get something closer to the truth.
+
+64
+00:03:42,580 --> 00:03:46,290
+Now you&#39;re basically saying-- the basic idea behind K-nearest neighbors
+
+65
+00:03:46,290 --> 00:03:49,180
+it&#39;s similar to the idea behind loess.
+
+66
+00:03:49,180 --> 00:03:51,290
+We have a neighborhood of points.
+
+67
+00:03:51,290 --> 00:03:55,657
+We assume that in that neighborhood the function is flat.
+
+68
+00:03:55,657 --> 00:03:56,740
+It&#39;s a small neighborhood.
+
+69
+00:03:56,740 --> 00:03:58,031
+And we estimate it with a mean.
+
+70
+00:03:58,031 --> 00:04:01,270
+And then we start moving that neighborhood around
+
+71
+00:04:01,270 --> 00:04:04,810
+to get a final result that looks like this.
+
+72
+00:04:04,810 --> 00:04:07,670
+Now with that said, you can see that we don&#39;t necessarily
+
+73
+00:04:07,670 --> 00:04:09,440
+have to make it just a flat line.
+
+74
+00:04:09,440 --> 00:04:13,520
+We could have fit parabolas or other functions, other kernels.
+
+75
+00:04:13,520 --> 00:04:17,250
+And we might have even gotten a better answer than this.
+
+76
+00:04:17,250 --> 00:04:17,750
+All right.
+
+77
+00:04:17,750 --> 00:04:19,940
+Now one last important point to make.
+
+78
+00:04:19,940 --> 00:04:22,850
+When you have noisy data, as you do in genomics,
+
+79
+00:04:22,850 --> 00:04:28,590
+it is going to be very rare where you&#39;re going to make perfect predictions.
+
+80
+00:04:28,590 --> 00:04:31,150
+In fact in this case that I just showed you,
+
+81
+00:04:31,150 --> 00:04:34,690
+it&#39;s impossible to make perfect predictions.
+
+82
+00:04:34,690 --> 00:04:38,180
+On average, the best possible classifier,
+
+83
+00:04:38,180 --> 00:04:40,560
+which is called a Bayes classifier-- this
+
+84
+00:04:40,560 --> 00:04:43,290
+is what you predict when you know the truth, when
+
+85
+00:04:43,290 --> 00:04:46,740
+you know what the true conditional expectation is.
+
+86
+00:04:46,740 --> 00:04:50,711
+Even that perfect case scenario produces errors.
+
+87
+00:04:50,711 --> 00:04:51,210
+Why?
+
+88
+00:04:51,210 --> 00:04:53,830
+Because the data is noisy.
+
+89
+00:04:53,830 --> 00:04:58,890
+There are cases with the same x1 and x2 that are 0 and 1.
+
+90
+00:04:58,890 --> 00:05:01,890
+Two different cases, same gene expression for two genes.
+
+91
+00:05:01,890 --> 00:05:02,860
+One&#39;s a 0.
+
+92
+00:05:02,860 --> 00:05:04,970
+One&#39;s a 1.
+
+93
+00:05:04,970 --> 00:05:06,960
+That&#39;s just random variability.
+
+94
+00:05:06,960 --> 00:05:09,730
+In those cases, you can&#39;t possibly predict them perfectly.
+
+95
+00:05:09,730 --> 00:05:15,430
+So in this plot, I just want to show you the two points here.
+
+96
+00:05:15,430 --> 00:05:22,620
+One is the how optimistic error rates from the training set
+
+97
+00:05:22,620 --> 00:05:26,280
+are-- this is for K-nearest neighbors-- and how close
+
+98
+00:05:26,280 --> 00:05:31,250
+we can get to the best possible prediction based
+
+99
+00:05:31,250 --> 00:05:32,750
+on the Bayes classifier.
+
+100
+00:05:32,750 --> 00:05:37,370
+So what this plot is showing you is the error rates, based on just one sample--
+
+101
+00:05:37,370 --> 00:05:41,290
+remember, this is not the theoretical value.
+
+102
+00:05:41,290 --> 00:05:43,340
+This is what we get from this one example
+
+103
+00:05:43,340 --> 00:05:47,890
+with one sample that&#39;s test and one example that&#39;s training.
+
+104
+00:05:47,890 --> 00:05:50,960
+These are the error rates we get down here
+
+105
+00:05:50,960 --> 00:05:55,830
+in pink color for the training set.
+
+106
+00:05:55,830 --> 00:05:59,120
+And you can see that with K-nearest neighbors with one neighbor
+
+107
+00:05:59,120 --> 00:06:01,100
+you get apparently perfect prediction.
+
+108
+00:06:01,100 --> 00:06:06,530
+But when you go to the test set, it goes all the way up to 37.
+
+109
+00:06:06,530 --> 00:06:10,640
+So here what I&#39;m doing is I&#39;m changing the K in the K-nearest neighbors from 2
+
+110
+00:06:10,640 --> 00:06:12,320
+all the way to 200.
+
+111
+00:06:12,320 --> 00:06:18,040
+And you can see that the optimistic prediction error is worse.
+
+112
+00:06:18,040 --> 00:06:22,860
+It&#39;s most optimistic, most incorrectly optimistic for smaller values of K,
+
+113
+00:06:22,860 --> 00:06:26,790
+not surprisingly, because we have too much flexibility.
+
+114
+00:06:26,790 --> 00:06:32,840
+But the actual error rate on the test set is actually dropping with K.
+
+115
+00:06:32,840 --> 00:06:35,600
+Now at some point, it starts going up again.
+
+116
+00:06:35,600 --> 00:06:39,580
+And that&#39;s because now the model is not flexible enough.
+
+117
+00:06:39,580 --> 00:06:42,450
+And we&#39;re not able to capture the nonlinearity
+
+118
+00:06:42,450 --> 00:06:45,900
+in the true conditional probability.
+
+119
+00:06:45,900 --> 00:06:48,840
+So that is an important lesson to take away,
+
+120
+00:06:48,840 --> 00:06:52,040
+that training and test errors are very different.
+
+121
+00:06:52,040 --> 00:06:56,082
+It&#39;s very important to look at test error rates to evaluate your models.
+
+122
+00:06:56,082 --> 00:06:58,040
+So in the next module, we&#39;re going to introduce
+
+123
+00:06:58,040 --> 00:07:00,600
+the concept of cross-validation.
+
+124
+00:07:00,600 --> 00:07:03,270
+Cross-validation is a technique that permits
+
+125
+00:07:03,270 --> 00:07:06,340
+you to obtain good estimates of the error rates
+
+126
+00:07:06,340 --> 00:07:11,230
+you will get when you&#39;re given a new data set to predict.
+
+127
+00:07:11,230 --> 00:07:16,280
+You should be aware that there&#39;s many other approaches to prediction.
+
+128
+00:07:16,280 --> 00:07:18,810
+K-nearest neighbor is just one.
+
+129
+00:07:18,810 --> 00:07:22,570
+Five examples of techniques that are very widely used
+
+130
+00:07:22,570 --> 00:07:27,950
+are linear discriminant analysis, or LDA; neural networks; support vector
+
+131
+00:07:27,950 --> 00:07:31,500
+machines; classification algorithm and regression trees,
+
+132
+00:07:31,500 --> 00:07:34,700
+or CART; and random forests.
+
+133
+00:07:34,700 --> 00:07:37,160
+All these methods are implemented in R packages
+
+134
+00:07:37,160 --> 00:07:44,067
+so you can actually use them with your data to create prediction algorithms.
+

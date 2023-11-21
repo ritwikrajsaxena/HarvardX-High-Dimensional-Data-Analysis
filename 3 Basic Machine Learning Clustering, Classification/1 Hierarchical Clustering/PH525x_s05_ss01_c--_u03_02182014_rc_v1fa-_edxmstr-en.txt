@@ -1,0 +1,105 @@
+
+RAFAEL IRIZARRY: We're going to start this module describing hierarchical clustering.
+It's one of the many clustering algorithms that exist.
+In this figure, we're showing you the result
+of applying hierarchical clustering to the data
+that we have shown in the previous modules, where
+we have several biological replicates for a handful of different tissues.
+Now when you look at this figure, you recognize it from the heat map
+that we showed at the very beginning of this week's modules.
+And this is in fact the technique that is used by heat maps
+to organize samples and genes.
+So let's describe how hierarchical clustering works.
+First step, of course, is to compute a distance between each sample.
+Once we've done that, then we're going to start grouping them together.
+There's two types of hierarchical clustering, top down and bottom up.
+In top down, we start dividing things into groups.
+In bottom up, we join things into groups.
+So to do this, we need to make another decision.
+And it's, how are we going to define the distance between two groups?
+There are several ways of doing that, which
+I'm not going to cover here in detail.
+But you can read about it in any full description of hierarchical clustering.
+So we start by finding the two samples that are closest together
+and put them into a group.
+Then in the next step we find the two closest groups--
+a group could be just one sample-- that are closest together
+and put those two together.
+And we keep doing this repeatedly until we have all samples in one group.
+And you can see that.
+Just from the picture, you can see that that was what happened here.
+You have these two samples were probably put together first.
+Then these two, then these two, then these were put together.
+Then probably these two were put together and these two, et cetera.
+Then we kept going, putting things together all the way up.
+Every time you see a split, like this, it
+means that these samples, which were already in a group,
+were joined with these samples at this particular distance between groups.
+This value here is called the height when we do hierarchical clustering.
+And then we go all the way to the top, where
+all the samples are grouped into just one large group.
+Now, some important things to know about this figure.
+The first one is that you should think of dendrograms as mobiles.
+So consider these two samples.
+This is placenta.
+And this is colon.
+They're next to each other.
+But that does not mean that they're close to each other.
+The way we find the distance between them is that we go back.
+We have to follow the branches all the way to the place where they split,
+which is way up here.
+So those two samples are actually very far apart.
+And we actually saw that in the MDS plot that we showed in a previous module.
+I find the MDS plot to be a better way to get
+an idea of how far and close things are.
+The dendrogram is also useful for that.
+So another important characteristic about the dendrogram
+is that it doesn't define clusters.
+It just groups things.
+If we actually want to define clusters, we have to pick a height.
+Like for example, I could just draw a line right here.
+And now what happens is I keep all the things
+below that line that are together, that are in the same group,
+and define that as a cluster.
+So this is actually quite easy to do in R. And in the labs,
+you're going to have several opportunities to try this function.
+Now once we are done-- now that we've defined hierarchical clustering,
+we can actually explain how heat maps are created.
+So here's a heat map with the same data.
+You can see again the colors representing the tissues.
+And the tissue names are way down here in very small font.
+So how is this heat map created?
+First, the samples are clustered.
+And then the genes are clustered.
+Now, because there's 20,000 genes and we don't
+want to show a figure with 22,000 rows-- it would also take a long time to run
+on the computer-- we actually took a subset of genes.
+And the way we did that-- and this is a quite common approach when you're
+exploring data-- is we took the variant, we calculated the standard deviation
+across sample for every gene.
+And we kept the ones that varied the most, because genes
+that don't vary too much are probably not changing much.
+They're probably not important.
+That's not always the case.
+But that's one technique that we use in data exploration.
+So here we put the top 500 or 200 genes.
+And then we clustered all the genes and all the samples.
+So we organized the samples according to the clustering.
+Then we organized the genes according to the clustering.
+So now we have a new ordering of the matrix.
+And we show that matrix.
+We put colors to signify how high expression there is in each cell.
+So in this case, blue means high expression.
+White means low expression.
+So what do we see here?
+What types of things do we see in heat maps?
+One is that we can see this group of genes here.
+They tend to be highly expressed in this tissue and not in too many others.
+And they sort of follow that general pattern.
+We also see that these tissues all have these groups
+of genes expressed, while the other tissues don't, et cetera.
+So we start seeing patterns like this.
+It's a very useful exploratory tool for looking at our data
+and seeing the structure in our data.
+In the next module, we're going to talk a little bit about how variability
+makes clustering non-deterministic, a very important fact to remember.

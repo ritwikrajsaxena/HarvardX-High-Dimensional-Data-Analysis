@@ -1,0 +1,448 @@
+0
+00:00:00,000 --> 00:00:01,230
+
+
+1
+00:00:01,230 --> 00:00:03,950
+RAFAEL IRIZARRY: This week we're going to be talking about batch effects
+
+2
+00:00:03,950 --> 00:00:06,306
+and how to adjust for them.
+
+3
+00:00:06,306 --> 00:00:08,830
+Now, to understand why batch effects are a problem,
+
+4
+00:00:08,830 --> 00:00:13,140
+we're going to start discussing confounding, explain what it is,
+
+5
+00:00:13,140 --> 00:00:18,211
+explain how it could affect your bottom line results.
+
+6
+00:00:18,211 --> 00:00:19,710
+So I'm going to give you an example.
+
+7
+00:00:19,710 --> 00:00:22,990
+It's a very famous example of confounding
+
+8
+00:00:22,990 --> 00:00:27,170
+can confuse you if you're not careful in analyzing the data.
+
+9
+00:00:27,170 --> 00:00:32,580
+This comes from admissions data from UC Berkeley in 1973.
+
+10
+00:00:32,580 --> 00:00:37,550
+The university was being sued for gender discrimination.
+
+11
+00:00:37,550 --> 00:00:42,220
+And the evidence for it basically came down to this table.
+
+12
+00:00:42,220 --> 00:00:44,870
+So if you look at this table closely, you're
+
+13
+00:00:44,870 --> 00:00:49,090
+going to see that while 45% of males were being accepted
+
+14
+00:00:49,090 --> 00:00:52,810
+into graduate programs, only 30% of females were.
+
+15
+00:00:52,810 --> 00:00:57,460
+Here we can do a chi-square test, as we learned in previous modules,
+
+16
+00:00:57,460 --> 00:01:04,720
+to find that a discrepancy such as this is very unlikely to happen by chance
+
+17
+00:01:04,720 --> 00:01:09,340
+if gender and admissions are in fact independent of each other.
+
+18
+00:01:09,340 --> 00:01:12,190
+Now when we look at the data little bit more carefully,
+
+19
+00:01:12,190 --> 00:01:15,560
+we see something that appears to be a paradox.
+
+20
+00:01:15,560 --> 00:01:21,120
+If we split this data by major-- so there's six majors--
+
+21
+00:01:21,120 --> 00:01:25,910
+you're going to see that the admissions rates are about the same.
+
+22
+00:01:25,910 --> 00:01:28,070
+And in fact, it appears to favor females.
+
+23
+00:01:28,070 --> 00:01:31,810
+For example, Major A clearly favors females.
+
+24
+00:01:31,810 --> 00:01:34,240
+So how can this possibly be happening?
+
+25
+00:01:34,240 --> 00:01:38,450
+We have at each major admission slightly favoring females.
+
+26
+00:01:38,450 --> 00:01:43,460
+But as an aggregate, the admissions are clearly favoring male.
+
+27
+00:01:43,460 --> 00:01:48,410
+So to understand why that happens, we have to understand what confounding is.
+
+28
+00:01:48,410 --> 00:01:52,420
+In this case we have that the number of applications
+
+29
+00:01:52,420 --> 00:01:56,000
+is confounded with admissions rate, especially for males.
+
+30
+00:01:56,000 --> 00:02:00,140
+So it turns out that males are more likely to apply to quote, unquote,
+
+31
+00:02:00,140 --> 00:02:03,600
+"easy" majors or easy to get in majors than females.
+
+32
+00:02:03,600 --> 00:02:06,460
+So it appeared that they were being admitted more often, when
+
+33
+00:02:06,460 --> 00:02:10,639
+in fact what was happening was that by their own choice
+
+34
+00:02:10,639 --> 00:02:14,182
+they were applying to the easier majors.
+
+35
+00:02:14,182 --> 00:02:15,640
+And you can see it in this picture.
+
+36
+00:02:15,640 --> 00:02:18,420
+If you look at the 1s, those are the males.
+
+37
+00:02:18,420 --> 00:02:24,700
+On the x-axis we have the percent that get into the major.
+
+38
+00:02:24,700 --> 00:02:28,490
+So this is a major that's a little easier to get into than this one.
+
+39
+00:02:28,490 --> 00:02:30,850
+Well, more than a little.
+
+40
+00:02:30,850 --> 00:02:34,120
+And then on the y-axis, we have the percent
+
+41
+00:02:34,120 --> 00:02:36,980
+of admissions that went to that major.
+
+42
+00:02:36,980 --> 00:02:44,890
+So you can see very strong association between the admissions rate of a major
+
+43
+00:02:44,890 --> 00:02:50,700
+and the total number of applications or percent of applications for males.
+
+44
+00:02:50,700 --> 00:02:54,320
+But we don't see that pattern for females.
+
+45
+00:02:54,320 --> 00:02:57,080
+So to very clearly see this, I'm going to show
+
+46
+00:02:57,080 --> 00:02:59,510
+you this data in graphical form.
+
+47
+00:02:59,510 --> 00:03:05,520
+In this plot, I have every person is represented by a little dot.
+
+48
+00:03:05,520 --> 00:03:08,810
+If you look closely enough, you're going to see that there's As, Bs,
+
+49
+00:03:08,810 --> 00:03:11,380
+Cs, Ds, Es, and Fs.
+
+50
+00:03:11,380 --> 00:03:13,010
+Those are the majors.
+
+51
+00:03:13,010 --> 00:03:16,150
+And the colors represent green means you got in.
+
+52
+00:03:16,150 --> 00:03:17,320
+You got admitted.
+
+53
+00:03:17,320 --> 00:03:20,520
+And orange means you didn't.
+
+54
+00:03:20,520 --> 00:03:23,810
+So when we look at it like this, when we put all the majors together,
+
+55
+00:03:23,810 --> 00:03:27,250
+it's clear that males are admitting more often.
+
+56
+00:03:27,250 --> 00:03:29,860
+You can see there's much more-- as a percent,
+
+57
+00:03:29,860 --> 00:03:33,990
+there's much more green than orange on the male side of the graph
+
+58
+00:03:33,990 --> 00:03:35,699
+than on the female side of the graph.
+
+59
+00:03:35,699 --> 00:03:38,490
+But now we're going to take this same data, these same individuals.
+
+60
+00:03:38,490 --> 00:03:39,390
+We're going to add any.
+
+61
+00:03:39,390 --> 00:03:40,790
+We're not going to take any away.
+
+62
+00:03:40,790 --> 00:03:44,080
+All we're going to do is reshuffle them by their majors, which
+
+63
+00:03:44,080 --> 00:03:46,590
+is already done by the letters, the symbols.
+
+64
+00:03:46,590 --> 00:03:49,280
+But now we're actually going to split them up and stratify.
+
+65
+00:03:49,280 --> 00:03:54,430
+Stratification is a powerful way of finding confounders.
+
+66
+00:03:54,430 --> 00:03:58,220
+So once we stratify, if we go major by major,
+
+67
+00:03:58,220 --> 00:04:03,090
+you can see there does not appear to be any gender bias.
+
+68
+00:04:03,090 --> 00:04:07,470
+Every single one has about the same rate of admissions.
+
+69
+00:04:07,470 --> 00:04:10,900
+Now where you can see a humongous difference is in these majors.
+
+70
+00:04:10,900 --> 00:04:13,110
+These are the majors with a lot of green.
+
+71
+00:04:13,110 --> 00:04:17,110
+Those are again quote, unquote, the "easy" majors to get into.
+
+72
+00:04:17,110 --> 00:04:23,300
+And in those two rows, you can see which of the two genders is applying more.
+
+73
+00:04:23,300 --> 00:04:30,110
+So this fact, that you have so many men applying to these two majors,
+
+74
+00:04:30,110 --> 00:04:34,230
+explains why you see more green here than here.
+
+75
+00:04:34,230 --> 00:04:35,340
+Again, it's confounding.
+
+76
+00:04:35,340 --> 00:04:41,100
+It's not in this case bias coming from the admissions offices.
+
+77
+00:04:41,100 --> 00:04:46,500
+It's confounding with the fact that males were applying to the easy majors.
+
+78
+00:04:46,500 --> 00:04:52,910
+So as we just said, one way of parsing this out is by stratifying.
+
+79
+00:04:52,910 --> 00:04:58,472
+And here we can see the proportions that are admitted by major.
+
+80
+00:04:58,472 --> 00:05:00,180
+You're going to see there's a difference.
+
+81
+00:05:00,180 --> 00:05:03,440
+You should compute the difference at the level of major.
+
+82
+00:05:03,440 --> 00:05:06,080
+So you stratify, then compute differences.
+
+83
+00:05:06,080 --> 00:05:09,375
+And if we do that, if we compute the difference between males and females
+
+84
+00:05:09,375 --> 00:05:11,810
+in each one of these and take an average,
+
+85
+00:05:11,810 --> 00:05:14,910
+we see that they're roughly admitted at the same rate.
+
+86
+00:05:14,910 --> 00:05:22,090
+In fact, women on average have a 3.5% higher rate.
+
+87
+00:05:22,090 --> 00:05:26,110
+So this is a very, very famous example of confounding.
+
+88
+00:05:26,110 --> 00:05:30,540
+It's very commonly used to explain it.
+
+89
+00:05:30,540 --> 00:05:32,550
+But it shows up in other instances.
+
+90
+00:05:32,550 --> 00:05:36,482
+Here's another case from baseball.
+
+91
+00:05:36,482 --> 00:05:38,190
+And in this case, what I'm showing you is
+
+92
+00:05:38,190 --> 00:05:42,160
+if you look at-- this is data, batting averages for Derek Jeter
+
+93
+00:05:42,160 --> 00:05:47,780
+and David Justice in 1995-- that was Jeter's first year-- and 1996.
+
+94
+00:05:47,780 --> 00:05:50,640
+If you look at their batting averages in these two years,
+
+95
+00:05:50,640 --> 00:05:55,910
+both years David Justice had a higher batting average than Jeter.
+
+96
+00:05:55,910 --> 00:05:57,630
+Both years.
+
+97
+00:05:57,630 --> 00:06:00,430
+But in the combined, if you combine these two years,
+
+98
+00:06:00,430 --> 00:06:04,540
+Jeter has a much higher batting average than David Justice.
+
+99
+00:06:04,540 --> 00:06:06,130
+So how is that possible?
+
+100
+00:06:06,130 --> 00:06:08,180
+Again, it's confounding.
+
+101
+00:06:08,180 --> 00:06:14,060
+Jeter batted fewer times in 1995 when he had a lower batting average.
+
+102
+00:06:14,060 --> 00:06:16,680
+And he batted many more times in 1996 when
+
+103
+00:06:16,680 --> 00:06:20,010
+he had a much higher batting average, while the opposite is
+
+104
+00:06:20,010 --> 00:06:21,620
+true for David Justice.
+
+105
+00:06:21,620 --> 00:06:25,440
+So once you aggregate all that up, you see
+
+106
+00:06:25,440 --> 00:06:30,620
+that combined, Jeter is the better hitter.
+
+107
+00:06:30,620 --> 00:06:35,550
+So we're going to see that confounding shows up in genomics data.
+
+108
+00:06:35,550 --> 00:06:40,950
+And it causes a lot of trouble if you don't realize that you have it
+
+109
+00:06:40,950 --> 00:06:42,660
+and if you don't adjust for it.
+
+110
+00:06:42,660 --> 00:06:45,040
+And we're going to do that in the next modules.
+
+111
+00:06:45,040 --> 00:06:45,539
+
+

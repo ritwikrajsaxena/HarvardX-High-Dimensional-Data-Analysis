@@ -1,0 +1,76 @@
+
+RAFAEL IRIZARRY: In this module we're going to describe another clustering algorithm called
+k-means.
+K-means, just like the other algorithms, starts
+by computing a distance between each unit in our data set.
+So in this plot, we can see that we have about 150 different samples.
+And we are working in two dimensions, dimension 1 on the x-axis,
+dimension 2 on the y-axis.
+And we want the algorithm to tell us which samples are in which clusters.
+Another thing we have to do with k-means is
+decide on the number of clusters we want at the end.
+That's what the k stands for.
+K is the number of clusters.
+So that is predetermined by the user.
+There are techniques to pick among different results from different Ks.
+But you still have to start each one by defining k.
+So for this example, we're going to use three, for this illustration.
+So we're going to tell k-means there are three clusters.
+So now the algorithm automatically has to put each sample
+into one of three clusters.
+Notice that for us, just by looking at this,
+we can see what the answer should be.
+You can see there are three clusters very clear.
+So you can say, here, here, and here.
+However, we want the computer to do this.
+In practice we might have to do thousands of these.
+And we can't look at each one separately.
+So that's how methods like this can be useful,
+even for simple data sets like this.
+So the first step is to pick three centroids, three centers for the three
+clusters.
+How do we do that?
+The standard approach in k-means is to pick three samples at random.
+So we do that and we see the Xs.
+The Xs are the three points that were selected at random.
+Now for each point, for each point in the space,
+we figure out which of those 3 Xs is closest.
+If the closest X, if the closest center is orange,
+then we make the sample orange.
+If the closest X is green, then we make the sample green.
+So now we have a cluster assignment for each point.
+Then on the next step we do it again.
+But before finding new clusters, we're going to redefine the centroids.
+How?
+We're going to use the current approximation of the clusters
+to define a new center.
+So we take all the green points and we compute the dimension 1 mean,
+dimension 2 mean, and that is the new centroid.
+So now here it is.
+Here's the new X for the greens.
+It's over here.
+The new X for the purples is over here.
+And the new X for the oranges are over here.
+And now we redefine clusters again.
+Just find the X that's closest and use that color.
+So here's the next step.
+That didn't move much.
+We keep doing it.
+We keep doing it and doing it.
+And we see that the Xs are slowly moving.
+And now they're getting closer to the center where we think they should be.
+And by the end, we have a pretty good result.
+So here it is again in a movie.
+You can see how in each step we get closer and closer to the center
+that we expect to be the correct answer.
+It's important to keep in mind that k-means
+selects its starting values at random.
+Therefore, every time you run it, you might get a different answer.
+It's also important to keep in mind that because you
+can select bad starting values.
+You can sometimes end up with a pretty bad final result.
+So these are things that are important to keep in mind.
+This is a powerful algorithm that works very well in general.
+But it does have its deficiencies.
+And it's sometimes useful to explore the data,
+explore the final answer to make sure that the algorithm worked well.

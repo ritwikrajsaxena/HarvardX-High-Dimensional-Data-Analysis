@@ -1,0 +1,129 @@
+RAFAEL IRIZARRY: In this video, we're going to quickly go
+over a mathematical concept called "projections" that comes up often
+in the mathematics that we apply when we analyze high-dimensional data.
+So to understand projections, we're going
+to use the notation of linear algebra.
+We start with this cartoon that shows a point with the first big arrow.
+That is the point that's being projected to a space, which
+is represented by a line.
+And the dotted line is a projection of the point-- the subspace.
+And you can think of it as the location where the shadow of the person
+standing on the space would fall.
+So here, we're going to use the notation y with a little arrow on top.
+That's what is used in most linear algebra textbooks.
+And we're going to think, in general, it's a point in N-dimensional space.
+So although all our cartoons are in two dimensions,
+you'd want to abstract away and think of it as being in any dimensional space.
+So for example, if you have a data set that has 100 points,
+that would be an N-dimensional space.
+And then we're going to use the notation L to represent
+the subspace to which we're projecting.
+In this case, that line that you see would be L.
+And those are all the points.
+They're in two-dimensional space, but they're
+all the points that fall on that line.
+So it's a smaller subspace.
+So let's consider a very simple example.
+Here is a point, y.
+It's in two-dimensional space.
+We can represent it with a vector-- 2, 3--
+and what we're going to do first is define some terminology.
+So we say that 2, 3 you can think of it as the number
+2 multiplied by the vector 1, 0 plus the number 3 multiplied by the vector 0, 1.
+And this seems over complicated, but it makes thinking about some
+of the mathematical techniques that we use easier later on.
+So here, the terminology is that 2 and 3 are called the "coordinates," and then
+the two vectors-- 1, 0 and 0, 1-- are called the "bases."
+So what you should see here is that any point in two dimensions-- any point
+that you pick-- can be written as 2 coordinates multiplied by these two
+bases.
+So here's a simple example that helps us understand what space is and subspaces
+are.
+So here, we have, on the red line, that is a subspace of two-dimensional space.
+So two-dimensional space are all the points in two dimensions,
+and then there's the points on the red line.
+So those points can be written mathematically
+as points that satisfy a constant, c, multiplied by the vector 2, 1.
+So any point on that line will have that property.
+It could be written as c times and then the vector 2 minus 1.
+So that defines our subspace.
+So now, the projection is the closest point
+on this red line L to the point y.
+That's what we call the "projection."
+And we're going to see a couple of examples
+of projections applied in practice, so you can see why they're useful.
+But for now, we're going to focus on explaining what it is mathematically.
+So what we want to do is we're to show a mathematical procedure that
+helps us find the projection of y onto this space,
+and we're going to write it as y hat.
+And what it comes down to is finding the c hat
+that satisfies this property that's the closest point.
+So we are going to give a more complicated example
+here that is a little bit more general.
+Now, y is in R N space-- meaning it's N-dimensional.
+And L is a specific subspace of all the points in N-dimensional space
+that are all the same.
+All right.
+So the way we would write it is like this.
+We would have v with an arrow on top.
+That's going to be the vector to define the space.
+It's just many 1s-- all 1s.
+And now, L-- the space of all the vectors
+that are all the same, that are constant--
+is basically the constant c times v. So members of this space
+would be 1, 1, 1, 1, 1, or 2, 2, 2, 2, 2, et cetera.
+So what we want to find is the c.
+To find the projection of y onto the space,
+we want to find the c that minimizes the distance between c times v and y.
+So we have a notation that you see here.
+The answer to that is the projection of y onto L. So how do we find this c?
+So let's go back to the cartoon-- the simple example.
+The general solution to this problem is using the fact
+that the difference between the original point and the projection-- that
+would be y minus c hat v-- multiplied-- and this is matrix multiplication.
+This is called a "dot product" in linear algebra.
+Times v is equal to 0.
+So the difference between the original point and the projection
+is-- we say-- "orthogonal" to the space.
+So once we write this equation out, we find
+that the solution-- we can solve this using
+the linear algebra that we've learned.
+And remember that here, x times y, in general, this dot
+is the matrix multiplication that we see here at the bottom.
+All right.
+So if we solve it for that first problem that we encountered,
+if we just do the math, we get that the answer
+for the c that minimizes the distance between the point and the space
+is the average of y.
+And that is what we get from this-- that if you project a point in n dimensions
+to the space spanned by points that are all the same is the average.
+So this is one way-- one maybe convoluted way--
+of defining or finding or motivating averages.
+Now, in this case, we don't have to do all this linear algebra
+because we can use calculus to find the c that minimizes this distance.
+And you can see, following the equation shown here,
+that you get the same answer.
+So there's a slightly more complicated example, and it relates to regression.
+So if we are going to find the regression
+line that best fits the data, that could also be explained with projections.
+So here, the subspace that we're projecting to
+is the space of all lines.
+So we have a point in N dimensions.
+That's our data.
+And we want to find the line that best fits that data.
+We can ask-- what is the line in the subspace defined by all lines
+that you can see in this equation here that is closest to the data?
+So to do that, we will define two basis vectors.
+v0 here is just all ones, and v1 are our x's that we
+are performing the regression on.
+So if we do that and we solve using our linear algebra
+and the multi-dimensional definition of orthogonal projection--
+which is shown in this equation here-- we
+get the same solution we obtained in a previous course on linear algebra
+for the line that best fits the data, which just basically
+comes down to estimating the coefficients beta using least squares.
+So this is an example-- these are two examples of how projections-- we
+have already, in a way, been using projections to solve
+real problems in data analysis.
+And when we learn more about singular value decomposition and principal
+component analysis, we're again going to be performing projections such as this.

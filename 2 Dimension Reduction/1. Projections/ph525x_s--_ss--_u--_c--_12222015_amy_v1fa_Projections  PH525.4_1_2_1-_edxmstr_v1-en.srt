@@ -1,0 +1,516 @@
+0
+00:00:01,219 --> 00:00:03,260
+RAFAEL IRIZARRY: In this video, we&#39;re going to quickly go
+
+1
+00:00:03,260 --> 00:00:08,320
+over a mathematical concept called &quot;projections&quot; that comes up often
+
+2
+00:00:08,320 --> 00:00:14,790
+in the mathematics that we apply when we analyze high-dimensional data.
+
+3
+00:00:14,790 --> 00:00:20,400
+So to understand projections, we&#39;re going
+
+4
+00:00:20,400 --> 00:00:24,180
+to use the notation of linear algebra.
+
+5
+00:00:24,180 --> 00:00:28,890
+We start with this cartoon that shows a point with the first big arrow.
+
+6
+00:00:28,890 --> 00:00:31,810
+That is the point that&#39;s being projected to a space, which
+
+7
+00:00:31,810 --> 00:00:34,920
+is represented by a line.
+
+8
+00:00:34,920 --> 00:00:39,850
+And the dotted line is a projection of the point-- the subspace.
+
+9
+00:00:39,850 --> 00:00:43,460
+And you can think of it as the location where the shadow of the person
+
+10
+00:00:43,460 --> 00:00:45,860
+standing on the space would fall.
+
+11
+00:00:45,860 --> 00:00:49,500
+So here, we&#39;re going to use the notation y with a little arrow on top.
+
+12
+00:00:49,500 --> 00:00:52,990
+That&#39;s what is used in most linear algebra textbooks.
+
+13
+00:00:52,990 --> 00:00:56,950
+And we&#39;re going to think, in general, it&#39;s a point in N-dimensional space.
+
+14
+00:00:56,950 --> 00:01:00,980
+So although all our cartoons are in two dimensions,
+
+15
+00:01:00,980 --> 00:01:05,500
+you&#39;d want to abstract away and think of it as being in any dimensional space.
+
+16
+00:01:05,500 --> 00:01:09,170
+So for example, if you have a data set that has 100 points,
+
+17
+00:01:09,170 --> 00:01:13,030
+that would be an N-dimensional space.
+
+18
+00:01:13,030 --> 00:01:17,480
+And then we&#39;re going to use the notation L to represent
+
+19
+00:01:17,480 --> 00:01:19,590
+the subspace to which we&#39;re projecting.
+
+20
+00:01:19,590 --> 00:01:23,090
+In this case, that line that you see would be L.
+
+21
+00:01:23,090 --> 00:01:24,380
+And those are all the points.
+
+22
+00:01:24,380 --> 00:01:26,797
+They&#39;re in two-dimensional space, but they&#39;re
+
+23
+00:01:26,797 --> 00:01:28,380
+all the points that fall on that line.
+
+24
+00:01:28,380 --> 00:01:31,350
+So it&#39;s a smaller subspace.
+
+25
+00:01:31,350 --> 00:01:34,540
+So let&#39;s consider a very simple example.
+
+26
+00:01:34,540 --> 00:01:36,210
+Here is a point, y.
+
+27
+00:01:36,210 --> 00:01:38,300
+It&#39;s in two-dimensional space.
+
+28
+00:01:38,300 --> 00:01:41,500
+We can represent it with a vector-- 2, 3--
+
+29
+00:01:41,500 --> 00:01:46,110
+and what we&#39;re going to do first is define some terminology.
+
+30
+00:01:46,110 --> 00:01:50,810
+So we say that 2, 3 you can think of it as the number
+
+31
+00:01:50,810 --> 00:01:58,240
+2 multiplied by the vector 1, 0 plus the number 3 multiplied by the vector 0, 1.
+
+32
+00:01:58,240 --> 00:02:02,920
+And this seems over complicated, but it makes thinking about some
+
+33
+00:02:02,920 --> 00:02:06,490
+of the mathematical techniques that we use easier later on.
+
+34
+00:02:06,490 --> 00:02:10,830
+So here, the terminology is that 2 and 3 are called the &quot;coordinates,&quot; and then
+
+35
+00:02:10,830 --> 00:02:16,030
+the two vectors-- 1, 0 and 0, 1-- are called the &quot;bases.&quot;
+
+36
+00:02:16,030 --> 00:02:21,080
+So what you should see here is that any point in two dimensions-- any point
+
+37
+00:02:21,080 --> 00:02:25,590
+that you pick-- can be written as 2 coordinates multiplied by these two
+
+38
+00:02:25,590 --> 00:02:27,430
+bases.
+
+39
+00:02:27,430 --> 00:02:34,440
+So here&#39;s a simple example that helps us understand what space is and subspaces
+
+40
+00:02:34,440 --> 00:02:35,400
+are.
+
+41
+00:02:35,400 --> 00:02:41,190
+So here, we have, on the red line, that is a subspace of two-dimensional space.
+
+42
+00:02:41,190 --> 00:02:44,220
+So two-dimensional space are all the points in two dimensions,
+
+43
+00:02:44,220 --> 00:02:46,720
+and then there&#39;s the points on the red line.
+
+44
+00:02:46,720 --> 00:02:50,610
+So those points can be written mathematically
+
+45
+00:02:50,610 --> 00:02:57,660
+as points that satisfy a constant, c, multiplied by the vector 2, 1.
+
+46
+00:02:57,660 --> 00:03:00,810
+So any point on that line will have that property.
+
+47
+00:03:00,810 --> 00:03:05,710
+It could be written as c times and then the vector 2 minus 1.
+
+48
+00:03:05,710 --> 00:03:09,520
+So that defines our subspace.
+
+49
+00:03:09,520 --> 00:03:14,970
+So now, the projection is the closest point
+
+50
+00:03:14,970 --> 00:03:19,130
+on this red line L to the point y.
+
+51
+00:03:19,130 --> 00:03:21,430
+That&#39;s what we call the &quot;projection.&quot;
+
+52
+00:03:21,430 --> 00:03:24,060
+And we&#39;re going to see a couple of examples
+
+53
+00:03:24,060 --> 00:03:28,210
+of projections applied in practice, so you can see why they&#39;re useful.
+
+54
+00:03:28,210 --> 00:03:33,650
+But for now, we&#39;re going to focus on explaining what it is mathematically.
+
+55
+00:03:33,650 --> 00:03:36,800
+So what we want to do is we&#39;re to show a mathematical procedure that
+
+56
+00:03:36,800 --> 00:03:41,090
+helps us find the projection of y onto this space,
+
+57
+00:03:41,090 --> 00:03:42,910
+and we&#39;re going to write it as y hat.
+
+58
+00:03:42,910 --> 00:03:45,820
+And what it comes down to is finding the c hat
+
+59
+00:03:45,820 --> 00:03:51,650
+that satisfies this property that&#39;s the closest point.
+
+60
+00:03:51,650 --> 00:03:55,000
+So we are going to give a more complicated example
+
+61
+00:03:55,000 --> 00:03:58,170
+here that is a little bit more general.
+
+62
+00:03:58,170 --> 00:04:03,320
+Now, y is in R N space-- meaning it&#39;s N-dimensional.
+
+63
+00:04:03,320 --> 00:04:10,240
+And L is a specific subspace of all the points in N-dimensional space
+
+64
+00:04:10,240 --> 00:04:11,400
+that are all the same.
+
+65
+00:04:11,400 --> 00:04:11,900
+All right.
+
+66
+00:04:11,900 --> 00:04:13,650
+So the way we would write it is like this.
+
+67
+00:04:13,650 --> 00:04:17,384
+We would have v with an arrow on top.
+
+68
+00:04:17,384 --> 00:04:19,390
+That&#39;s going to be the vector to define the space.
+
+69
+00:04:19,390 --> 00:04:22,210
+It&#39;s just many 1s-- all 1s.
+
+70
+00:04:22,210 --> 00:04:26,320
+And now, L-- the space of all the vectors
+
+71
+00:04:26,320 --> 00:04:28,280
+that are all the same, that are constant--
+
+72
+00:04:28,280 --> 00:04:32,490
+is basically the constant c times v. So members of this space
+
+73
+00:04:32,490 --> 00:04:36,790
+would be 1, 1, 1, 1, 1, or 2, 2, 2, 2, 2, et cetera.
+
+74
+00:04:36,790 --> 00:04:39,690
+So what we want to find is the c.
+
+75
+00:04:39,690 --> 00:04:43,840
+To find the projection of y onto the space,
+
+76
+00:04:43,840 --> 00:04:50,870
+we want to find the c that minimizes the distance between c times v and y.
+
+77
+00:04:50,870 --> 00:04:52,770
+So we have a notation that you see here.
+
+78
+00:04:52,770 --> 00:04:58,550
+The answer to that is the projection of y onto L. So how do we find this c?
+
+79
+00:04:58,550 --> 00:05:02,290
+So let&#39;s go back to the cartoon-- the simple example.
+
+80
+00:05:02,290 --> 00:05:06,990
+The general solution to this problem is using the fact
+
+81
+00:05:06,990 --> 00:05:10,120
+that the difference between the original point and the projection-- that
+
+82
+00:05:10,120 --> 00:05:16,760
+would be y minus c hat v-- multiplied-- and this is matrix multiplication.
+
+83
+00:05:16,760 --> 00:05:19,030
+This is called a &quot;dot product&quot; in linear algebra.
+
+84
+00:05:19,030 --> 00:05:21,760
+Times v is equal to 0.
+
+85
+00:05:21,760 --> 00:05:25,070
+So the difference between the original point and the projection
+
+86
+00:05:25,070 --> 00:05:28,200
+is-- we say-- &quot;orthogonal&quot; to the space.
+
+87
+00:05:28,200 --> 00:05:31,550
+So once we write this equation out, we find
+
+88
+00:05:31,550 --> 00:05:34,270
+that the solution-- we can solve this using
+
+89
+00:05:34,270 --> 00:05:36,420
+the linear algebra that we&#39;ve learned.
+
+90
+00:05:36,420 --> 00:05:39,990
+And remember that here, x times y, in general, this dot
+
+91
+00:05:39,990 --> 00:05:44,770
+is the matrix multiplication that we see here at the bottom.
+
+92
+00:05:44,770 --> 00:05:45,283
+All right.
+
+93
+00:05:45,283 --> 00:05:49,490
+So if we solve it for that first problem that we encountered,
+
+94
+00:05:49,490 --> 00:05:52,700
+if we just do the math, we get that the answer
+
+95
+00:05:52,700 --> 00:05:57,220
+for the c that minimizes the distance between the point and the space
+
+96
+00:05:57,220 --> 00:05:59,340
+is the average of y.
+
+97
+00:05:59,340 --> 00:06:04,770
+And that is what we get from this-- that if you project a point in n dimensions
+
+98
+00:06:04,770 --> 00:06:10,410
+to the space spanned by points that are all the same is the average.
+
+99
+00:06:10,410 --> 00:06:13,530
+So this is one way-- one maybe convoluted way--
+
+100
+00:06:13,530 --> 00:06:19,170
+of defining or finding or motivating averages.
+
+101
+00:06:19,170 --> 00:06:22,070
+Now, in this case, we don&#39;t have to do all this linear algebra
+
+102
+00:06:22,070 --> 00:06:26,670
+because we can use calculus to find the c that minimizes this distance.
+
+103
+00:06:26,670 --> 00:06:28,960
+And you can see, following the equation shown here,
+
+104
+00:06:28,960 --> 00:06:30,730
+that you get the same answer.
+
+105
+00:06:30,730 --> 00:06:36,040
+So there&#39;s a slightly more complicated example, and it relates to regression.
+
+106
+00:06:36,040 --> 00:06:39,660
+So if we are going to find the regression
+
+107
+00:06:39,660 --> 00:06:45,580
+line that best fits the data, that could also be explained with projections.
+
+108
+00:06:45,580 --> 00:06:49,730
+So here, the subspace that we&#39;re projecting to
+
+109
+00:06:49,730 --> 00:06:52,560
+is the space of all lines.
+
+110
+00:06:52,560 --> 00:06:54,440
+So we have a point in N dimensions.
+
+111
+00:06:54,440 --> 00:06:55,880
+That&#39;s our data.
+
+112
+00:06:55,880 --> 00:07:00,880
+And we want to find the line that best fits that data.
+
+113
+00:07:00,880 --> 00:07:06,020
+We can ask-- what is the line in the subspace defined by all lines
+
+114
+00:07:06,020 --> 00:07:11,420
+that you can see in this equation here that is closest to the data?
+
+115
+00:07:11,420 --> 00:07:15,620
+So to do that, we will define two basis vectors.
+
+116
+00:07:15,620 --> 00:07:19,720
+v0 here is just all ones, and v1 are our x&#39;s that we
+
+117
+00:07:19,720 --> 00:07:22,450
+are performing the regression on.
+
+118
+00:07:22,450 --> 00:07:26,460
+So if we do that and we solve using our linear algebra
+
+119
+00:07:26,460 --> 00:07:31,010
+and the multi-dimensional definition of orthogonal projection--
+
+120
+00:07:31,010 --> 00:07:33,290
+which is shown in this equation here-- we
+
+121
+00:07:33,290 --> 00:07:38,820
+get the same solution we obtained in a previous course on linear algebra
+
+122
+00:07:38,820 --> 00:07:43,270
+for the line that best fits the data, which just basically
+
+123
+00:07:43,270 --> 00:07:48,580
+comes down to estimating the coefficients beta using least squares.
+
+124
+00:07:48,580 --> 00:07:51,900
+So this is an example-- these are two examples of how projections-- we
+
+125
+00:07:51,900 --> 00:07:56,960
+have already, in a way, been using projections to solve
+
+126
+00:07:56,960 --> 00:07:59,620
+real problems in data analysis.
+
+127
+00:07:59,620 --> 00:08:03,570
+And when we learn more about singular value decomposition and principal
+
+128
+00:08:03,570 --> 00:08:09,530
+component analysis, we&#39;re again going to be performing projections such as this.
+

@@ -1,0 +1,266 @@
+RAFAEL IRIZARRY: To explain the singular value decomposition,
+we're going to continue using the twin height example.
+Shown here on the left, the data is shown.
+We're plotting the two heights in a scatter plot.
+And then on the right, we're showing the rotation
+that we already found to have the property that it
+can be used to reduce the dimension if, for example, we
+want to preserve distance considering only one dimension.
+So in this case, Z1 is the dimension that does that.
+The transformation we're applying is shown down here.
+So we're going to see how this relates to the singular value decomposition.
+Turns out that you can get this transformation using singular value
+decomposition.
+So lets look at what it is, what the singular value decomposition
+is in general.
+We can write any matrix m x n matrix Y with three other matrices,
+U, V, and D. U and V are orthogonal and D is diagonal.
+And they have the property that U transpose Y equals DV transpose.
+And we're going to see why that's powerful when we apply this to data.
+And a very important characteristic is that the sum of squares of VD or UD
+are decreasing.
+That's going to be a key useful fact that we use, for example, for dimension
+reduction.
+And I'll note that the more common way to represent this transformation
+is shown down here.
+It's equivalent to this form that I find slightly more interpretable.
+So here's an important characteristic.
+If you multiply, if you take the cross product of UD
+and itself, so UD transpose UD, that's going
+to give us the sum of squares of the columns of UD.
+And if you do the math here, because U is orthogonal, it cancels out
+and you are left with D squared.
+So this tells us that the entries of D, if we square them,
+it actually tells you the sum of squares of UD.
+That is going to come in very soon.
+So note that if we-- just so you can start seeing how this is useful.
+If the last k entries of D are 0, that means
+that we can take out k columns from U and V, then recover the Y after that.
+After removing those dimensions, so we are reducing dimensions,
+and we recover the data.
+So we're going to see that using R code, and apply this to actual data.
+So let's try that out.
+First, let's start by creating this twin high data set.
+It was that simulation.
+You can take a quick look by plotting y1 and y2.
+I'm going to keep the xlim and ylim fixed.
+So let me define what I want that to be.
+Let's do minus 3.5 to 3.5.
+So we include all the points for sure.
+All right.
+And there you have it.
+You can see the points, the twin heights that we've seen before.
+And now what I'm going to do is I'm going to apply the singular value
+decomposition and show you that it gives us,
+it actually gives us that rotation that we saw that has those properties.
+The transformation is based on an orthogonal matrix.
+And it has the variability of the columns decreasing.
+So we have the first dimension having much more variability than the last.
+So let's just do that real quick-- svd of y.
+OK.
+And if I-- now, I'm going to call this PC1
+because it will later see that this is actually the first principal component.
+I'm going to look at D times V. So the U, V,
+and D matrices are included in this object s.
+So I'm going to take the first column.
+And then I'm going to take the second column,
+multiply by D. These are the columns of D times V.
+And now we plot this.
+We plot these as well.
+That's not-- plot PC1, PC2.
+And we see that we obtain the rotation that we have seen before.
+Whoops.
+PC2, sorry.
+And there it is.
+See the rotation that we did previously?
+So the s, the singular value decomposition gives us
+that rotation that was giving us the first dimension
+with a lot of variability explained so that it preserved the distance.
+So we're trying to get a hint of how this all is connected.
+So later we'll learn that the singular value decomposition
+is related to principal component that explicitly
+tries to find rotations that maximize the variability explained
+by the first column of the U or V matrix.
+OK.
+So now let's apply this.
+Let's look at some real data.
+It's a little bit more complicated than this simulation that we've looked at.
+I'm going to load this library called tissuesGeneExpression.
+And then I'm going to load the data set with that same name.
+This is a pretty big data set.
+We can look at the dimensions of it.
+It's 189 samples.
+It has several tissues.
+We've seen this one in a previous video.
+So the first thing I want to do real quick, just to simplify things,
+is I'm going to remove the units.
+I want to standardize the data set.
+So standardize the columns-- I'm sorry, the rows.
+So it would be done like this with the function scale.
+I'm going to do something else just so that the video goes a little faster.
+I'm going to only use-- let me set the seed so it can be replicated.
+I'm going to only use 500 rows.
+You can do it with all the rows.
+It should work out the same, but this will go a little faster.
+So how many should we take?
+500 maybe.
+OK?
+So there we have it.
+Oop.
+This is all good.
+We need to get rid of this.
+All right.
+That should do it.
+Yeah.
+One more parentheses.
+OK.
+So now we have this scaled matrix and I'm
+going to apply the singular value decomposition.
+There we go.
+And what I want to do first is I'm going to, just so you can follow along
+with the math that we showed, I'm going to define these letters
+so it matches the notation.
+Then D is-- So this returns a vector.
+sd is just a vector, so I'm actually going to turn into a matrix.
+So it's exactly like the math.
+All right.
+So first thing I want to show you is that you
+can reconstruct y by using a formula.
+So let's just confirm that SVD actually did what we think it did.
+Let's put some spaces here so you can see it better.
+So it's t(V).
+So that-- find these guys.
+And this should give us-- this should recover y.
+So let's define these residuals.
+And see, these should be the same.
+So let's try that.
+So let's see what is the biggest residual here.
+Should be a very small number, pretty much zero.
+There it is.
+Very, very small.
+OK.
+Now, next step.
+Let's quickly look at the entries of D to see
+if we have anything that's very, very close to zero
+so we can start reducing dimensions, getting
+rid of some of these dimensions.
+We have 200 samples here.
+Maybe we can make it a little bit-- is it 200?
+Maybe.
+200, 189.
+So let's look at that.
+So let's plot s of d.
+What's going on?
+S-- come on.
+It's not letting me do anything.
+s of d, very quickly.
+And you can see already towards the end, there
+seems to be some of these that are actually exactly zero.
+So let's get rid of those.
+So what I'm going to do is I'm going to define k.
+Actually here, I'm going to switch it from what I show you in the slides.
+This is the number I keep, not the number I get rid of.
+Just to make it a little simpler.
+Now I'm going to only-- I'm going to reconstruct y,
+but now I'm only going to use the-- I'm going
+to remove those last four columns.
+So this is how it would work.
+So I'm reducing the dimension of the problem by 4.
+Not terribly exciting, but it's a start.
+OK.
+So now I do this.
+And let's see what the residuals look like now.
+Copy this guy over.
+And what is the max now?
+It's going to be pretty close to zero.
+Look at that.
+Yep.
+So removing the last four columns, we keep it exactly the same.
+So we've already achieved a little bit of a reduction.
+All right.
+So now let's see what happens if we can do more than that.
+So one of useful results coming out of the singular value decomposition
+is that the entries of d actually tell us the proportion of variance that
+is explained by that particular column.
+So if I plot sd squared divided by the sum of all the sd squares,
+and I multiply by 100, so it's percentages, that shows us
+the percent explained by that column.
+So we see that the first dimension of this transformation, U, this rotation,
+is explaining 20% of the variability.
+And it drops down quite fast.
+You can see by the time we get to 100 or so, we are pretty much at zero.
+So now we're going to try something a little bit more drastic.
+Let's remove half of the data, half of the dimensions.
+So now it's 95.
+So how much do we recover now?
+So what we're going to see if we, for example, plot
+box plots of the residuals, now it's not going
+to be zero because we actually have removed a little bit.
+If we make a box plot of these residuals--
+and I'm going to make the ylim-- what was it, LIM?
+Just to compare to the original data.
+And what we see is that we have very small residual.
+So we are pretty close to the original y, even when we
+reduce the dimensions by a half.
+And this transformation let's us do that.
+So we can actually answer what percent we actually keep by computing that.
+So we could take the variance of the residuals
+and divide it by the variance of the original y.
+Actually, I think we have to turn this into vectors because they're matrices.
+Let's do that.
+And we see that we recover a lot.
+It's more than 90%, right?
+So that's 4% is what we lose.
+So this is how much we explain.
+Almost 96% by reducing the dimensions by a half.
+And we didn't have to do this complicated computation because we
+already have that answer just by looking at the d's.
+You can take 1 through k.
+We didn't have to compute residuals because the d's answer exactly
+that question.
+All of them.
+All we have to square it.
+OK.
+And that should actually give us the same answer, 95.8%.
+So 1 minus-- oop, sorry.
+No min-- like that.
+There it is.
+See?
+Actually, it's the exact same number.
+All right.
+So we could give other examples of how this is useful.
+One thing we could do is create a highly correlated matrix
+and see that the dimension reduction is even more greater.
+In a later video, we're going to talk about multi-dimensional scaling, which
+uses these results to make exploratory plots, exploratory data analysis
+plots of high dimensional data, taking advantage
+of these properties of the singular value decomposition.
+But just to give a final example, we'll very quickly create a simulation
+where we have highly correlated data.
+I'm going to create a vector rnorm.
+It's with 100 data points.
+And now I'm going to create an error structure.
+Yeah, let's do a bigger one-- 25 columns.
+And let's just add some noise here, but a very small amount of noise.
+So it's practically the same data with a little bit of change.
+That's what y's going to be Actually, let's just do two.
+OK.
+So now I want to do two.
+And what we see is that if it's something like this,
+you can very quickly see, this side is very correlated, very correlated.
+You could see that the singular value decomposition, if we compute it
+for this thing, for this particular data set,
+you get that a lot of the variabil-- almost all of the variability
+is in the first column.
+So let's just do this.
+Oh, yeah.
+Pretty much all of it.
+So when you have highly correlated data like that,
+you can reduce the dimensions greatly.
+And you can create an example with more columns that are highly correlated
+and get a similar answer.
+OK.
+So that should start giving you an idea of how the singular value
+decomposition is useful.
+We're going to keep using it in data analyses,
+and you're going to start getting even more of a feeling for that.

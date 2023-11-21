@@ -1,0 +1,504 @@
+0
+00:00:00,000 --> 00:00:01,220
+
+
+1
+00:00:01,220 --> 00:00:05,100
+RAFAEL IRIZARRY: In the previous modules, we focused on clustering samples.
+
+2
+00:00:05,100 --> 00:00:10,010
+In this module, we're going to describe gene clustering.
+
+3
+00:00:10,010 --> 00:00:12,066
+Now for gene clustering, there's a little bit
+
+4
+00:00:12,066 --> 00:00:16,960
+of mathematics we can show that can help us interpret the final results.
+
+5
+00:00:16,960 --> 00:00:22,270
+Now here's the first mathematical formula I want to share with you.
+
+6
+00:00:22,270 --> 00:00:26,280
+So up here I have the formula for the distance squared.
+
+7
+00:00:26,280 --> 00:00:29,410
+We can always take the square root at the end.
+
+8
+00:00:29,410 --> 00:00:33,920
+And what I'm showing you is the distance between two genes,
+
+9
+00:00:33,920 --> 00:00:35,280
+X and Y in this case.
+
+10
+00:00:35,280 --> 00:00:37,570
+And then we're moving across M samples.
+
+11
+00:00:37,570 --> 00:00:39,700
+We are actually standardizing the values.
+
+12
+00:00:39,700 --> 00:00:44,740
+We're subtracting the mean and dividing by the standard deviation.
+
+13
+00:00:44,740 --> 00:00:48,360
+Now if we do that, we can work out the math, right?
+
+14
+00:00:48,360 --> 00:00:52,560
+This is a quadratic, so we square the two terms.
+
+15
+00:00:52,560 --> 00:00:54,840
+And then we have the multiplication of the two.
+
+16
+00:00:54,840 --> 00:00:56,600
+This is just simple algebra.
+
+17
+00:00:56,600 --> 00:01:00,242
+And we work this out, this term is going to be 1,
+
+18
+00:01:00,242 --> 00:01:02,200
+because the data has been standardized and this
+
+19
+00:01:02,200 --> 00:01:06,940
+is its standard deviation or its variance, which is 1 by definition.
+
+20
+00:01:06,940 --> 00:01:08,180
+Same for this one.
+
+21
+00:01:08,180 --> 00:01:11,900
+And over here we have the correlation.
+
+22
+00:01:11,900 --> 00:01:14,210
+This is the sample correlation.
+
+23
+00:01:14,210 --> 00:01:18,440
+So in this case, if you standardize your data
+
+24
+00:01:18,440 --> 00:01:20,920
+and you compute Euclidean distance, you end up
+
+25
+00:01:20,920 --> 00:01:24,470
+with a formula that includes just the correlation.
+
+26
+00:01:24,470 --> 00:01:25,970
+And there's an inverse relationship.
+
+27
+00:01:25,970 --> 00:01:29,170
+The more correlated two things are, the smaller the distance,
+
+28
+00:01:29,170 --> 00:01:31,830
+which makes a lot of sense.
+
+29
+00:01:31,830 --> 00:01:34,190
+Now here's the second formula that's important.
+
+30
+00:01:34,190 --> 00:01:36,270
+And it's related.
+
+31
+00:01:36,270 --> 00:01:39,650
+So for this case, what I'm doing is I'm computing
+
+32
+00:01:39,650 --> 00:01:43,590
+the distance between two genes.
+
+33
+00:01:43,590 --> 00:01:45,630
+For simplicity of the exposition, I'm going
+
+34
+00:01:45,630 --> 00:01:49,230
+to assume that X and Y have the same standard deviation and it's 1,
+
+35
+00:01:49,230 --> 00:01:51,450
+but that they have different means.
+
+36
+00:01:51,450 --> 00:01:54,740
+So X and Y are two genes.
+
+37
+00:01:54,740 --> 00:01:56,840
+They move across the samples.
+
+38
+00:01:56,840 --> 00:01:59,740
+They have standard deviation of 1, but they have different means.
+
+39
+00:01:59,740 --> 00:02:02,960
+So let's see what their distance is.
+
+40
+00:02:02,960 --> 00:02:08,550
+So I'm going to work it all out to get the distance in terms of correlation,
+
+41
+00:02:08,550 --> 00:02:11,000
+just like we did in the previous slide.
+
+42
+00:02:11,000 --> 00:02:15,760
+So I subtract and add the mean for both genes.
+
+43
+00:02:15,760 --> 00:02:18,950
+Then I work out the quadratic.
+
+44
+00:02:18,950 --> 00:02:24,340
+And when I'm finished simplifying this, I get the same result as before,
+
+45
+00:02:24,340 --> 00:02:26,460
+2 minus 1 minus the correlation.
+
+46
+00:02:26,460 --> 00:02:30,270
+But because I didn't standardize by removing the mean,
+
+47
+00:02:30,270 --> 00:02:32,060
+I have this term here.
+
+48
+00:02:32,060 --> 00:02:34,730
+That's the difference in the means squared.
+
+49
+00:02:34,730 --> 00:02:36,500
+What is that telling us?
+
+50
+00:02:36,500 --> 00:02:39,650
+That's telling us that the distance between two genes
+
+51
+00:02:39,650 --> 00:02:44,500
+is going to be dominated by the differences in mean.
+
+52
+00:02:44,500 --> 00:02:46,670
+Note that this number is fixed.
+
+53
+00:02:46,670 --> 00:02:50,610
+It can be at most 2.
+
+54
+00:02:50,610 --> 00:02:52,370
+This number can be anything.
+
+55
+00:02:52,370 --> 00:02:54,840
+You can have two genes that are very, very far apart
+
+56
+00:02:54,840 --> 00:02:57,120
+and the distance is bigger, bigger, and bigger.
+
+57
+00:02:57,120 --> 00:02:58,990
+Now why is that a problem?
+
+58
+00:02:58,990 --> 00:03:01,460
+That is a problem because many times we're
+
+59
+00:03:01,460 --> 00:03:04,650
+looking for genes that move together but aren't
+
+60
+00:03:04,650 --> 00:03:07,820
+necessarily at exactly the same level.
+
+61
+00:03:07,820 --> 00:03:10,122
+Genes are not always measured in the same units.
+
+62
+00:03:10,122 --> 00:03:13,080
+Therefore, we don't necessarily care that they are at different levels.
+
+63
+00:03:13,080 --> 00:03:14,970
+But we do want to find genes that are, say,
+
+64
+00:03:14,970 --> 00:03:16,760
+going up and down at the same time.
+
+65
+00:03:16,760 --> 00:03:20,560
+So for that reason, there's a big difference in the result you will get
+
+66
+00:03:20,560 --> 00:03:23,540
+if you standardize versus if you don't.
+
+67
+00:03:23,540 --> 00:03:26,100
+So let me show you some examples with real data.
+
+68
+00:03:26,100 --> 00:03:28,710
+So here's an example using the data set that we've
+
+69
+00:03:28,710 --> 00:03:31,370
+used in previous modules, where you have several tissues
+
+70
+00:03:31,370 --> 00:03:34,740
+and for each tissue we have several biological replicates.
+
+71
+00:03:34,740 --> 00:03:37,740
+So we took a random sample of 5,000 genes,
+
+72
+00:03:37,740 --> 00:03:41,650
+just to be able to compute the distance without crashing our computer.
+
+73
+00:03:41,650 --> 00:03:46,510
+And then we found four clusters using hierarchical clustering.
+
+74
+00:03:46,510 --> 00:03:49,990
+So now each gene is assigned to one of four clusters.
+
+75
+00:03:49,990 --> 00:03:52,040
+And you can see what the four clusters are here.
+
+76
+00:03:52,040 --> 00:03:52,960
+This is the first one.
+
+77
+00:03:52,960 --> 00:03:54,450
+It's plotted here.
+
+78
+00:03:54,450 --> 00:04:00,210
+You can see that this seems to be all the genes that are varying around 7,
+
+79
+00:04:00,210 --> 00:04:01,954
+a value of 7 or so.
+
+80
+00:04:01,954 --> 00:04:03,120
+Here's another set of genes.
+
+81
+00:04:03,120 --> 00:04:04,869
+And all that happened here is that we have
+
+82
+00:04:04,869 --> 00:04:09,060
+another series of genes that are varying around 12.
+
+83
+00:04:09,060 --> 00:04:11,100
+And here on the fourth cluster, we have a series
+
+84
+00:04:11,100 --> 00:04:13,190
+of genes that are varying around 10.
+
+85
+00:04:13,190 --> 00:04:15,270
+So this is really not that interesting.
+
+86
+00:04:15,270 --> 00:04:16,380
+All these genes are flat.
+
+87
+00:04:16,380 --> 00:04:18,720
+They're not changing across tissues.
+
+88
+00:04:18,720 --> 00:04:21,560
+All they're doing is they're changing their mean level.
+
+89
+00:04:21,560 --> 00:04:24,920
+The distance between the genes in this cluster in this cluster
+
+90
+00:04:24,920 --> 00:04:30,560
+is driven by their difference in mean, usually not of interest.
+
+91
+00:04:30,560 --> 00:04:35,820
+So let's repeat the exercise, but this time removing the mean from each gene.
+
+92
+00:04:35,820 --> 00:04:36,570
+How do we do that?
+
+93
+00:04:36,570 --> 00:04:38,780
+We have this big table.
+
+94
+00:04:38,780 --> 00:04:40,980
+For each row we have the values for that gene.
+
+95
+00:04:40,980 --> 00:04:46,850
+We're going to remove their mean one by one and then re-compute clusters.
+
+96
+00:04:46,850 --> 00:04:49,540
+Look how different the results are.
+
+97
+00:04:49,540 --> 00:04:53,900
+So now we have in the first cluster, these are centered at 0.
+
+98
+00:04:53,900 --> 00:04:58,100
+These are the genes that don't change across tissues.
+
+99
+00:04:58,100 --> 00:05:02,340
+Now the second cluster, we have genes that slightly changed from the brains
+
+100
+00:05:02,340 --> 00:05:03,180
+to the rest.
+
+101
+00:05:03,180 --> 00:05:06,060
+See, there's a little increment there?
+
+102
+00:05:06,060 --> 00:05:11,500
+This group is now a group that is highly expressed in the brains
+
+103
+00:05:11,500 --> 00:05:15,510
+and slightly underexpressed in the rest of the tissues.
+
+104
+00:05:15,510 --> 00:05:20,814
+And then the fourth cluster is a group that is highly expressed in kidney.
+
+105
+00:05:20,814 --> 00:05:22,730
+We could have shown more clusters and we would
+
+106
+00:05:22,730 --> 00:05:24,980
+have seen similar patterns that are interesting.
+
+107
+00:05:24,980 --> 00:05:29,820
+These are genes that go up in liver or up in kidney or down in the brains.
+
+108
+00:05:29,820 --> 00:05:33,060
+Those are more interesting features of the data.
+
+109
+00:05:33,060 --> 00:05:36,370
+Therefore in this case, it usually makes more sense
+
+110
+00:05:36,370 --> 00:05:39,400
+to remove the mean from the genes.
+
+111
+00:05:39,400 --> 00:05:43,640
+And more importantly, remember that you will get two very different answers
+
+112
+00:05:43,640 --> 00:05:46,401
+when you use the two different approaches.
+
+113
+00:05:46,401 --> 00:05:46,900
+All right.
+
+114
+00:05:46,900 --> 00:05:51,840
+So as a final example, I'm showing you the results
+
+115
+00:05:51,840 --> 00:05:56,930
+of a very famous experiment, one of the first microarray experiments, where
+
+116
+00:05:56,930 --> 00:06:02,550
+we recorded gene expression for yeast across our cell cycle.
+
+117
+00:06:02,550 --> 00:06:05,987
+And you can see this is again de-meaning.
+
+118
+00:06:05,987 --> 00:06:06,820
+We removed the mean.
+
+119
+00:06:06,820 --> 00:06:09,590
+We start seeing very interesting patterns,
+
+120
+00:06:09,590 --> 00:06:13,870
+like genes that follow these cycles, genes that go up,
+
+121
+00:06:13,870 --> 00:06:17,280
+genes that stay fixed, genes that vary a lot,
+
+122
+00:06:17,280 --> 00:06:20,440
+genes that have slightly different cycle, et cetera.
+
+123
+00:06:20,440 --> 00:06:23,550
+So if you are interested in finding things like this,
+
+124
+00:06:23,550 --> 00:06:29,100
+you are definitely interested in removing the mean from the genes first.
+
+125
+00:06:29,100 --> 00:06:29,600
+
+

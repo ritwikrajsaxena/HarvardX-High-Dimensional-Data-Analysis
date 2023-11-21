@@ -1,0 +1,268 @@
+0
+00:00:00,639 --> 00:00:02,430
+RAFAEL IRIZARRY: In this video, we&#39;re going
+
+1
+00:00:02,430 --> 00:00:06,490
+to introduce the concept of distance in the context of the analysis
+
+2
+00:00:06,490 --> 00:00:09,850
+of high throughput data.
+
+3
+00:00:09,850 --> 00:00:15,030
+Clustering is a methodology that requires us to define distance.
+
+4
+00:00:15,030 --> 00:00:18,990
+Clustering is something that we do, and implicitly or explicitly, we
+
+5
+00:00:18,990 --> 00:00:20,220
+use distance to do it.
+
+6
+00:00:20,220 --> 00:00:24,010
+For example, when we cluster animals into groups, in a way,
+
+7
+00:00:24,010 --> 00:00:25,340
+we are defining a distance.
+
+8
+00:00:25,340 --> 00:00:27,900
+We&#39;re saying which animals are closer to each other,
+
+9
+00:00:27,900 --> 00:00:31,860
+and which animals are further away from each other.
+
+10
+00:00:31,860 --> 00:00:33,980
+If you read the genomics literature, you&#39;ll
+
+11
+00:00:33,980 --> 00:00:36,940
+have seen heatmaps such as this one.
+
+12
+00:00:36,940 --> 00:00:41,640
+In a heatmap, you can see on the left and the top,
+
+13
+00:00:41,640 --> 00:00:46,570
+you can see that there&#39;s a dendrogram, and these are created using clustering.
+
+14
+00:00:46,570 --> 00:00:49,710
+Therefore, we need to define distances between both rows
+
+15
+00:00:49,710 --> 00:00:52,640
+and columns of the data matrix.
+
+16
+00:00:52,640 --> 00:00:56,530
+So let&#39;s start with just a simple definition of distance.
+
+17
+00:00:56,530 --> 00:00:58,330
+This is just the Euclidean distance, if you
+
+18
+00:00:58,330 --> 00:01:01,570
+have two points in a Euclidean space.
+
+19
+00:01:01,570 --> 00:01:03,920
+We know how to compute the distance.
+
+20
+00:01:03,920 --> 00:01:07,280
+We subtract the difference in the x-axis, the difference in the y-axis,
+
+21
+00:01:07,280 --> 00:01:10,220
+square them, add them, and take the square root.
+
+22
+00:01:10,220 --> 00:01:14,030
+Now, in high dimensional data, we can&#39;t really
+
+23
+00:01:14,030 --> 00:01:17,460
+do that because points are not two dimensional.
+
+24
+00:01:17,460 --> 00:01:20,960
+Here&#39;s an example of a data set that we have been looking at.
+
+25
+00:01:20,960 --> 00:01:26,170
+And this is just the first 10 rows and five columns of a data set
+
+26
+00:01:26,170 --> 00:01:30,260
+that includes gene expression measurements for thousands
+
+27
+00:01:30,260 --> 00:01:34,130
+of genes on dozens of samples.
+
+28
+00:01:34,130 --> 00:01:37,490
+So to be able to talk about distance in this context,
+
+29
+00:01:37,490 --> 00:01:40,210
+the first thing we have to do is define what a point is.
+
+30
+00:01:40,210 --> 00:01:44,500
+We no longer have two points in space or in a Cartesian plane.
+
+31
+00:01:44,500 --> 00:01:47,010
+Instead, we have these, in the case of samples,
+
+32
+00:01:47,010 --> 00:01:52,730
+we have these long vectors that are 22,000-plus numbers long.
+
+33
+00:01:52,730 --> 00:01:54,710
+Now, once we know what the point is, then
+
+34
+00:01:54,710 --> 00:01:58,360
+we&#39;ll have to define what distance means for two samples or two columns,
+
+35
+00:01:58,360 --> 00:02:01,210
+and what distance means between two features or two rows,
+
+36
+00:02:01,210 --> 00:02:05,220
+or in the case of this data set, they&#39;re genes.
+
+37
+00:02:05,220 --> 00:02:10,180
+All right, so a point-- so a sample is simply a point in, in this case,
+
+38
+00:02:10,180 --> 00:02:12,980
+22,215 dimensional space.
+
+39
+00:02:12,980 --> 00:02:15,980
+Every gene gets a number, and all these numbers together
+
+40
+00:02:15,980 --> 00:02:18,320
+define a point for a sample.
+
+41
+00:02:18,320 --> 00:02:21,970
+In the case of features or genes, because this data set
+
+42
+00:02:21,970 --> 00:02:28,170
+has 189 columns, that&#39;s the number of dimensions we have for each feature.
+
+43
+00:02:28,170 --> 00:02:32,640
+Then once we&#39;ve defined points, then we basically use the same definition
+
+44
+00:02:32,640 --> 00:02:34,550
+that we use for two dimensions.
+
+45
+00:02:34,550 --> 00:02:38,440
+We take the sum of the differences squared, and then take the square root,
+
+46
+00:02:38,440 --> 00:02:42,340
+as shown in this formula for samples i and j.
+
+47
+00:02:42,340 --> 00:02:47,830
+So here, as an example, is the distance between the third
+
+48
+00:02:47,830 --> 00:02:49,230
+and the seventh column.
+
+49
+00:02:49,230 --> 00:02:51,690
+So you can see in the formula, we&#39;re simply
+
+50
+00:02:51,690 --> 00:02:53,820
+taking the third column and the seventh column
+
+51
+00:02:53,820 --> 00:02:56,750
+and applying the formula that we just showed.
+
+52
+00:02:56,750 --> 00:02:59,310
+For the rows, it&#39;s the same definition.
+
+53
+00:02:59,310 --> 00:03:02,297
+Instead now, we add across the samples.
+
+54
+00:03:02,297 --> 00:03:04,880
+For each sample, we take the difference between the two genes,
+
+55
+00:03:04,880 --> 00:03:07,860
+square it, add them, take the square root.
+
+56
+00:03:07,860 --> 00:03:18,130
+So here&#39;s that formula applied to the row 5,124 and the row 11,924.
+
+57
+00:03:18,130 --> 00:03:23,710
+All right, so one last bit of math-- using
+
+58
+00:03:23,710 --> 00:03:26,060
+what we learned in the second course, we can
+
+59
+00:03:26,060 --> 00:03:30,960
+define distance, squared in this case, using the sum of squares.
+
+60
+00:03:30,960 --> 00:03:34,467
+That&#39;s what we do to compute distance between the difference
+
+61
+00:03:34,467 --> 00:03:35,300
+between the columns.
+
+62
+00:03:35,300 --> 00:03:38,780
+So you can see here, the cross product between the difference between two
+
+63
+00:03:38,780 --> 00:03:43,530
+columns defines the distance squared between those two columns.
+
+64
+00:03:43,530 --> 00:03:45,430
+So this is a mathematical approach that we
+
+65
+00:03:45,430 --> 00:03:48,250
+can use to compute distances very quickly,
+
+66
+00:03:48,250 --> 00:03:50,434
+and we&#39;ll see that going forward.
+

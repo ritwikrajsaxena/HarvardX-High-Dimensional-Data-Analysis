@@ -1,0 +1,1064 @@
+0
+00:00:09,972 --> 00:00:12,180
+RAFAEL IRIZARRY: To explain the singular value decomposition,
+
+1
+00:00:12,180 --> 00:00:15,770
+we&#39;re going to continue using the twin height example.
+
+2
+00:00:15,770 --> 00:00:18,820
+Shown here on the left, the data is shown.
+
+3
+00:00:18,820 --> 00:00:21,960
+We&#39;re plotting the two heights in a scatter plot.
+
+4
+00:00:21,960 --> 00:00:24,780
+And then on the right, we&#39;re showing the rotation
+
+5
+00:00:24,780 --> 00:00:29,420
+that we already found to have the property that it
+
+6
+00:00:29,420 --> 00:00:33,170
+can be used to reduce the dimension if, for example, we
+
+7
+00:00:33,170 --> 00:00:37,330
+want to preserve distance considering only one dimension.
+
+8
+00:00:37,330 --> 00:00:41,790
+So in this case, Z1 is the dimension that does that.
+
+9
+00:00:41,790 --> 00:00:45,750
+The transformation we&#39;re applying is shown down here.
+
+10
+00:00:45,750 --> 00:00:50,370
+So we&#39;re going to see how this relates to the singular value decomposition.
+
+11
+00:00:50,370 --> 00:00:54,740
+Turns out that you can get this transformation using singular value
+
+12
+00:00:54,740 --> 00:00:56,070
+decomposition.
+
+13
+00:00:56,070 --> 00:01:00,920
+So lets look at what it is, what the singular value decomposition
+
+14
+00:01:00,920 --> 00:01:03,760
+is in general.
+
+15
+00:01:03,760 --> 00:01:10,070
+We can write any matrix m x n matrix Y with three other matrices,
+
+16
+00:01:10,070 --> 00:01:14,340
+U, V, and D. U and V are orthogonal and D is diagonal.
+
+17
+00:01:14,340 --> 00:01:18,700
+And they have the property that U transpose Y equals DV transpose.
+
+18
+00:01:18,700 --> 00:01:24,300
+And we&#39;re going to see why that&#39;s powerful when we apply this to data.
+
+19
+00:01:24,300 --> 00:01:29,430
+And a very important characteristic is that the sum of squares of VD or UD
+
+20
+00:01:29,430 --> 00:01:30,990
+are decreasing.
+
+21
+00:01:30,990 --> 00:01:36,770
+That&#39;s going to be a key useful fact that we use, for example, for dimension
+
+22
+00:01:36,770 --> 00:01:37,850
+reduction.
+
+23
+00:01:37,850 --> 00:01:41,130
+And I&#39;ll note that the more common way to represent this transformation
+
+24
+00:01:41,130 --> 00:01:43,030
+is shown down here.
+
+25
+00:01:43,030 --> 00:01:48,180
+It&#39;s equivalent to this form that I find slightly more interpretable.
+
+26
+00:01:48,180 --> 00:01:51,810
+So here&#39;s an important characteristic.
+
+27
+00:01:51,810 --> 00:01:55,780
+If you multiply, if you take the cross product of UD
+
+28
+00:01:55,780 --> 00:01:58,650
+and itself, so UD transpose UD, that&#39;s going
+
+29
+00:01:58,650 --> 00:02:03,176
+to give us the sum of squares of the columns of UD.
+
+30
+00:02:03,176 --> 00:02:06,930
+And if you do the math here, because U is orthogonal, it cancels out
+
+31
+00:02:06,930 --> 00:02:09,630
+and you are left with D squared.
+
+32
+00:02:09,630 --> 00:02:14,130
+So this tells us that the entries of D, if we square them,
+
+33
+00:02:14,130 --> 00:02:18,520
+it actually tells you the sum of squares of UD.
+
+34
+00:02:18,520 --> 00:02:22,730
+That is going to come in very soon.
+
+35
+00:02:22,730 --> 00:02:26,770
+So note that if we-- just so you can start seeing how this is useful.
+
+36
+00:02:26,770 --> 00:02:35,120
+If the last k entries of D are 0, that means
+
+37
+00:02:35,120 --> 00:02:42,660
+that we can take out k columns from U and V, then recover the Y after that.
+
+38
+00:02:42,660 --> 00:02:46,030
+After removing those dimensions, so we are reducing dimensions,
+
+39
+00:02:46,030 --> 00:02:47,260
+and we recover the data.
+
+40
+00:02:47,260 --> 00:02:52,910
+So we&#39;re going to see that using R code, and apply this to actual data.
+
+41
+00:02:52,910 --> 00:02:54,540
+So let&#39;s try that out.
+
+42
+00:02:54,540 --> 00:02:59,470
+First, let&#39;s start by creating this twin high data set.
+
+43
+00:02:59,470 --> 00:03:01,195
+It was that simulation.
+
+44
+00:03:01,195 --> 00:03:09,220
+You can take a quick look by plotting y1 and y2.
+
+45
+00:03:09,220 --> 00:03:13,650
+I&#39;m going to keep the xlim and ylim fixed.
+
+46
+00:03:13,650 --> 00:03:16,290
+So let me define what I want that to be.
+
+47
+00:03:19,480 --> 00:03:22,050
+Let&#39;s do minus 3.5 to 3.5.
+
+48
+00:03:22,050 --> 00:03:24,470
+So we include all the points for sure.
+
+49
+00:03:24,470 --> 00:03:24,970
+All right.
+
+50
+00:03:24,970 --> 00:03:26,530
+And there you have it.
+
+51
+00:03:26,530 --> 00:03:29,435
+You can see the points, the twin heights that we&#39;ve seen before.
+
+52
+00:03:29,435 --> 00:03:32,310
+And now what I&#39;m going to do is I&#39;m going to apply the singular value
+
+53
+00:03:32,310 --> 00:03:34,143
+decomposition and show you that it gives us,
+
+54
+00:03:34,143 --> 00:03:38,260
+it actually gives us that rotation that we saw that has those properties.
+
+55
+00:03:40,950 --> 00:03:45,030
+The transformation is based on an orthogonal matrix.
+
+56
+00:03:45,030 --> 00:03:50,170
+And it has the variability of the columns decreasing.
+
+57
+00:03:50,170 --> 00:03:54,750
+So we have the first dimension having much more variability than the last.
+
+58
+00:03:54,750 --> 00:03:58,111
+So let&#39;s just do that real quick-- svd of y.
+
+59
+00:03:58,111 --> 00:03:58,610
+OK.
+
+60
+00:03:58,610 --> 00:04:01,340
+And if I-- now, I&#39;m going to call this PC1
+
+61
+00:04:01,340 --> 00:04:05,210
+because it will later see that this is actually the first principal component.
+
+62
+00:04:05,210 --> 00:04:12,200
+I&#39;m going to look at D times V. So the U, V,
+
+63
+00:04:12,200 --> 00:04:19,160
+and D matrices are included in this object s.
+
+64
+00:04:19,160 --> 00:04:21,950
+So I&#39;m going to take the first column.
+
+65
+00:04:21,950 --> 00:04:25,490
+And then I&#39;m going to take the second column,
+
+66
+00:04:25,490 --> 00:04:30,680
+multiply by D. These are the columns of D times V.
+
+67
+00:04:30,680 --> 00:04:32,250
+And now we plot this.
+
+68
+00:04:32,250 --> 00:04:33,920
+We plot these as well.
+
+69
+00:04:33,920 --> 00:04:37,310
+That&#39;s not-- plot PC1, PC2.
+
+70
+00:04:37,310 --> 00:04:43,930
+And we see that we obtain the rotation that we have seen before.
+
+71
+00:04:43,930 --> 00:04:44,530
+Whoops.
+
+72
+00:04:44,530 --> 00:04:45,470
+PC2, sorry.
+
+73
+00:04:49,214 --> 00:04:49,880
+And there it is.
+
+74
+00:04:49,880 --> 00:04:52,500
+See the rotation that we did previously?
+
+75
+00:04:52,500 --> 00:04:55,890
+So the s, the singular value decomposition gives us
+
+76
+00:04:55,890 --> 00:05:00,400
+that rotation that was giving us the first dimension
+
+77
+00:05:00,400 --> 00:05:03,680
+with a lot of variability explained so that it preserved the distance.
+
+78
+00:05:03,680 --> 00:05:08,400
+So we&#39;re trying to get a hint of how this all is connected.
+
+79
+00:05:08,400 --> 00:05:12,350
+So later we&#39;ll learn that the singular value decomposition
+
+80
+00:05:12,350 --> 00:05:16,010
+is related to principal component that explicitly
+
+81
+00:05:16,010 --> 00:05:23,510
+tries to find rotations that maximize the variability explained
+
+82
+00:05:23,510 --> 00:05:29,730
+by the first column of the U or V matrix.
+
+83
+00:05:29,730 --> 00:05:30,280
+OK.
+
+84
+00:05:30,280 --> 00:05:31,570
+So now let&#39;s apply this.
+
+85
+00:05:31,570 --> 00:05:33,050
+Let&#39;s look at some real data.
+
+86
+00:05:33,050 --> 00:05:37,315
+It&#39;s a little bit more complicated than this simulation that we&#39;ve looked at.
+
+87
+00:05:37,315 --> 00:05:40,315
+I&#39;m going to load this library called tissuesGeneExpression.
+
+88
+00:05:43,020 --> 00:05:45,620
+And then I&#39;m going to load the data set with that same name.
+
+89
+00:05:48,730 --> 00:05:50,370
+This is a pretty big data set.
+
+90
+00:05:50,370 --> 00:05:52,390
+We can look at the dimensions of it.
+
+91
+00:05:52,390 --> 00:05:53,910
+It&#39;s 189 samples.
+
+92
+00:05:53,910 --> 00:05:56,280
+It has several tissues.
+
+93
+00:05:56,280 --> 00:05:59,360
+We&#39;ve seen this one in a previous video.
+
+94
+00:05:59,360 --> 00:06:02,760
+So the first thing I want to do real quick, just to simplify things,
+
+95
+00:06:02,760 --> 00:06:04,440
+is I&#39;m going to remove the units.
+
+96
+00:06:04,440 --> 00:06:06,090
+I want to standardize the data set.
+
+97
+00:06:06,090 --> 00:06:09,715
+So standardize the columns-- I&#39;m sorry, the rows.
+
+98
+00:06:13,370 --> 00:06:17,000
+So it would be done like this with the function scale.
+
+99
+00:06:17,000 --> 00:06:21,190
+I&#39;m going to do something else just so that the video goes a little faster.
+
+100
+00:06:21,190 --> 00:06:27,740
+I&#39;m going to only use-- let me set the seed so it can be replicated.
+
+101
+00:06:27,740 --> 00:06:32,740
+I&#39;m going to only use 500 rows.
+
+102
+00:06:32,740 --> 00:06:34,430
+You can do it with all the rows.
+
+103
+00:06:34,430 --> 00:06:38,696
+It should work out the same, but this will go a little faster.
+
+104
+00:06:38,696 --> 00:06:39,820
+So how many should we take?
+
+105
+00:06:39,820 --> 00:06:42,650
+500 maybe.
+
+106
+00:06:42,650 --> 00:06:43,490
+OK?
+
+107
+00:06:43,490 --> 00:06:46,110
+So there we have it.
+
+108
+00:06:46,110 --> 00:06:46,930
+Oop.
+
+109
+00:06:46,930 --> 00:06:49,090
+This is all good.
+
+110
+00:06:49,090 --> 00:06:53,321
+We need to get rid of this.
+
+111
+00:06:53,321 --> 00:06:53,820
+All right.
+
+112
+00:06:53,820 --> 00:06:56,320
+That should do it.
+
+113
+00:06:56,320 --> 00:06:57,400
+Yeah.
+
+114
+00:06:57,400 --> 00:07:00,210
+One more parentheses.
+
+115
+00:07:00,210 --> 00:07:01,350
+OK.
+
+116
+00:07:01,350 --> 00:07:04,040
+So now we have this scaled matrix and I&#39;m
+
+117
+00:07:04,040 --> 00:07:06,040
+going to apply the singular value decomposition.
+
+118
+00:07:09,180 --> 00:07:10,260
+There we go.
+
+119
+00:07:10,260 --> 00:07:13,650
+And what I want to do first is I&#39;m going to, just so you can follow along
+
+120
+00:07:13,650 --> 00:07:18,270
+with the math that we showed, I&#39;m going to define these letters
+
+121
+00:07:18,270 --> 00:07:19,420
+so it matches the notation.
+
+122
+00:07:22,820 --> 00:07:28,610
+Then D is-- So this returns a vector.
+
+123
+00:07:28,610 --> 00:07:32,070
+sd is just a vector, so I&#39;m actually going to turn into a matrix.
+
+124
+00:07:32,070 --> 00:07:34,760
+So it&#39;s exactly like the math.
+
+125
+00:07:34,760 --> 00:07:35,260
+All right.
+
+126
+00:07:35,260 --> 00:07:37,135
+So first thing I want to show you is that you
+
+127
+00:07:37,135 --> 00:07:40,630
+can reconstruct y by using a formula.
+
+128
+00:07:40,630 --> 00:07:45,540
+So let&#39;s just confirm that SVD actually did what we think it did.
+
+129
+00:07:45,540 --> 00:07:47,820
+Let&#39;s put some spaces here so you can see it better.
+
+130
+00:07:47,820 --> 00:07:49,570
+So it&#39;s t(V).
+
+131
+00:07:49,570 --> 00:07:52,360
+So that-- find these guys.
+
+132
+00:07:52,360 --> 00:07:57,000
+And this should give us-- this should recover y.
+
+133
+00:07:57,000 --> 00:07:58,620
+So let&#39;s define these residuals.
+
+134
+00:08:02,340 --> 00:08:07,020
+And see, these should be the same.
+
+135
+00:08:07,020 --> 00:08:08,820
+So let&#39;s try that.
+
+136
+00:08:08,820 --> 00:08:11,380
+So let&#39;s see what is the biggest residual here.
+
+137
+00:08:11,380 --> 00:08:13,910
+Should be a very small number, pretty much zero.
+
+138
+00:08:13,910 --> 00:08:14,430
+There it is.
+
+139
+00:08:14,430 --> 00:08:15,576
+Very, very small.
+
+140
+00:08:15,576 --> 00:08:16,310
+OK.
+
+141
+00:08:16,310 --> 00:08:17,960
+Now, next step.
+
+142
+00:08:17,960 --> 00:08:22,490
+Let&#39;s quickly look at the entries of D to see
+
+143
+00:08:22,490 --> 00:08:24,820
+if we have anything that&#39;s very, very close to zero
+
+144
+00:08:24,820 --> 00:08:27,250
+so we can start reducing dimensions, getting
+
+145
+00:08:27,250 --> 00:08:28,660
+rid of some of these dimensions.
+
+146
+00:08:28,660 --> 00:08:32,480
+We have 200 samples here.
+
+147
+00:08:32,480 --> 00:08:36,261
+Maybe we can make it a little bit-- is it 200?
+
+148
+00:08:36,260 --> 00:08:36,760
+Maybe.
+
+149
+00:08:36,760 --> 00:08:38,710
+200, 189.
+
+150
+00:08:38,710 --> 00:08:41,330
+So let&#39;s look at that.
+
+151
+00:08:41,330 --> 00:08:43,770
+So let&#39;s plot s of d.
+
+152
+00:08:47,560 --> 00:08:49,182
+What&#39;s going on?
+
+153
+00:08:49,182 --> 00:08:50,986
+S-- come on.
+
+154
+00:08:50,986 --> 00:08:55,030
+It&#39;s not letting me do anything.
+
+155
+00:08:55,030 --> 00:08:57,020
+s of d, very quickly.
+
+156
+00:08:57,020 --> 00:08:59,700
+And you can see already towards the end, there
+
+157
+00:08:59,700 --> 00:09:04,390
+seems to be some of these that are actually exactly zero.
+
+158
+00:09:04,390 --> 00:09:05,779
+So let&#39;s get rid of those.
+
+159
+00:09:05,779 --> 00:09:07,820
+So what I&#39;m going to do is I&#39;m going to define k.
+
+160
+00:09:09,799 --> 00:09:12,840
+Actually here, I&#39;m going to switch it from what I show you in the slides.
+
+161
+00:09:12,840 --> 00:09:16,910
+This is the number I keep, not the number I get rid of.
+
+162
+00:09:16,910 --> 00:09:18,440
+Just to make it a little simpler.
+
+163
+00:09:18,440 --> 00:09:22,410
+Now I&#39;m going to only-- I&#39;m going to reconstruct y,
+
+164
+00:09:22,410 --> 00:09:26,640
+but now I&#39;m only going to use the-- I&#39;m going
+
+165
+00:09:26,640 --> 00:09:30,720
+to remove those last four columns.
+
+166
+00:09:30,720 --> 00:09:33,270
+So this is how it would work.
+
+167
+00:09:33,270 --> 00:09:37,690
+So I&#39;m reducing the dimension of the problem by 4.
+
+168
+00:09:37,690 --> 00:09:42,630
+Not terribly exciting, but it&#39;s a start.
+
+169
+00:09:42,630 --> 00:09:43,630
+OK.
+
+170
+00:09:43,630 --> 00:09:45,880
+So now I do this.
+
+171
+00:09:45,880 --> 00:09:49,016
+And let&#39;s see what the residuals look like now.
+
+172
+00:09:49,016 --> 00:09:51,890
+Copy this guy over.
+
+173
+00:09:51,890 --> 00:09:55,760
+And what is the max now?
+
+174
+00:09:55,760 --> 00:09:58,989
+It&#39;s going to be pretty close to zero.
+
+175
+00:09:58,989 --> 00:09:59,530
+Look at that.
+
+176
+00:09:59,530 --> 00:10:00,030
+Yep.
+
+177
+00:10:00,030 --> 00:10:05,390
+So removing the last four columns, we keep it exactly the same.
+
+178
+00:10:05,390 --> 00:10:08,780
+So we&#39;ve already achieved a little bit of a reduction.
+
+179
+00:10:08,780 --> 00:10:09,280
+All right.
+
+180
+00:10:09,280 --> 00:10:16,160
+So now let&#39;s see what happens if we can do more than that.
+
+181
+00:10:16,160 --> 00:10:22,840
+So one of useful results coming out of the singular value decomposition
+
+182
+00:10:22,840 --> 00:10:29,350
+is that the entries of d actually tell us the proportion of variance that
+
+183
+00:10:29,350 --> 00:10:33,860
+is explained by that particular column.
+
+184
+00:10:33,860 --> 00:10:42,056
+So if I plot sd squared divided by the sum of all the sd squares,
+
+185
+00:10:42,056 --> 00:10:44,990
+and I multiply by 100, so it&#39;s percentages, that shows us
+
+186
+00:10:44,990 --> 00:10:47,570
+the percent explained by that column.
+
+187
+00:10:47,570 --> 00:10:54,110
+So we see that the first dimension of this transformation, U, this rotation,
+
+188
+00:10:54,110 --> 00:10:57,000
+is explaining 20% of the variability.
+
+189
+00:10:57,000 --> 00:11:00,030
+And it drops down quite fast.
+
+190
+00:11:00,030 --> 00:11:07,810
+You can see by the time we get to 100 or so, we are pretty much at zero.
+
+191
+00:11:07,810 --> 00:11:11,330
+So now we&#39;re going to try something a little bit more drastic.
+
+192
+00:11:11,330 --> 00:11:16,840
+Let&#39;s remove half of the data, half of the dimensions.
+
+193
+00:11:16,840 --> 00:11:19,810
+So now it&#39;s 95.
+
+194
+00:11:19,810 --> 00:11:23,270
+So how much do we recover now?
+
+195
+00:11:23,270 --> 00:11:26,300
+So what we&#39;re going to see if we, for example, plot
+
+196
+00:11:26,300 --> 00:11:28,890
+box plots of the residuals, now it&#39;s not going
+
+197
+00:11:28,890 --> 00:11:32,600
+to be zero because we actually have removed a little bit.
+
+198
+00:11:32,600 --> 00:11:35,270
+If we make a box plot of these residuals--
+
+199
+00:11:35,270 --> 00:11:39,640
+and I&#39;m going to make the ylim-- what was it, LIM?
+
+200
+00:11:39,640 --> 00:11:42,640
+Just to compare to the original data.
+
+201
+00:11:42,640 --> 00:11:49,900
+And what we see is that we have very small residual.
+
+202
+00:11:49,900 --> 00:11:54,840
+So we are pretty close to the original y, even when we
+
+203
+00:11:54,840 --> 00:11:57,710
+reduce the dimensions by a half.
+
+204
+00:11:57,710 --> 00:12:03,870
+And this transformation let&#39;s us do that.
+
+205
+00:12:03,870 --> 00:12:09,750
+So we can actually answer what percent we actually keep by computing that.
+
+206
+00:12:09,750 --> 00:12:12,640
+So we could take the variance of the residuals
+
+207
+00:12:12,640 --> 00:12:16,120
+and divide it by the variance of the original y.
+
+208
+00:12:16,120 --> 00:12:22,260
+Actually, I think we have to turn this into vectors because they&#39;re matrices.
+
+209
+00:12:22,260 --> 00:12:23,370
+Let&#39;s do that.
+
+210
+00:12:23,370 --> 00:12:26,545
+And we see that we recover a lot.
+
+211
+00:12:26,545 --> 00:12:28,080
+It&#39;s more than 90%, right?
+
+212
+00:12:28,080 --> 00:12:31,330
+So that&#39;s 4% is what we lose.
+
+213
+00:12:31,330 --> 00:12:32,820
+So this is how much we explain.
+
+214
+00:12:32,820 --> 00:12:39,120
+Almost 96% by reducing the dimensions by a half.
+
+215
+00:12:39,120 --> 00:12:45,040
+And we didn&#39;t have to do this complicated computation because we
+
+216
+00:12:45,040 --> 00:12:49,906
+already have that answer just by looking at the d&#39;s.
+
+217
+00:12:49,906 --> 00:12:53,220
+You can take 1 through k.
+
+218
+00:12:53,220 --> 00:12:58,212
+We didn&#39;t have to compute residuals because the d&#39;s answer exactly
+
+219
+00:12:58,212 --> 00:12:58,795
+that question.
+
+220
+00:13:04,150 --> 00:13:05,780
+All of them.
+
+221
+00:13:05,780 --> 00:13:06,850
+All we have to square it.
+
+222
+00:13:06,850 --> 00:13:07,350
+OK.
+
+223
+00:13:07,350 --> 00:13:13,170
+And that should actually give us the same answer, 95.8%.
+
+224
+00:13:13,170 --> 00:13:17,110
+So 1 minus-- oop, sorry.
+
+225
+00:13:17,110 --> 00:13:18,530
+No min-- like that.
+
+226
+00:13:18,530 --> 00:13:19,050
+There it is.
+
+227
+00:13:19,050 --> 00:13:19,550
+See?
+
+228
+00:13:19,550 --> 00:13:22,600
+Actually, it&#39;s the exact same number.
+
+229
+00:13:22,600 --> 00:13:23,130
+All right.
+
+230
+00:13:23,130 --> 00:13:26,990
+So we could give other examples of how this is useful.
+
+231
+00:13:26,990 --> 00:13:31,420
+One thing we could do is create a highly correlated matrix
+
+232
+00:13:31,420 --> 00:13:36,000
+and see that the dimension reduction is even more greater.
+
+233
+00:13:36,000 --> 00:13:39,550
+In a later video, we&#39;re going to talk about multi-dimensional scaling, which
+
+234
+00:13:39,550 --> 00:13:46,630
+uses these results to make exploratory plots, exploratory data analysis
+
+235
+00:13:46,630 --> 00:13:51,060
+plots of high dimensional data, taking advantage
+
+236
+00:13:51,060 --> 00:13:55,200
+of these properties of the singular value decomposition.
+
+237
+00:13:55,200 --> 00:14:00,330
+But just to give a final example, we&#39;ll very quickly create a simulation
+
+238
+00:14:00,330 --> 00:14:04,760
+where we have highly correlated data.
+
+239
+00:14:04,760 --> 00:14:09,020
+I&#39;m going to create a vector rnorm.
+
+240
+00:14:09,020 --> 00:14:10,500
+It&#39;s with 100 data points.
+
+241
+00:14:10,500 --> 00:14:14,685
+And now I&#39;m going to create an error structure.
+
+242
+00:14:18,100 --> 00:14:23,660
+Yeah, let&#39;s do a bigger one-- 25 columns.
+
+243
+00:14:23,660 --> 00:14:31,150
+And let&#39;s just add some noise here, but a very small amount of noise.
+
+244
+00:14:31,150 --> 00:14:35,390
+So it&#39;s practically the same data with a little bit of change.
+
+245
+00:14:35,390 --> 00:14:41,420
+That&#39;s what y&#39;s going to be Actually, let&#39;s just do two.
+
+246
+00:14:44,180 --> 00:14:46,540
+OK.
+
+247
+00:14:46,540 --> 00:14:48,340
+So now I want to do two.
+
+248
+00:14:52,970 --> 00:14:56,870
+And what we see is that if it&#39;s something like this,
+
+249
+00:14:56,870 --> 00:15:02,180
+you can very quickly see, this side is very correlated, very correlated.
+
+250
+00:15:02,180 --> 00:15:06,310
+You could see that the singular value decomposition, if we compute it
+
+251
+00:15:06,310 --> 00:15:11,750
+for this thing, for this particular data set,
+
+252
+00:15:11,750 --> 00:15:19,730
+you get that a lot of the variabil-- almost all of the variability
+
+253
+00:15:19,730 --> 00:15:25,460
+is in the first column.
+
+254
+00:15:25,460 --> 00:15:28,520
+So let&#39;s just do this.
+
+255
+00:15:28,520 --> 00:15:29,070
+Oh, yeah.
+
+256
+00:15:29,070 --> 00:15:30,260
+Pretty much all of it.
+
+257
+00:15:30,260 --> 00:15:33,400
+So when you have highly correlated data like that,
+
+258
+00:15:33,400 --> 00:15:36,120
+you can reduce the dimensions greatly.
+
+259
+00:15:36,120 --> 00:15:42,400
+And you can create an example with more columns that are highly correlated
+
+260
+00:15:42,400 --> 00:15:44,550
+and get a similar answer.
+
+261
+00:15:44,550 --> 00:15:45,110
+OK.
+
+262
+00:15:45,110 --> 00:15:48,410
+So that should start giving you an idea of how the singular value
+
+263
+00:15:48,410 --> 00:15:49,590
+decomposition is useful.
+
+264
+00:15:49,590 --> 00:15:52,840
+We&#39;re going to keep using it in data analyses,
+
+265
+00:15:52,840 --> 00:15:56,710
+and you&#39;re going to start getting even more of a feeling for that.
+

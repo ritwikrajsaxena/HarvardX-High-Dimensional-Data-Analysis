@@ -1,0 +1,67 @@
+RAFAEL IRIZARRY: In this video, we're going
+to introduce the concept of distance in the context of the analysis
+of high throughput data.
+Clustering is a methodology that requires us to define distance.
+Clustering is something that we do, and implicitly or explicitly, we
+use distance to do it.
+For example, when we cluster animals into groups, in a way,
+we are defining a distance.
+We're saying which animals are closer to each other,
+and which animals are further away from each other.
+If you read the genomics literature, you'll
+have seen heatmaps such as this one.
+In a heatmap, you can see on the left and the top,
+you can see that there's a dendrogram, and these are created using clustering.
+Therefore, we need to define distances between both rows
+and columns of the data matrix.
+So let's start with just a simple definition of distance.
+This is just the Euclidean distance, if you
+have two points in a Euclidean space.
+We know how to compute the distance.
+We subtract the difference in the x-axis, the difference in the y-axis,
+square them, add them, and take the square root.
+Now, in high dimensional data, we can't really
+do that because points are not two dimensional.
+Here's an example of a data set that we have been looking at.
+And this is just the first 10 rows and five columns of a data set
+that includes gene expression measurements for thousands
+of genes on dozens of samples.
+So to be able to talk about distance in this context,
+the first thing we have to do is define what a point is.
+We no longer have two points in space or in a Cartesian plane.
+Instead, we have these, in the case of samples,
+we have these long vectors that are 22,000-plus numbers long.
+Now, once we know what the point is, then
+we'll have to define what distance means for two samples or two columns,
+and what distance means between two features or two rows,
+or in the case of this data set, they're genes.
+All right, so a point-- so a sample is simply a point in, in this case,
+22,215 dimensional space.
+Every gene gets a number, and all these numbers together
+define a point for a sample.
+In the case of features or genes, because this data set
+has 189 columns, that's the number of dimensions we have for each feature.
+Then once we've defined points, then we basically use the same definition
+that we use for two dimensions.
+We take the sum of the differences squared, and then take the square root,
+as shown in this formula for samples i and j.
+So here, as an example, is the distance between the third
+and the seventh column.
+So you can see in the formula, we're simply
+taking the third column and the seventh column
+and applying the formula that we just showed.
+For the rows, it's the same definition.
+Instead now, we add across the samples.
+For each sample, we take the difference between the two genes,
+square it, add them, take the square root.
+So here's that formula applied to the row 5,124 and the row 11,924.
+All right, so one last bit of math-- using
+what we learned in the second course, we can
+define distance, squared in this case, using the sum of squares.
+That's what we do to compute distance between the difference
+between the columns.
+So you can see here, the cross product between the difference between two
+columns defines the distance squared between those two columns.
+So this is a mathematical approach that we
+can use to compute distances very quickly,
+and we'll see that going forward.

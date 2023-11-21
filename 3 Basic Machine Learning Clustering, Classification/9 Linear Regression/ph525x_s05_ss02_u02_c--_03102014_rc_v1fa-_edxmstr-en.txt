@@ -1,0 +1,85 @@
+
+RAFAEL IRIZARRY: So in genomics data, we usually have many predictors.
+Gene expression for thousands of genes, that could be our predictor.
+SNPs for thousands of SNPs, those could be our predictors, et cetera.
+The outcome is usually binary, although not always.
+But a very common one is good prognosis versus not good prognosis.
+Or you could have something like disease or not disease.
+So how do we do this?
+We're going to use a simple illustration using two variables.
+So you can think of this as just two genes.
+However, going forward, we're going to expand this list to many genes.
+But let's start with two.
+In the previous module, we did one, father's height
+to predict son's height.
+Now we have two variables.
+So what we're after is the conditional expectation of Y given X1 and X2.
+So for any pair of X's, we want to find the average value
+of all the Y's with those two values.
+Now, because this is a 0-1 case, we have Y is either 0 or a 1,
+say a case or a control, this expectation
+is equivalent to the probability of seeing a 1 given X and 1.
+So I have generated simulated data.
+And in this plot here I am showing you this probability
+as a function of X1 and X2.
+So you have X1 and X2 on the two axes.
+In blue I'm showing you places where that probability is bigger than 1/2.
+And in orange I'm showing you places where
+that probability is less than 1/2.
+So anything in this region we would probably call a 0.
+And anything in this region we would call a 1.
+So we don't actually know this.
+This is where the data is going to be generated from.
+It's the hidden truth.
+We don't know it.
+All we get to see is data like this.
+So here we have some data where we have X1, X2.
+You can think of them as gene expression for one gene and a second gene.
+And we have outcomes shown with color.
+So if you're a 0, you're orange.
+If you're a 1, you're purple.
+And now the question is, for any new X, for any new X1, X2,
+can we give a prediction?
+And how good would this prediction be?
+So to help answer that question, I have kept--
+and this is a very standard trick in machine learning problems.
+I have kept to the side what is called a test set, which I will not
+use to generate my prediction models.
+I'm going to build prediction models on a training set.
+And then I'm going to check how well they work on a test set.
+The test set is not used to create the prediction models.
+So let's start simple.
+Let's try linear regression again, just because we know how to do it.
+So the linear regression model would model the expectation of Y given X--
+here X is two-dimensional-- with just a linear combination of the X's.
+We estimate that with least squares and we get the beta hats.
+And now we have a prediction formula.
+So any X, any X1, X2, I just stick them in here.
+And I'll get a prediction.
+F of x will be any number.
+But if it's bigger than 1/2, I'll predict a 1.
+If it's smaller than 1/2 I'll predict a 0.
+So if I do that with this data, this is what I get.
+This is the map that I get.
+The points are the data.
+This line is the place where on the one side X1's, X2
+are going to be bigger than a 1/2.
+X1's and X2's below that line are going to predict something smaller than 1/2.
+So this is the line where that linear formula is equal to 1/2.
+So anything above it is bigger than 1/2.
+Anything below it is smaller than 1/2.
+So you can see that we would make several errors.
+Any time you see an orange point in the purple area
+that's a mistake and vice versa.
+So here we make 29.5% mistakes.
+This is the training data.
+How well did we do on the test data?
+Just a little bit worse.
+And that's somewhat expected, because this is not a very flexible model.
+Now why did we use linear regression here?
+There was really no reason to believe that the shape of e of Y given X
+is of this form.
+There was no reason to believe it was a linear function of X1 and X2.
+In the next module, we're going to introduce one of the many approaches
+to estimating these conditional expectations that
+are not based on linear models.

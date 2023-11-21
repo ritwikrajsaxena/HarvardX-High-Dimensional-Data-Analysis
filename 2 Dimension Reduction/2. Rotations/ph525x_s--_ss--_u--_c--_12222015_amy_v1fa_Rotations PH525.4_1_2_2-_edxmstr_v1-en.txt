@@ -1,0 +1,29 @@
+RAFAEL IRIZARRY: In this video, we're going to briefly describe
+the mathematics between rotations.
+This is very related to our previous video on projections.
+So, as we saw in that video, we can take an example into two dimensions.
+The vector 2,3, which is shown here on the right, as a point in space.
+And we can write that as a multiplication of two
+coordinates, two and three, and the bases 1 and 0 and 0 and 1.
+But notice that we don't have to write it this way.
+We can write the vector 2,3 in other ways.
+So here we change the bases to 1,1 0.5, minus 0.5.
+This gives us the average and the difference.
+And what we see here is that the coordinates are now 2.5 and minus 1.
+So the coordinates change, but the point is the same.
+That's because the coordinate system changes as well.
+Now, typically, we like to use bases that are orthogonal
+and that their sum of squares is one.
+So we would just multiply these by the square root of 2
+and divide the other by the square root of 2 to get
+this alternative coordinate system.
+And now our new coordinates are basically the same,
+but they're shifted.
+And then linear algebra gives us the rotation.
+This is defined by the matrix A. And you can go back and forth
+between the original data, Y, and the new coordinate,
+Z. You can just go back and forth by multiplying by A.
+And this is, using our example from twins,
+is literally rotating the data, in this case, 45 degrees.
+And you can see it going back and forth, just by multiplying by A.
+So this is what we call a rotation in mathematics.

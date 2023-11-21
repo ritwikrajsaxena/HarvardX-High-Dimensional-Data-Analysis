@@ -1,0 +1,111 @@
+
+RAFAEL IRIZARRY: This week we're going to be talking about batch effects
+and how to adjust for them.
+Now, to understand why batch effects are a problem,
+we're going to start discussing confounding, explain what it is,
+explain how it could affect your bottom line results.
+So I'm going to give you an example.
+It's a very famous example of confounding
+can confuse you if you're not careful in analyzing the data.
+This comes from admissions data from UC Berkeley in 1973.
+The university was being sued for gender discrimination.
+And the evidence for it basically came down to this table.
+So if you look at this table closely, you're
+going to see that while 45% of males were being accepted
+into graduate programs, only 30% of females were.
+Here we can do a chi-square test, as we learned in previous modules,
+to find that a discrepancy such as this is very unlikely to happen by chance
+if gender and admissions are in fact independent of each other.
+Now when we look at the data little bit more carefully,
+we see something that appears to be a paradox.
+If we split this data by major-- so there's six majors--
+you're going to see that the admissions rates are about the same.
+And in fact, it appears to favor females.
+For example, Major A clearly favors females.
+So how can this possibly be happening?
+We have at each major admission slightly favoring females.
+But as an aggregate, the admissions are clearly favoring male.
+So to understand why that happens, we have to understand what confounding is.
+In this case we have that the number of applications
+is confounded with admissions rate, especially for males.
+So it turns out that males are more likely to apply to quote, unquote,
+"easy" majors or easy to get in majors than females.
+So it appeared that they were being admitted more often, when
+in fact what was happening was that by their own choice
+they were applying to the easier majors.
+And you can see it in this picture.
+If you look at the 1s, those are the males.
+On the x-axis we have the percent that get into the major.
+So this is a major that's a little easier to get into than this one.
+Well, more than a little.
+And then on the y-axis, we have the percent
+of admissions that went to that major.
+So you can see very strong association between the admissions rate of a major
+and the total number of applications or percent of applications for males.
+But we don't see that pattern for females.
+So to very clearly see this, I'm going to show
+you this data in graphical form.
+In this plot, I have every person is represented by a little dot.
+If you look closely enough, you're going to see that there's As, Bs,
+Cs, Ds, Es, and Fs.
+Those are the majors.
+And the colors represent green means you got in.
+You got admitted.
+And orange means you didn't.
+So when we look at it like this, when we put all the majors together,
+it's clear that males are admitting more often.
+You can see there's much more-- as a percent,
+there's much more green than orange on the male side of the graph
+than on the female side of the graph.
+But now we're going to take this same data, these same individuals.
+We're going to add any.
+We're not going to take any away.
+All we're going to do is reshuffle them by their majors, which
+is already done by the letters, the symbols.
+But now we're actually going to split them up and stratify.
+Stratification is a powerful way of finding confounders.
+So once we stratify, if we go major by major,
+you can see there does not appear to be any gender bias.
+Every single one has about the same rate of admissions.
+Now where you can see a humongous difference is in these majors.
+These are the majors with a lot of green.
+Those are again quote, unquote, the "easy" majors to get into.
+And in those two rows, you can see which of the two genders is applying more.
+So this fact, that you have so many men applying to these two majors,
+explains why you see more green here than here.
+Again, it's confounding.
+It's not in this case bias coming from the admissions offices.
+It's confounding with the fact that males were applying to the easy majors.
+So as we just said, one way of parsing this out is by stratifying.
+And here we can see the proportions that are admitted by major.
+You're going to see there's a difference.
+You should compute the difference at the level of major.
+So you stratify, then compute differences.
+And if we do that, if we compute the difference between males and females
+in each one of these and take an average,
+we see that they're roughly admitted at the same rate.
+In fact, women on average have a 3.5% higher rate.
+So this is a very, very famous example of confounding.
+It's very commonly used to explain it.
+But it shows up in other instances.
+Here's another case from baseball.
+And in this case, what I'm showing you is
+if you look at-- this is data, batting averages for Derek Jeter
+and David Justice in 1995-- that was Jeter's first year-- and 1996.
+If you look at their batting averages in these two years,
+both years David Justice had a higher batting average than Jeter.
+Both years.
+But in the combined, if you combine these two years,
+Jeter has a much higher batting average than David Justice.
+So how is that possible?
+Again, it's confounding.
+Jeter batted fewer times in 1995 when he had a lower batting average.
+And he batted many more times in 1996 when
+he had a much higher batting average, while the opposite is
+true for David Justice.
+So once you aggregate all that up, you see
+that combined, Jeter is the better hitter.
+So we're going to see that confounding shows up in genomics data.
+And it causes a lot of trouble if you don't realize that you have it
+and if you don't adjust for it.
+And we're going to do that in the next modules.
